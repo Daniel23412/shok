@@ -39,11 +39,28 @@
         .logo-container {
             text-align: center;
             margin-bottom: 10px;
+            position: relative;
         }
         .logo-container img {
             height: 42px;
             width: auto;
             filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
+            display: block;
+        }
+        .logo-fallback {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 8px #00ff88;
+            display: none;
+        }
+        .logo-container img:not([src]),
+        .logo-container img[src=""] ~ .logo-fallback,
+        .logo-container img[onerror] ~ .logo-fallback {
+            display: block;
         }
 
         /* === МОДАЛЬНОЕ ОКНО === */
@@ -283,7 +300,7 @@
         .status {
             text-align: center;
             margin: 12px 0;
-            font-size: 13px;
+            font-size: 120px;
             min-height: 18px;
             font-weight: 500;
         }
@@ -339,7 +356,10 @@
 
     <!-- ЛОГОТИП 1WIN -->
     <div class="logo-container">
-        <img src="https://1win.pro/images/logo/1win-logo-white.png" alt="1win">
+        <img src="https://cdn.1win.pro/images/logo/1win-logo-white.png"
+             alt="1win"
+             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+        <div class="logo-fallback">1WIN</div>
     </div>
 
     <!-- МОДАЛЬНОЕ ОКНО -->
