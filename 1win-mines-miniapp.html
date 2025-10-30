@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1win Mines Signal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* === ОНЛАЙН ИНДИКАТОР === */
+        .online-bar {
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            font-size: 14px;
+            color: #00ff88;
+            margin-bottom: 10px;
+            animation: blink 2s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* === МОДАЛЬНОЕ ОКНО === */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.85); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
+        }
+        .modal {
+            background: rgba(15, 15, 35, 0.98);
+            border: 1px solid #00d0ff;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 380px;
+            width: 100%;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.5);
+            text-align: center;
+        }
+        .modal h2 {
+            color: #00ff88;
+            margin-bottom: 15px;
+            font-size: 18px;
+            text-shadow: 0 0 8px #00ff88;
+        }
+        .modal p {
+            font-size: 14px;
+            color: #ccc;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+        .modal .promo {
+            font-weight: bold;
+            color: #00ff88;
+            font-size: 16px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+        }
+        .modal-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        .yes-btn {
+            background: linear-gradient(45deg, #00ff88, #00cc66);
+            color: #000;
+            border: none;
+        }
+        .no-btn {
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #00d0ff;
+        }
+
+        /* === ОСНОВНОЙ КОНТЕНТ === */
+        .header {
+            width: 100%;
+            max-width: 380px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 0 10px;
+        }
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #00d0ff;
+            text-shadow: 0 0 10px #00d0ff;
+        }
+        .switch-btn {
+            background: #1a1a2e;
+            color: #00d0ff;
+            border: 1px solid #00d0ff;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 380px;
+            background: rgba(15, 15, 35, 0.95);
+            border-radius: 20px;
+            padding: 20px;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+            border: 1px solid rgba(0, 200, 255, 0.2);
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 18px;
+            color: #00ff88;
+            margin-bottom: 10px;
+            text-shadow: 0 0 8px #00ff88;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        .mine-btn {
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #333;
+            width: 50px;
+            height: 50px;
+            font-size: 18px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        .mine-btn.active {
+            background: #00d0ff;
+            border-color: #00d0ff;
+            box-shadow: 0 0 15px #00d0ff;
+            color: #000;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 6px;
+            margin: 25px 0;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 16px;
+            border: 1px solid #00d0ff20;
+        }
+        .cell {
+            width: 100%;
+            padding-bottom: 100%;
+            background: linear-gradient(135deg, #00bfff 0%, #0099cc 100%);
+            border-radius: 8px;
+            position: relative;
+            box-shadow: inset 0 2px 8px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.3);
+            animation: pulse 2s infinite ease-in-out;
+        }
+        .cell::before {
+            content: '';
+            position: absolute;
+            top: 10%; left: 10%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 70%);
+            border-radius: 50%;
+            opacity: 0.6;
+        }
+
+        .star {
+            background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%) !important;
+            box-shadow: inset 0 2px 8px rgba(255,215,0,0.4);
+        }
+        .star::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 0 8px #ffeb3b;
+        }
+
+        .bomb {
+            background: #333 !important;
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
+        }
+        .bomb::after {
+            content: 'X';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #ff1744;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff1744;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.01); }
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 15px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+        }
+
+        .ref-btn {
+            background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
+            color: #000;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .nav-btns {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        .back-btn {
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        .next-btn {
+            background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
+            color: #000;
+            border: none;
+        }
+
+        .status {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 14px;
+            min-height: 20px;
+        }
+        .error { color: #ff4444; }
+        .loading { color: #00d0ff; }
+        .success { color: #00ff88; }
+
+        .spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid #00d0ff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 10px;
+            color: #00d0ff;
+            font-size: 14px;
+            text-decoration: none;
+        }
+        .telegram-link img {
+            width: 20px;
+            height: 20px;
+        }
+
+        .hidden { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <!-- === ОНЛАЙН ИНДИКАТОР === -->
+    <div class="online-bar">
+        Онлайн: <span id="onlineCount">47</span> игроков
+    </div>
+
+    <!-- === МОДАЛЬНОЕ ОКНО === -->
+    <div id="registerModal" class="modal-overlay">
+        <div class="modal">
+            <h2>Зарегистрировались ли вы в 1win по нашей ссылке?</h2>
+            <p>
+                Бот даёт точные прогнозы <strong>только</strong> для тех, кто зарегистрировался по нашей ссылке.<br>
+                В ином случае — выйдите из аккаунта и создайте новый по ссылке ниже.<br>
+                <span class="promo">Промокод на +100% к депозиту: GEKTOR2</span>
+            </p>
+            <div class="modal-buttons">
+                <button class="modal-btn yes-btn" onclick="closeModal()">Да</button>
+                <button class="modal-btn no-btn" onclick="goTo1win()">Нет</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- === ОСНОВНОЙ ИНТЕРФЕЙС === -->
+    <div class="header">
+        <div class="logo">1win</div>
+        <button class="switch-btn">Switch to multiple</button>
+    </div>
+
+    <div class="container">
+        <h1>MINES SIGNAL</h1>
+
+        <div class="controls">
+            <button class="mine-btn active" onclick="setMines(1)">1</button>
+            <button class="mine-btn" onclick="setMines(2)">2</button>
+            <button class="mine-btn" onclick="setMines(3)">3</button>
+        </div>
+
+        <div id="status" class="status"></div>
+        <div id="scheme" class="grid hidden"></div>
+
+        <button id="playButton" class="play-btn">Play</button>
+
+        <div id="navButtons" class="nav-btns hidden">
+            <button id="backButton" class="nav-btn back-btn">Назад</button>
+            <button id="nextButton" class="nav-btn next-btn">Следующая схема</button>
+        </div>
+
+        <button class="play-btn ref-btn" onclick="window.open('https://lknt.cc/85c9', '_blank')">
+            Играть в 1win
+        </button>
+
+        <a href="https://t.me/LuckyD2" target="_blank" class="telegram-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+            @LuckyD2
+        </a>
+    </div>
+
+    <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF
+    "></audio>
+
+    <script>
+        const clickSound = document.getElementById('clickSound');
+        let currentMines = 1;
+
+        // === ОНЛАЙН СЧЁТЧИК ===
+        function updateOnlineCount() {
+            const min = 30;
+            const max = 80;
+            const randomCount = Math.floor(Math.random() * (max - min + 1)) + min;
+            document.getElementById('onlineCount').textContent = randomCount;
+        }
+
+        // Обновляем сразу
+        updateOnlineCount();
+
+        // Обновляем каждые 5 минут (300000 мс)
+        setInterval(updateOnlineCount, 300000);
+
+        // === Остальной код ===
+        function playSound() {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(() => {});
+        }
+
+        function generateScheme(mines) {
+            const bombs = [];
+            while (bombs.length < mines) {
+                const pos = Math.floor(Math.random() * 25);
+                if (!bombs.includes(pos)) bombs.push(pos);
+            }
+            return { bombs };
+        }
+
+        function setMines(count) {
+            currentMines = count;
+            document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            playSound();
+        }
+
+        function showStatus(text, type = '') {
+            const status = document.getElementById('status');
+            status.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
+            status.className = `status ${type}`;
+        }
+
+        function disableButtons() {
+            document.getElementById('playButton').disabled = true;
+            const nextBtn = document.getElementById('nextButton');
+            if (nextBtn) nextBtn.disabled = true;
+        }
+
+        function enablePlayButton() {
+            document.getElementById('playButton').disabled = false;
+        }
+
+        function startVerification(callback) {
+            disableButtons();
+            showStatus('Вернись в 1win для получения схемы', 'error');
+            setTimeout(() => {
+                showStatus('Проверка хэша транзакции...', 'loading');
+                setTimeout(() => {
+                    showStatus('Хэш подтверждён!', 'success');
+                    setTimeout(() => {
+                        callback();
+                    }, 800);
+                }, 10000);
+            }, 1500);
+        }
+
+        function showScheme() {
+            const s = generateScheme(currentMines);
+            const grid = document.getElementById('scheme');
+            const playButton = document.getElementById('playButton');
+            const navButtons = document.getElementById('navButtons');
+            const status = document.getElementById('status');
+
+            grid.classList.remove('hidden');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                if (s.bombs.includes(i)) {
+                    cell.classList.add('bomb');
+                } else {
+                    cell.classList.add('star');
+                }
+                grid.appendChild(cell);
+            }
+
+            playButton.classList.add('hidden');
+            navButtons.classList.remove('hidden');
+            status.innerHTML = '';
+            document.getElementById('nextButton').disabled = false;
+        }
+
+        function startGame() {
+            playSound();
+            startVerification(showScheme);
+        }
+
+        function nextScheme() {
+            playSound();
+            document.getElementById('scheme').classList.add('hidden');
+            startVerification(showScheme);
+        }
+
+        function goBack() {
+            playSound();
+            const grid = document.getElementById('scheme');
+            const playButton = document.getElementById('playButton');
+            const navButtons = document.getElementById('navButtons');
+
+            grid.classList.add('hidden');
+            playButton.classList.remove('hidden');
+            enablePlayButton();
+            navButtons.classList.add('hidden');
+            document.getElementById('status').innerHTML = '';
+        }
+
+        function closeModal() {
+            document.getElementById('registerModal').style.display = 'none';
+            playSound();
+        }
+
+        function goTo1win() {
+            window.open('https://lknt.cc/85c9', '_blank');
+            playSound();
+        }
+
+        document.getElementById('playButton').addEventListener('click', startGame);
+        document.getElementById('backButton').addEventListener('click', goBack);
+        document.getElementById('nextButton').addEventListener('click', nextScheme);
+    </script>
+</body>
+</html>
