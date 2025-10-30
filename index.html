@@ -8,214 +8,296 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        body{
-            background:linear-gradient(135deg,#0a0a1a 0%,#1a1a3a 100%);
-            color:#fff; font-family:'Orbitron',sans-serif;
-            min-height:100vh; display:flex; flex-direction:column;
-            align-items:center; justify-content:flex-start;
-            padding:10px; overflow-y:auto;
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
+            color: #fff;
+            font-family: 'Orbitron', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 10px;
+            overflow-y: auto;
         }
 
-        /* ==== ОНЛАЙН ==== */
-        .online-bar{
-            width:100%; text-align:center; font-size:13px;
-            color:#00ff88; margin:8px 0 10px;
-            animation:blink 2s infinite; font-weight:500;
+        .online-bar {
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            color: #00ff88;
+            margin: 8px 0 10px;
+            animation: blink 2s infinite;
+            font-weight: 500;
         }
-        @keyframes blink{0%,100%{opacity:1}50%{opacity:.6}}
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        /* ==== ЛОГОТИП 1WIN – SVG (как в игре) ==== */
-        .logo-container{text-align:center; margin-bottom:10px;}
-        .logo-container svg{height:40px; filter:drop-shadow(0 0 8px rgba(0,255,136,.5));}
-
-        /* ==== МОДАЛЬНОЕ ОКНО ==== */
-        .modal-overlay{
-            position:fixed; top:0; left:0; right:0; bottom:0;
-            background:rgba(1½,0,0,.92); z-index:999;
-            display:flex; align-items:center; justify-content:center;
-            padding:20px;
+        /* === ЛОГОТИП 1WIN — SVG, КАК В ИГРЕ === */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 10px;
         }
-        .modal{
-            background:rgba(15,15,35,.98); border:1px solid #00d0ff;
-            border-radius:18px; padding:22px; max-width:320px; width:100%;
-            box-shadow:0 0 35px rgba(0,200,255,.5); text-align:center;
-        }
-        .modal h2{color:#00ff88; margin-bottom:12px; font-size:16px;
-            text-shadow:0 0 8px #00ff88; font-weight:700;}
-        .modal p{font-size:13px; color:#ddd; margin-bottom:14px; line-height:1.5;}
-        .modal .promo{
-            font-weight:bold; color:#00ff88; font-size:14px;
-            background:rgba(0,255,136,.15); padding:6px 10px;
-            border-radius:8px; margin:10px 0 8px; display:inline-block;
-        }
-        .modal-buttons{display:flex; gap:10px; margin-top:12px;}
-        .modal-btn{
-            flex:1; padding:12px; font-size:15px; border-radius:12px;
-            cursor:pointer; font-weight:700; transition:all .2s;
-        }
-        .yes-btn{background:linear-gradient(45deg,#00ff88,#00cc66); color:#000; border:none;}
-        .reg-btn{background:linear-gradient(45deg,#00d4ff,#0099cc); color:#fff; border:none;}
-
-        /* ==== КОНТЕНТ ==== */
-        .container{
-            width:100%; max-width:340px; background:rgba(15,15,35,.95);
-            border-radius:18px; padding:16px;
-            box-shadow:0 0 30px rgba(0,200,255,.3);
-            border:1px solid rgba(0,200,255,.25); margin-top:5px;
-        }
-        h1{
-            text-align:center; font-size:18px; color:#00ff88;
-            margin-bottom:6px; text-shadow:0 0 8px #00ff88; font-weight:700;
-        }
-        .mines-label{
-            text-align:center; font-size:14px; color:#aaa;
-            margin:12px 0 8px; font-weight:500;
-        }
-        .controls{
-            display:flex; justify-content:center; gap:14px; margin:12px 0;
-        }
-        .mine-btn{
-            background:#1a1a2e; color:#fff; border:1px solid #333;
-            width:50px; height:50px; font-size:17px; border-radius:50%;
-            cursor:pointer; font-weight:700; transition:all .2s;
-        }
-        .mine-btn.active{
-            background:#00d0ff; border-color:#00d0ff;
-            box-shadow:0 0 18px #00d0ff; color:#000; transform:scale(1.05);
+        .logo-container svg {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
         }
 
-        .status{
-            text-align:center; margin:12px 0; font-size:13px;
-            line-height:1.4; word-wrap:break-word; padding:8px 12px;
-            border-radius:8px; min-height:36px; display:flex;
-            align-items:center; justify-content:center; font-weight:500;
-            background:rgba(0,0,0,.3); border:1px solid rgba(0,208,255,.2);
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.92); z-index: 999;
+            display: flex; align-items: center; justify-content: center;
+            padding: 20px;
         }
-        .error{color:#ff6b6b}.loading{color:#00d0ff}.success{color:#00ff88}
-        .spinner{
-            display:inline-block; width:14px; height:14px;
-            border:2px solid #00d0ff; border-top:2px solid transparent;
-            border-radius:50%; animation:spin 1s linear infinite;
-            margin-right:6px; flex-shrink:0;
+        .modal {
+            background: rgba(15, 15, 35, 0.98);
+            border: 1px solid #00d0ff;
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 320px;
+            width: 100%;
+            box-shadow: 0 0 35px rgba(0, 200, 255, 0.5);
+            text-align: center;
         }
-        @keyframes spin{to{transform:rotate(360deg)}}
+        .modal h2 { color: #00ff88; margin-bottom: 12px; font-size: 16px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
+        .modal p { font-size: 13px; color: #ddd; margin-bottom: 14px; line-height: 1.5; }
+        .modal .promo { font-weight: bold; color: #00ff88; font-size: 14px; background: rgba(0,255,136,0.15); padding: 6px 10px; border-radius: 8px; margin: 10px 0 8px; display: inline-block; }
+        .modal-buttons { display: flex; gap: 10px; margin-top: 12px; }
+        .modal-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.2s; }
+        .yes-btn { background: linear-gradient(45deg, #00ff88, #00cc66); color: #000; border: none; }
+        .reg-btn { background: linear-gradient(45deg, #00d4ff, #0099cc); color: #fff; border: none; }
 
-        /* ==== СЕТКА ==== */
-        .grid{
-            display:grid; grid-template-columns:repeat(5,1fr);
-            gap:8px; margin:16px 0; padding:14px;
-            background:#0a0a1a; border-radius:20px;
-            border:2px solid #1a1a3a;
-            box-shadow:inset 0 0 20px rgba(0,0,0,.6),
-                       0 0 20px rgba(0,208,255,.15);
-        }
-        .cell{
-            width:100%; padding-bottom:100%; background:#111;
-            border-radius:12px; position:relative;
-            box-shadow:inset 0 2px 6px rgba(255,255,255,.1),
-                       0 2px 6px rgba(0,0,0,.5);
-            overflow:hidden;
-        }
-
-        /* ==== ЗВЁЗДЫ (как в 1win) ==== */
-        .star{
-            background:radial-gradient(ellipse at 30% 30%,#ffcc00 0%,#ff8c00 50%,#cc6600 100%);
-            box-shadow:0 0 12px rgba(255,200,0,.6),
-                       inset 0 2px 4px rgba(255,255,255,.4);
-        }
-        .star::after{
-            content:'★'; position:absolute; top:50%; left:50%;
-            transform:translate(-50%,-50%); font-size:28px;
-            color:#fff; text-shadow:0 0 8px #ffeb3b,0 1px 2px #000;
-            font-weight:bold; z-index:2;
+        .container {
+            width: 100%;
+            max-width: 340px;
+            background: rgba(15, 15, 35, 0.95);
+            border-radius: 18px;
+            padding: 16px;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            margin-top: 5px;
         }
 
-        /* ==== МИНЫ (крестик) ==== */
-        .bomb{
-            background:#111; box-shadow:inset 0 0 10px #000;
-        }
-        .bomb::after{
-            content:'✕'; position:absolute; top:50%; left:50%;
-            transform:translate(-50%,-50%); font-size:32px;
-            color:rgba(100,180,255,.9); font-weight:bold;
-            text-shadow:0 0 12px rgba(100,180,255,.7),0 0 6px #000;
-            z-index:2;
-        }
+        h1 { text-align: center; font-size: 18px; color: #00ff88; margin-bottom: 6px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
+        .mines-label { text-align: center; font-size: 14px; color: #aaa; margin: 12px 0 8px; font-weight: 500; }
 
-        @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.03)}}
-
-        .play-btn{
-            background:linear-gradient(45deg,#00d4ff 0%,#0099cc 100%);
-            color:white; border:none; width:100%; padding:14px;
-            font-size:17px; font-weight:700; border-radius:12px;
-            cursor:pointer; margin-top:16px;
-            box-shadow:0 4px 15px rgba(0,212,255,.4);
-            transition:all .2s;
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            margin: 12px 0;
         }
-        .play-btn:active{transform:translateY(1px)}
-
-        .ref-btn{
-            background:linear-gradient(45deg,#00ff88 0%,#00cc66 100%);
-            color:#000; margin-top:12px; display:flex;
-            align-items:center; justify-content:center; gap:8px;
-            font-weight:700;
+        .mine-btn {
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #333;
+            width: 50px;
+            height: 50px;
+            font-size: 17px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+        .mine-btn.active {
+            background: #00d0ff;
+            border-color: #00d0ff;
+            box-shadow: 0 0 18px #00d0ff;
+            color: #000;
+            transform: scale(1.05);
         }
 
-        .nav-btns{display:flex; gap:10px; margin-top:16px;}
-        .nav-btn{flex:1; padding:12px; font-size:15px; border-radius:12px;
-                 cursor:pointer; font-weight:700;}
-        .back-btn{background:#1a1a2e; color:#fff; border:1px solid #333;}
-        .next-btn{background:linear-gradient(45deg,#00ff88 0%,#00cc66 100%);
-                  color:#000; border:none;}
-
-        .telegram-link{
-            display:flex; align-items:center; justify-content:center;
-            gap:8px; margin-top:12px; color:#00d0ff; font-size:13px;
-            text-decoration:none; font-weight:500;
+        .status {
+            text-align: center;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 208, 255, 0.2);
         }
-        .telegram-link img{width:20px; height:20px;}
+        .error { color: #ff6b6b; }
+        .loading { color: #00d0ff; }
+        .success { color: #00ff88; }
 
-        .hidden{display:none !important;}
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #00d0ff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
 
-        @media(max-width:380px){
-            .container{padding:14px;}
-            .mine-btn{width:46px; height:46px; font-size:16px;}
-            .modal{padding:18px;}
-            .logo-container svg{height:36px;}
-            .status{font-size:12px; padding:6px 10px; min-height:32px;}
-            .play-btn{padding:13px; font-size:16px;}
-            .star::after{font-size:26px !important;}
-            .bomb::after{font-size:30px !important;}
+        /* === СЕТКА — КАК В 1WIN === */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+            padding: 14px;
+            background: #0a0a1a;
+            border-radius: 20px;
+            border: 2px solid #1a1a3a;
+            box-shadow: 
+                inset 0 0 20px rgba(0, 0, 0, 0.6),
+                0 0 20px rgba(0, 208, 255, 0.15);
+        }
+
+        .cell {
+            width: 100%;
+            padding-bottom: 100%;
+            background: #111;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 
+                inset 0 2px 6px rgba(255,255,255,0.1),
+                0 2px 6px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* === ЗВЁЗДЫ — ТОЧНО КАК В ИГРЕ === */
+        .star {
+            background: radial-gradient(ellipse at 30% 30%, #ffcc00 0%, #ff8c00 50%, #cc6600 100%);
+            box-shadow: 
+                0 0 12px rgba(255, 200, 0, 0.6),
+                inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+        .star::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 
+                0 0 8px #ffeb3b,
+                0 1px 2px #000;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        /* === МИНА (КРЕСТИК) — ТОЧНО КАК В ИГРЕ === */
+        .bomb {
+            background: #111;
+            box-shadow: inset 0 0 10px #000;
+        }
+        .bomb::after {
+            content: '✕';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(0deg);
+            font-size: 32px;
+            color: rgba(100, 180, 255, 0.9);
+            font-weight: bold;
+            text-shadow: 
+                0 0 12px rgba(100, 180, 255, 0.7),
+                0 0 6px #000;
+            z-index: 2;
+            filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        .play-btn {
+            background: linear-gradient(45deg, #00d4ff 0%, #0099cc 100%);
+            color: white;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 17px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 16px;
+            box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
+            transition: all 0.2s;
+        }
+        .play-btn:active { transform: translateY(1px); }
+
+        .ref-btn {
+            background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
+            color: #000;
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 700;
+        }
+
+        .nav-btns { display: flex; gap: 10px; margin-top: 16px; }
+        .nav-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; }
+        .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
+        .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
+
+        .telegram-link {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 12px;
+            color: #00d0ff;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .telegram-link img { width: 20px; height: 20px; }
+
+        .hidden { display: none !important; }
+
+        @media (max-width: 380px) {
+            .container { padding: 14px; }
+            .mine-btn { width: 46px; height: 46px; font-size: 16px; }
+            .modal { padding: 18px; }
+            .logo-container svg { height: 36px; }
+            .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
+            .play-btn { padding: 13px; font-size: 16px; }
+            .star::after { font-size: 26px !important; }
+            .bomb::after { font-size: 30px !important; }
         }
     </style>
 </head>
 <body>
 
     <!-- ОНЛАЙН -->
-    <div class="online-bar">Онлайн: <span id="onlineCount">47</span> игроков</div>
+    <div class="online-bar">
+        Онлайн: <span id="onlineCount">47</span> игроков
+    </div>
 
-    <!-- ЛОГОТИП 1WIN – SVG -->
+    <!-- ЛОГОТИП 1WIN — SVG, РАБОТАЕТ ВСЕГДА -->
     <div class="logo-container">
         <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
                 <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stop-color="#00d4ff"/>
-                    <stop offset="100%" stop-color="#0099cc"/>
+                    <stop offset="0%" style="stop-color:#00d4ff; stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#0099cc; stop-opacity:1" />
                 </linearGradient>
                 <filter id="glow">
                     <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
-                    <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
                 </filter>
             </defs>
-            <text x="10" y="58" font-family="Arial,Helvetica,sans-serif"
-                  font-size="58" font-weight="900"
-                  fill="url(#grad1)" stroke="#000" stroke-width="3"
-                  paint-order="stroke fill">1</text>
-            <text x="52" y="58" font-family="Arial,Helvetica,sans-serif"
-                  font-size="58" font-weight="900"
-                  fill="#fff" stroke="#000" stroke-width="3"
-                  paint-order="stroke fill">win</text>
+            <text x="10" y="58" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="url(#grad1)" stroke="#000" stroke-width="3" paint-order="stroke fill">1</text>
+            <text x="52" y="58" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke fill">win</text>
             <circle cx="38" cy="28" r="6" fill="#00d4ff" filter="url(#glow)"/>
         </svg>
     </div>
@@ -270,7 +352,6 @@
         const clickSound = document.getElementById('clickSound');
         let currentMines = 1;
 
-        // ОНЛАЙН СЧЁТЧИК
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
             document.getElementById('onlineCount').textContent = cnt;
@@ -318,7 +399,7 @@
 
         function showScheme(){
             const s=generateScheme(currentMines);
-            const = document.getElementById('scheme');
+            const grid = document.getElementById('scheme');
             const playBtn=document.getElementById('playButton');
             const nav=document.getElementById('navButtons');
             const status=document.getElementById('status');
