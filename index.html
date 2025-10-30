@@ -6,7 +6,7 @@
     <title>1win Mines Signal</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -18,7 +18,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 15px;
+            padding: 12px;
             overflow-y: auto;
             position: relative;
         }
@@ -27,141 +27,141 @@
         .online-bar {
             width: 100%;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
             color: #00ff88;
-            margin: 10px 0;
+            margin: 8px 0 12px;
             animation: blink 2s infinite;
+            font-weight: 500;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+        /* === ЛОГОТИП 1WIN === */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo-container img {
+            height: 42px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
+        }
 
         /* === МОДАЛЬНОЕ ОКНО === */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.9); z-index: 999;
+            background: rgba(0,0,0,0.92); z-index: 999;
             display: flex; align-items: center; justify-content: center;
             padding: 20px;
         }
         .modal {
             background: rgba(15, 15, 35, 0.98);
-            border: 2px solid #00d0ff;
-            border-radius: 20px;
-            padding: 25px;
-            max-width: 340px;
+            border: 1px solid #00d0ff;
+            border-radius: 18px;
+            padding: 22px;
+            max-width: 320px;
             width: 100%;
-            box-shadow: 0 0 40px rgba(0, 200, 255, 0.6);
+            box-shadow: 0 0 35px rgba(0, 200, 255, 0.5);
             text-align: center;
         }
         .modal h2 {
             color: #00ff88;
-            margin-bottom: 15px;
-            font-size: 17px;
+            margin-bottom: 12px;
+            font-size: 16px;
             text-shadow: 0 0 8px #00ff88;
+            font-weight: 700;
         }
         .modal p {
             font-size: 13px;
-            color: #ccc;
-            margin-bottom: 15px;
-            line-height: 1.4;
+            color: #ddd;
+            margin-bottom: 14px;
+            line-height: 1.5;
         }
         .modal .promo {
             font-weight: bold;
             color: #00ff88;
-            font-size: 15px;
+            font-size: 14px;
             background: rgba(0,255,136,0.15);
-            padding: 8px 12px;
-            border-radius: 10px;
-            margin: 12px 0;
-            border: 1px solid rgba(0,255,136,0.3);
+            padding: 6px 10px;
+            border-radius: 8px;
+            margin: 10px 0 8px;
+            display: inline-block;
         }
         .modal-buttons {
             display: flex;
-            gap: 12px;
+            gap: 10px;
+            margin-top: 12px;
         }
         .modal-btn {
             flex: 1;
-            padding: 14px;
+            padding: 12px;
             font-size: 15px;
             border-radius: 12px;
             cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s;
+            font-weight: 700;
+            transition: all 0.2s;
         }
         .yes-btn {
             background: linear-gradient(45deg, #00ff88, #00cc66);
             color: #000;
             border: none;
         }
-        .yes-btn:hover { transform: scale(1.02); }
-        .no-btn {
-            background: linear-gradient(45deg, #ff4081, #f50057);
+        .reg-btn {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
             color: #fff;
             border: none;
         }
-        .no-btn:hover { transform: scale(1.02); }
 
         /* === КОНТЕНТ === */
-        .logo-row {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-        .logo-1win {
-            font-size: 24px;
-            font-weight: 700;
-            color: #00d0ff;
-            text-shadow: 0 0 10px #00d0ff;
-        }
-
         .container {
             width: 100%;
             max-width: 340px;
             background: rgba(15, 15, 35, 0.95);
-            border-radius: 20px;
-            padding: 20px;
+            border-radius: 18px;
+            padding: 18px;
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
-            border: 1px solid rgba(0, 200, 255, 0.2);
-            margin-top: 10px;
+            border: 1px solid rgba(0, 200, 255, 0.25);
+            margin-top: 5px;
         }
 
         h1 {
             text-align: center;
             font-size: 18px;
             color: #00ff88;
-            margin-bottom: 10px;
+            margin-bottom: 6px;
             text-shadow: 0 0 8px #00ff88;
+            font-weight: 700;
         }
 
         .mines-label {
             text-align: center;
-            font-size: 13px;
-            color: #00d0ff;
-            margin-bottom: 12px;
-            font-weight: bold;
+            font-size: 14px;
+            color: #aaa;
+            margin: 14px 0 10px;
+            font-weight: 500;
         }
 
         .controls {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 15px 0;
+            gap: 14px;
+            margin: 12px 0;
         }
         .mine-btn {
             background: #1a1a2e;
             color: #fff;
-            border: 2px solid #333;
+            border: 1px solid #333;
             width: 50px;
             height: 50px;
             font-size: 17px;
             border-radius: 50%;
             cursor: pointer;
-            transition: all 0.3s;
+            font-weight: 700;
+            transition: all 0.2s;
         }
         .mine-btn.active {
-            background: linear-gradient(45deg, #00d0ff, #0099cc);
+            background: #00d0ff;
             border-color: #00d0ff;
-            box-shadow: 0 0 20px #00d0ff;
+            box-shadow: 0 0 18px #00d0ff;
             color: #000;
             transform: scale(1.05);
         }
@@ -170,63 +170,61 @@
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
-            margin: 20px 0;
+            margin: 18px 0;
             padding: 12px;
             background: rgba(0, 0, 0, 0.5);
-            border-radius: 16px;
-            border: 1px solid #00d0ff30;
+            border-radius: 14px;
+            border: 1px solid #00d0ff25;
         }
         .cell {
             width: 100%;
             padding-bottom: 100%;
             background: linear-gradient(135deg, #00bfff 0%, #0099cc 100%);
-            border-radius: 10px;
+            border-radius: 8px;
             position: relative;
-            box-shadow: inset 0 2px 8px rgba(255,255,255,0.2);
+            box-shadow: inset 0 2px 8px rgba(255,255,255,0.2), 0 2px 4px rgba(0,0,0,0.3);
             animation: pulse 2s infinite ease-in-out;
         }
         .cell::before {
             content: '';
             position: absolute;
-            top: 12%; left: 12%;
-            width: 76%; height: 76%;
-            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0.1) 70%);
+            top: 10%; left: 10%;
+            width: 80%; height: 80%;
+            background: radial-gradient(circle at 30% 30%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0.2) 70%);
             border-radius: 50%;
             opacity: 0.6;
         }
 
         .star {
             background: linear-gradient(135deg, #ffd700 0%, #ff8c00 100%) !important;
-            box-shadow: inset 0 2px 8px rgba(255,215,0,0.4);
         }
         .star::after {
             content: '★';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 26px;
+            font-size: 22px;
             color: #fff;
             text-shadow: 0 0 8px #ffeb3b;
         }
 
         .bomb {
             background: #333 !important;
-            box-shadow: inset 0 2px 8px rgba(0,0,0,0.5);
         }
         .bomb::after {
             content: 'X';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 30px;
+            font-size: 26px;
             color: #ff1744;
             font-weight: bold;
-            text-shadow: 0 0 12px #ff1744;
+            text-shadow: 0 0 10px #ff1744;
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.01); }
+            50% { transform: scale(1.02); }
         }
 
         .play-btn {
@@ -236,30 +234,32 @@
             width: 100%;
             padding: 14px;
             font-size: 17px;
-            font-weight: bold;
+            font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
-            margin-top: 15px;
+            margin-top: 16px;
             box-shadow: 0 4px 15px rgba(0, 212, 255, 0.4);
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
-        .play-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0, 212, 255, 0.6); }
-        .play-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .play-btn:active {
+            transform: translateY(1px);
+        }
 
         .ref-btn {
             background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
             color: #000;
             margin-top: 12px;
-            padding: 14px;
-            border-radius: 12px;
-            font-weight: bold;
-            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 700;
         }
 
         .nav-btns {
             display: flex;
             gap: 10px;
-            margin-top: 15px;
+            margin-top: 16px;
         }
         .nav-btn {
             flex: 1;
@@ -267,7 +267,7 @@
             font-size: 15px;
             border-radius: 12px;
             cursor: pointer;
-            transition: all 0.3s;
+            font-weight: 700;
         }
         .back-btn {
             background: #1a1a2e;
@@ -279,13 +279,13 @@
             color: #000;
             border: none;
         }
-        .nav-btn:hover { transform: translateY(-1px); }
 
         .status {
             text-align: center;
             margin: 12px 0;
             font-size: 13px;
             min-height: 18px;
+            font-weight: 500;
         }
         .error { color: #ff4444; }
         .loading { color: #00d0ff; }
@@ -293,13 +293,13 @@
 
         .spinner {
             display: inline-block;
-            width: 16px;
-            height: 16px;
+            width: 14px;
+            height: 14px;
             border: 2px solid #00d0ff;
             border-top: 2px solid transparent;
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-right: 8px;
+            margin-right: 6px;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -312,9 +312,22 @@
             color: #00d0ff;
             font-size: 13px;
             text-decoration: none;
+            font-weight: 500;
+        }
+        .telegram-link img {
+            width: 20px;
+            height: 20px;
         }
 
         .hidden { display: none !important; }
+
+        /* === АДАПТАЦИЯ ПОД ТЕЛЕФОН === */
+        @media (max-width: 380px) {
+            .container { padding: 16px; }
+            .mine-btn { width: 46px; height: 46px; font-size: 16px; }
+            .modal { padding: 20px; }
+            .logo-container img { height: 38px; }
+        }
     </style>
 </head>
 <body>
@@ -324,31 +337,31 @@
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
 
+    <!-- ЛОГОТИП 1WIN -->
+    <div class="logo-container">
+        <img src="https://1win.pro/images/logo/1win-logo-white.png" alt="1win">
+    </div>
+
     <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="registerModal" class="modal-overlay">
         <div class="modal">
             <h2>Зарегистрированы по нашей ссылке?</h2>
             <p>
-                Сигналы работают <strong>ТОЛЬКО</strong> по нашей рефке
+                Сигналы работают <strong>ТОЛЬКО</strong> по нашей рефке.<br>
+                <span class="promo">Промокод GEKTOR2 → +100% к депозиту</span>
             </p>
-            <div class="promo">Промокод GEKTOR2 → +100% к депозиту</div>
             <div class="modal-buttons">
                 <button class="modal-btn yes-btn" onclick="closeModal()">Да</button>
-                <button class="modal-btn no-btn" onclick="goTo1win()">Зарегистрироваться</button>
+                <button class="modal-btn reg-btn" onclick="goTo1win()">Зарегистрироваться</button>
             </div>
         </div>
-    </div>
-
-    <!-- ЛОГОТИП -->
-    <div class="logo-row">
-        <div class="logo-1win">1win</div>
     </div>
 
     <!-- КОНТЕНТ -->
     <div class="container">
         <h1>MINES SIGNAL</h1>
 
-        <div class="mines-label">Выберите количество мин:</div>
+        <div class="mines-label">Выберите количество мин</div>
 
         <div class="controls">
             <button class="mine-btn active" onclick="setMines(1)">1</button>
@@ -376,6 +389,8 @@
         </a>
     </div>
 
+    <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
+
     <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
@@ -386,11 +401,11 @@
 
         // === ОНЛАЙН СЧЁТЧИК ===
         function updateOnlineCount() {
-            const randomCount = Math.floor(Math.random() * 51) + 30; // 30–80
+            const randomCount = Math.floor(Math.random() * 51) + 30;
             document.getElementById('onlineCount').textContent = randomCount;
         }
         updateOnlineCount();
-        setInterval(updateOnlineCount, 300000); // 5 минут
+        setInterval(updateOnlineCount, 300000);
 
         function playSound() {
             clickSound.currentTime = 0;
@@ -484,4 +499,35 @@
         function goBack() {
             playSound();
             const grid = document.getElementById('scheme');
-            const
+            const playButton = document.getElementById('playButton');
+            const navButtons = document.getElementById('navButtons');
+
+            grid.classList.add('hidden');
+            playButton.classList.remove('hidden');
+            enablePlayButton();
+            navButtons.classList.add('hidden');
+            document.getElementById('status').innerHTML = '';
+        }
+
+        function closeModal() {
+            document.getElementById('registerModal').style.display = 'none';
+            playSound();
+        }
+
+        function open1win() {
+            tg.openLink('https://lknt.cc/85c9');
+            playSound();
+        }
+
+        function goTo1win() {
+            closeModal();
+            open1win();
+        }
+
+        // Кнопки
+        document.getElementById('playButton').addEventListener('click', startGame);
+        document.getElementById('backButton').addEventListener('click', goBack);
+        document.getElementById('nextButton').addEventListener('click', nextScheme);
+    </script>
+</body>
+</html>
