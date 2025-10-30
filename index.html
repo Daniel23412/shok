@@ -33,7 +33,6 @@
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
 
-        /* === ЛОГОТИП 1WIN — SVG, КАК В ИГРЕ === */
         .logo-container {
             text-align: center;
             margin-bottom: 10px;
@@ -141,7 +140,6 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* === СЕТКА — КАК В 1WIN === */
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -168,7 +166,6 @@
             overflow: hidden;
         }
 
-        /* === ЗВЁЗДЫ — ТОЧНО КАК В ИГРЕ === */
         .star {
             background: radial-gradient(ellipse at 30% 30%, #ffcc00 0%, #ff8c00 50%, #cc6600 100%);
             box-shadow: 
@@ -189,7 +186,6 @@
             z-index: 2;
         }
 
-        /* === МИНА (КРЕСТИК) — ТОЧНО КАК В ИГРЕ === */
         .bomb {
             background: #111;
             box-shadow: inset 0 0 10px #000;
@@ -198,7 +194,7 @@
             content: '✕';
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(0deg);
+            transform: translate(-50%, -50%);
             font-size: 32px;
             color: rgba(100, 180, 255, 0.9);
             font-weight: bold;
@@ -207,11 +203,6 @@
                 0 0 6px #000;
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
-        }
-
-        @keyframes pulse {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.03); }
         }
 
         .play-btn {
@@ -261,13 +252,62 @@
 
         .hidden { display: none !important; }
 
+        /* === НОВАЯ КНОПКА: СКОПИРОВАТЬ ПРОМОКОД === */
+        .copy-promo-btn {
+            background: linear-gradient(45deg, #ff6b35, #f7931e);
+            color: #fff;
+            border: none;
+            width: 100%;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 700;
+            border-radius: 12px;
+            cursor: pointer;
+            margin-top: 14px;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4);
+            transition: all 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .copy-promo-btn:active { transform: translateY(1px); }
+        .copy-promo-btn::after {
+            content: 'GEKTOR2';
+            font-weight: bold;
+            font-size: 15px;
+            margin-left: 8px;
+            color: #fff;
+            text-shadow: 0 0 6px #000;
+        }
+
+        /* Уведомление о копировании */
+        .copy-toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 255, 136, 0.9);
+            color: #000;
+            padding: 12px 20px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+        }
+        .copy-toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-10px);
+        }
+
         @media (max-width: 380px) {
             .container { padding: 14px; }
             .mine-btn { width: 46px; height: 46px; font-size: 16px; }
             .modal { padding: 18px; }
             .logo-container svg { height: 36px; }
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
-            .play-btn { padding: 13px; font-size: 16px; }
+            .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
             .star::after { font-size: 26px !important; }
             .bomb::after { font-size: 30px !important; }
         }
@@ -280,7 +320,7 @@
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
 
-    <!-- ЛОГОТИП 1WIN — SVG, РАБОТАЕТ ВСЕГДА -->
+    <!-- ЛОГОТИП 1WIN — SVG -->
     <div class="logo-container">
         <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -339,11 +379,17 @@
 
         <button class="play-btn ref-btn" onclick="open1win()">Играть в 1win (+100%)</button>
 
+        <!-- НОВАЯ КНОПКА: СКОПИРОВАТЬ ПРОМОКОД -->
+        <button class="copy-promo-btn" onclick="copyPromo()">СКОПИРОВАТЬ ПРОМОКОД</button>
+
         <a href="https://t.me/LuckyD2" target="_blank" class="telegram-link">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
             @LuckyD2
         </a>
     </div>
+
+    <!-- Уведомление о копировании -->
+    <div id="copyToast" class="copy-toast">Промокод скопирован!</div>
 
     <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
 
@@ -433,6 +479,19 @@
         function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
         function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
         function goTo1win(){ closeModal(); open1win(); }
+
+        // === НОВАЯ ФУНКЦИЯ: КОПИРОВАТЬ ПРОМОКОД ===
+        function copyPromo() {
+            playSound();
+            const promo = 'GEKTOR2';
+            navigator.clipboard.writeText(promo).then(() => {
+                const toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            }).catch(() => {
+                alert('Промокод: GEKTOR2');
+            });
+        }
 
         document.getElementById('playButton').addEventListener('click',startGame);
         document.getElementById('backButton').addEventListener('click',goBack);
