@@ -18,9 +18,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            padding: 12px;
+            padding: 10px;
             overflow-y: auto;
-            position: relative;
         }
 
         /* === ОНЛАЙН === */
@@ -29,7 +28,7 @@
             text-align: center;
             font-size: 13px;
             color: #00ff88;
-            margin: 8px 0 12px;
+            margin: 8px 0 10px;
             animation: blink 2s infinite;
             font-weight: 500;
         }
@@ -39,27 +38,11 @@
         .logo-container {
             text-align: center;
             margin-bottom: 10px;
-            position: relative;
         }
         .logo-container img {
-            height: 42px;
+            height: 40px;
             width: auto;
             filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
-            display: block;
-        }
-        .logo-fallback {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 28px;
-            font-weight: 700;
-            color: #00ff88;
-            text-shadow: 0 0 8px #00ff88;
-            display: none;
-        }
-        .logo-container img:not([src]),
-        .logo-container img[src=""] ~ .logo-fallback,
-        .logo-container img[onerror] ~ .logo-fallback {
             display: block;
         }
 
@@ -134,7 +117,7 @@
             max-width: 340px;
             background: rgba(15, 15, 35, 0.95);
             border-radius: 18px;
-            padding: 18px;
+            padding: 16px;
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
             border: 1px solid rgba(0, 200, 255, 0.25);
             margin-top: 5px;
@@ -153,7 +136,7 @@
             text-align: center;
             font-size: 14px;
             color: #aaa;
-            margin: 14px 0 10px;
+            margin: 12px 0 8px;
             font-weight: 500;
         }
 
@@ -183,11 +166,45 @@
             transform: scale(1.05);
         }
 
+        /* === СТАТУС — АДАПТИВНЫЙ, ВНУТРИ КОНТЕЙНЕРА === */
+        .status {
+            text-align: center;
+            margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.4;
+            word-wrap: break-word;
+            padding: 8px 12px;
+            border-radius: 8px;
+            min-height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 500;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 208, 255, 0.2);
+        }
+        .error { color: #ff6b6b; }
+        .loading { color: #00d0ff; }
+        .success { color: #00ff88; }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid #00d0ff;
+            border-top: 2px solid transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 6px;
+            flex-shrink: 0;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 6px;
-            margin: 18px 0;
+            margin: 16px 0;
             padding: 12px;
             background: rgba(0, 0, 0, 0.5);
             border-radius: 14px;
@@ -297,29 +314,6 @@
             border: none;
         }
 
-        .status {
-            text-align: center;
-            margin: 12px 0;
-            font-size: 120px;
-            min-height: 18px;
-            font-weight: 500;
-        }
-        .error { color: #ff4444; }
-        .loading { color: #00d0ff; }
-        .success { color: #00ff88; }
-
-        .spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid #00d0ff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 6px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
         .telegram-link {
             display: flex;
             align-items: center;
@@ -340,10 +334,12 @@
 
         /* === АДАПТАЦИЯ ПОД ТЕЛЕФОН === */
         @media (max-width: 380px) {
-            .container { padding: 16px; }
+            .container { padding: 14px; }
             .mine-btn { width: 46px; height: 46px; font-size: 16px; }
-            .modal { padding: 20px; }
-            .logo-container img { height: 38px; }
+            .modal { padding: 18px; }
+            .logo-container img { height: 36px; }
+            .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
+            .play-btn { padding: 13px; font-size: 16px; }
         }
     </style>
 </head>
@@ -354,12 +350,11 @@
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
 
-    <!-- ЛОГОТИП 1WIN -->
+    <!-- ЛОГОТИП 1WIN (настоящий, без надписей) -->
     <div class="logo-container">
-        <img src="https://cdn.1win.pro/images/logo/1win-logo-white.png"
-             alt="1win"
-             onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
-        <div class="logo-fallback">1WIN</div>
+        <img src="https://cdn.1win.pro/images/logo/1win-logo-white.png" 
+             alt="1win" 
+             onerror="this.style.display='none';">
     </div>
 
     <!-- МОДАЛЬНОЕ ОКНО -->
