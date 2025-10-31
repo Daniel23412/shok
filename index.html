@@ -206,22 +206,6 @@
             z-index: 2;
         }
 
-        .star-red {
-            background: radial-gradient(ellipse at 30% 30%, #ff4d4d 0%, #ff1a1a 50%, #cc0000 100%);
-            box-shadow: 0 0 12px rgba(255, 77, 77, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
-        }
-        .star-red::after {
-            content: '★';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 28px;
-            color: #fff;
-            text-shadow: 0 0 8px #ff4d4d, 0 1px 2px #000;
-            font-weight: bold;
-            z-index: 2;
-        }
-
         .bomb {
             background: #111;
             box-shadow: inset 0 0 10px #000;
@@ -237,25 +221,6 @@
             text-shadow: 0 0 12px rgba(100, 180, 255, 0.7), 0 0 6px #000;
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
-        }
-
-        .multipliers {
-            display: flex;
-            justify-content: center;
-            gap: 6px;
-            margin: 12px 0;
-            flex-wrap: wrap;
-        }
-        .mult {
-            background: #1a1a2e;
-            color: #fff;
-            padding: 6px 10px;
-            border-radius: 8px;
-            font-size: 12px;
-            font-weight: 700;
-            border: 1px solid #333;
-            min-width: 40px;
-            text-align: center;
         }
 
         .play-btn {
@@ -290,26 +255,33 @@
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
         .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
 
+        /* === ВЫБОР ИГРЫ ПО КАРТИНКАМ === */
         .game-select {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             margin: 12px 0;
+            justify-content: center;
         }
-        .game-btn {
-            flex: 1;
-            padding: 12px;
-            font-size: 15px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 700;
+        .game-card {
+            width: 140px;
+            height: 180px;
             background: #1a1a2e;
-            color: #fff;
-            border: 1px solid #333;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid #333;
+            transition: all 0.2s;
+            position: relative;
         }
-        .game-btn.active {
-            background: linear-gradient(45deg, #00d4ff, #0099cc);
-            color: #000;
-            border: none;
+        .game-card.active {
+            border: 2px solid #00d4ff;
+            box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
+            transform: scale(1.05);
+        }
+        .game-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .telegram-link {
@@ -355,8 +327,7 @@
             .logo-container svg { height: 36px; }
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
-            .star-blue::after, .star-red::after { font-size: 26px !important; }
-            .bomb::after { font-size: 30px !important; }
+            .game-card { width: 120px; height: 160px; }
         }
     </style>
 </head>
@@ -407,10 +378,14 @@
     <div class="container">
         <h1>MINES SIGNAL</h1>
 
-        <!-- ВЫБОР ИГРЫ -->
+        <!-- ВЫБОР ИГРЫ ПО КАРТИНКАМ -->
         <div class="game-select">
-            <button class="game-btn active" onclick="selectGame('classic')">Обычные мины</button>
-            <button class="game-btn" onclick="selectGame('stars')">Правильные звёзды</button>
+            <div class="game-card active" onclick="selectGame('classic')">
+                <img src="https://i.imgur.com/5v8nK9L.png" alt="Старые мины">
+            </div>
+            <div class="game-card" onclick="selectGame('stars')">
+                <img src="https://i.imgur.com/3kL9mP2.png" alt="Новые мины">
+            </div>
         </div>
 
         <!-- КЛАССИЧЕСКИЕ МИНЫ -->
@@ -430,7 +405,7 @@
             </div>
         </div>
 
-        <!-- ПРАВИЛЬНЫЕ ЗВЁЗДЫ -->
+        <!-- НОВЫЕ МИНЫ (ТОЛЬКО СИНИЕ ЗВЁЗДЫ) -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -439,10 +414,6 @@
             </div>
             <div id="statusStars" class="status"></div>
             <div id="schemeStars" class="grid hidden"></div>
-            <div id="multipliers" class="multipliers hidden">
-                <div class="mult">x1.02</div><div class="mult">x1.11</div><div class="mult">x1.22</div><div class="mult">x1.34</div>
-                <div class="mult">x1.48</div><div class="mult">x1.64</div><div class="mult">x1.84</div><div class="mult">x2.07</div><div class="mult">x3.17</div>
-            </div>
             <button id="playButtonStars" class="play-btn">Получить сигнал</button>
             <div id="navButtonsStars" class="nav-btns hidden">
                 <button id="backButtonStars" class="nav-btn back-btn">Назад</button>
@@ -479,8 +450,8 @@
         // === ВЫБОР ИГРЫ ===
         function selectGame(game) {
             currentGame = game;
-            document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+            event.target.closest('.game-card').classList.add('active');
             document.getElementById('classicGame').classList.toggle('hidden', game !== 'classic');
             document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
             playSound();
@@ -529,7 +500,7 @@
                 const c=document.createElement('div');
                 c.className='cell';
                 if(s.bombs.includes(i)) c.classList.add('bomb');
-                else c.classList.add('star');
+                else c.classList.add('star-blue');
                 grid.appendChild(c);
             }
             playBtn.classList.add('hidden');
@@ -537,7 +508,7 @@
             document.getElementById('nextButton').disabled=false;
         }
 
-        // === ПРАВИЛЬНЫЕ ЗВЁЗДЫ ===
+        // === НОВЫЕ МИНЫ (ТОЛЬКО СИНИЕ ЗВЁЗДЫ) ===
         function setMinesStars(cnt){
             currentMinesStars=cnt;
             document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
@@ -552,36 +523,31 @@
         }
 
         function generateStarsScheme(mines){
-            const totalStars = 25 - mines;
-            const showCount = Math.floor(Math.random() * 8) + 3; // 3–10
+            const totalSafe = 25 - mines;
+            const showCount = Math.floor(Math.random() * 11) + 5; // 5–15
             const safePositions = [];
-            while(safePositions.length < totalStars){
+            while(safePositions.length < totalSafe){
                 const pos = Math.floor(Math.random() * 25);
-                if(!safePositions.includes(pos) && !safePositions.includes(pos)) safePositions.push(pos);
+                if(!safePositions.includes(pos)) safePositions.push(pos);
             }
-            const shown = safePositions.slice(0, showCount);
-            return { shown, mines };
+            return safePositions.slice(0, showCount);
         }
 
         function showStarsScheme(){
-            const s = generateStarsScheme(currentMinesStars);
+            const shown = generateStarsScheme(currentMinesStars);
             const grid = document.getElementById('schemeStars');
             const playBtn = document.getElementById('playButtonStars');
             const nav = document.getElementById('navButtonsStars');
-            const mults = document.getElementById('multipliers');
 
             grid.classList.remove('hidden'); grid.innerHTML='';
             for(let i=0;i<25;i++){
                 const c=document.createElement('div');
                 c.className='cell';
-                if(s.shown.includes(i)){
-                    c.classList.add(Math.random() > 0.5 ? 'star-blue' : 'star-red');
-                }
+                if(shown.includes(i)) c.classList.add('star-blue');
                 grid.appendChild(c);
             }
             playBtn.classList.add('hidden');
             nav.classList.remove('hidden');
-            mults.classList.remove('hidden');
             document.getElementById('nextButtonStars').disabled=false;
         }
 
@@ -616,10 +582,9 @@
             const g=document.getElementById('schemeStars');
             const p=document.getElementById('playButtonStars');
             const n=document.getElementById('navButtonsStars');
-            const m=document.getElementById('multipliers');
             g.classList.add('hidden'); p.classList.remove('hidden');
             document.getElementById('playButtonStars').disabled=false;
-            n.classList.add('hidden'); m.classList.add('hidden');
+            n.classList.add('hidden');
             document.getElementById('statusStars').innerHTML='';
         }
 
