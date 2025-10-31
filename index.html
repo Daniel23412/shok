@@ -64,7 +64,6 @@
         .modal p { font-size: 13px; color: #ddd; margin-bottom: 14px; line-height: 1.5; }
         .modal .promo { font-weight: bold; color: #00ff88; font-size: 14px; background: rgba(0,255,136,0.15); padding: 6px 10px; border-radius: 8px; margin: 10px 0 8px; display: inline-block; }
 
-        /* === НОВАЯ КНОПКА В МОДАЛКЕ === */
         .copy-promo-btn {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: #fff;
@@ -178,9 +177,7 @@
             background: #0a0a1a;
             border-radius: 20px;
             border: 2px solid #1a1a3a;
-            box-shadow: 
-                inset 0 0 20px rgba(0, 0, 0, 0.6),
-                0 0 20px rgba(0, 208, 255, 0.15);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
 
         .cell {
@@ -189,28 +186,38 @@
             background: #111;
             border-radius: 12px;
             position: relative;
-            box-shadow: 
-                inset 0 2px 6px rgba(255,255,255,0.1),
-                0 2px 6px rgba(0,0,0,एस0.5);
+            box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
             overflow: hidden;
         }
 
-        .star {
-            background: radial-gradient(ellipse at 30% 30%, #ffcc00 0%, #ff8c00 50%, #cc6600 100%);
-            box-shadow: 
-                0 0 12px rgba(255, 200, 0, 0.6),
-                inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        .star-blue {
+            background: radial-gradient(ellipse at 30% 30%, #4da6ff 0%, #1a8cff 50%, #0066cc 100%);
+            box-shadow: 0 0 12px rgba(77, 166, 255, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
         }
-        .star::after {
+        .star-blue::after {
             content: '★';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
             font-size: 28px;
             color: #fff;
-            text-shadow: 
-                0 0 8px #ffeb3b,
-                0 1px 2px #000;
+            text-shadow: 0 0 8px #4da6ff, 0 1px 2px #000;
+            font-weight: bold;
+            z-index: 2;
+        }
+
+        .star-red {
+            background: radial-gradient(ellipse at 30% 30%, #ff4d4d 0%, #ff1a1a 50%, #cc0000 100%);
+            box-shadow: 0 0 12px rgba(255, 77, 77, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
+        }
+        .star-red::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #fff;
+            text-shadow: 0 0 8px #ff4d4d, 0 1px 2px #000;
             font-weight: bold;
             z-index: 2;
         }
@@ -227,11 +234,28 @@
             font-size: 32px;
             color: rgba(100, 180, 255, 0.9);
             font-weight: bold;
-            text-shadow: 
-                0 0 12px rgba(100, 180, 255, 0.7),
-                0 0 6px #000;
+            text-shadow: 0 0 12px rgba(100, 180, 255, 0.7), 0 0 6px #000;
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
+        }
+
+        .multipliers {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            margin: 12px 0;
+            flex-wrap: wrap;
+        }
+        .mult {
+            background: #1a1a2e;
+            color: #fff;
+            padding: 6px 10px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            border: 1px solid #333;
+            min-width: 40px;
+            text-align: center;
         }
 
         .play-btn {
@@ -266,6 +290,28 @@
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
         .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
 
+        .game-select {
+            display: flex;
+            gap: 10px;
+            margin: 12px 0;
+        }
+        .game-btn {
+            flex: 1;
+            padding: 12px;
+            font-size: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            background: #1a1a2e;
+            color: #fff;
+            border: 1px solid #333;
+        }
+        .game-btn.active {
+            background: linear-gradient(45deg, #00d4ff, #0099cc);
+            color: #000;
+            border: none;
+        }
+
         .telegram-link {
             display: flex;
             align-items: center;
@@ -281,7 +327,6 @@
 
         .hidden { display: none !important; }
 
-        /* === УВЕДОМЛЕНИЕ О КОПИРОВАНИИ === */
         .copy-toast {
             position: fixed;
             bottom: 20px;
@@ -310,7 +355,7 @@
             .logo-container svg { height: 36px; }
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
-            .star::after { font-size: 26px !important; }
+            .star-blue::after, .star-red::after { font-size: 26px !important; }
             .bomb::after { font-size: 30px !important; }
         }
     </style>
@@ -322,7 +367,7 @@
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
 
-    <!-- ЛОГОТИП 1WIN — SVG -->
+    <!-- ЛОГОТИП 1WIN -->
     <div class="logo-container">
         <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -344,16 +389,13 @@
         </svg>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО С КНОПКОЙ КОПИРОВАНИЯ -->
+    <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="registerModal" class="modal-overlay">
         <div class="modal">
             <h2>Зарегистрированы по нашей ссылке?</h2>
             <p>Сигналы работают <strong>ТОЛЬКО</strong> по нашей рефке.<br>
                <span class="promo">Промокод GEKTOR2 → +100% к депозиту</span></p>
-
-            <!-- КНОПКА СКОПИРОВАТЬ ПРОМОКОД -->
             <button class="copy-promo-btn" onclick="copyPromo()">СКОПИРОВАТЬ ПРОМОКОД</button>
-
             <div class="modal-buttons">
                 <button class="modal-btn yes-btn" onclick="closeModal()">Да</button>
                 <button class="modal-btn reg-btn" onclick="goTo1win()">Зарегистрироваться</button>
@@ -365,33 +407,56 @@
     <div class="container">
         <h1>MINES SIGNAL</h1>
 
-        <div class="mines-label">Выберите количество мин</div>
-
-        <div class="controls">
-            <button class="mine-btn active" onclick="setMines(1)">1</button>
-            <button class="mine-btn" onclick="setMines(2)">2</button>
-            <button class="mine-btn" onclick="setMines(3)">3</button>
+        <!-- ВЫБОР ИГРЫ -->
+        <div class="game-select">
+            <button class="game-btn active" onclick="selectGame('classic')">Обычные мины</button>
+            <button class="game-btn" onclick="selectGame('stars')">Правильные звёзды</button>
         </div>
 
-        <div id="status" class="status"></div>
-        <div id="scheme" class="grid hidden"></div>
+        <!-- КЛАССИЧЕСКИЕ МИНЫ -->
+        <div id="classicGame">
+            <div class="mines-label">Выберите количество мин</div>
+            <div class="controls">
+                <button class="mine-btn active" onclick="setMines(1)">1</button>
+                <button class="mine-btn" onclick="setMines(2)">2</button>
+                <button class="mine-btn" onclick="setMines(3)">3</button>
+            </div>
+            <div id="status" class="status"></div>
+            <div id="scheme" class="grid hidden"></div>
+            <button id="playButton" class="play-btn">Получить сигнал</button>
+            <div id="navButtons" class="nav-btns hidden">
+                <button id="backButton" class="nav-btn back-btn">Назад</button>
+                <button id="nextButton" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
 
-        <button id="playButton" class="play-btn">Получить сигнал</button>
-
-        <div id="navButtons" class="nav-btns hidden">
-            <button id="backButton" class="nav-btn back-btn">Назад</button>
-            <button id="nextButton" class="nav-btn next-btn">Следующий сигнал</button>
+        <!-- ПРАВИЛЬНЫЕ ЗВЁЗДЫ -->
+        <div id="starsGame" class="hidden">
+            <div class="mines-label">Выберите количество мин</div>
+            <div class="controls">
+                <button class="mine-btn active" onclick="setMinesStars(2)">2</button>
+                <button class="mine-btn" onclick="setMinesStars(3)">3</button>
+            </div>
+            <div id="statusStars" class="status"></div>
+            <div id="schemeStars" class="grid hidden"></div>
+            <div id="multipliers" class="multipliers hidden">
+                <div class="mult">x1.02</div><div class="mult">x1.11</div><div class="mult">x1.22</div><div class="mult">x1.34</div>
+                <div class="mult">x1.48</div><div class="mult">x1.64</div><div class="mult">x1.84</div><div class="mult">x2.07</div><div class="mult">x3.17</div>
+            </div>
+            <button id="playButtonStars" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsStars" class="nav-btns hidden">
+                <button id="backButtonStars" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonStars" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
         </div>
 
         <button class="play-btn ref-btn" onclick="open1win()">Играть в 1win (+100%)</button>
-
         <a href="https://t.me/LuckyD2" target="_blank" class="telegram-link">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
             @LuckyD2
         </a>
     </div>
 
-    <!-- Уведомление о копировании -->
     <div id="copyToast" class="copy-toast">Промокод скопирован!</div>
 
     <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiJNwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
@@ -400,6 +465,8 @@
         const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
         const clickSound = document.getElementById('clickSound');
         let currentMines = 1;
+        let currentMinesStars = 2;
+        let currentGame = 'classic';
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -409,6 +476,17 @@
 
         function playSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
 
+        // === ВЫБОР ИГРЫ ===
+        function selectGame(game) {
+            currentGame = game;
+            document.querySelectorAll('.game-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('classicGame').classList.toggle('hidden', game !== 'classic');
+            document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
+            playSound();
+        }
+
+        // === КЛАССИЧЕСКИЕ МИНЫ ===
         function generateScheme(mines){
             const bombs=[]; while(bombs.length<mines){
                 const pos=Math.floor(Math.random()*25);
@@ -419,7 +497,7 @@
 
         function setMines(cnt){
             currentMines=cnt;
-            document.querySelectorAll('.mine-btn').forEach(b=>b.classList.remove('active'));
+            document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active'));
             event.target.classList.add('active');
             playSound();
         }
@@ -430,14 +508,8 @@
             s.className=`status ${type}`;
         }
 
-        function disableButtons(){
-            document.getElementById('playButton').disabled=true;
-            const n=document.getElementById('nextButton'); if(n) n.disabled=true;
-        }
-        function enablePlayButton(){ document.getElementById('playButton').disabled=false; }
-
         function startVerification(cb){
-            disableButtons();
+            document.getElementById('playButton').disabled=true;
             showStatus('Вернись в 1win для получения схемы','error');
             setTimeout(()=>{ showStatus('Проверка хэша транзакции...','loading');
                 setTimeout(()=>{ showStatus('Хэш подтверждён!','success');
@@ -451,7 +523,6 @@
             const grid = document.getElementById('scheme');
             const playBtn=document.getElementById('playButton');
             const nav=document.getElementById('navButtons');
-            const status=document.getElementById('status');
 
             grid.classList.remove('hidden'); grid.innerHTML='';
             for(let i=0;i<25;i++){
@@ -463,10 +534,68 @@
             }
             playBtn.classList.add('hidden');
             nav.classList.remove('hidden');
-            status.innerHTML='';
             document.getElementById('nextButton').disabled=false;
         }
 
+        // === ПРАВИЛЬНЫЕ ЗВЁЗДЫ ===
+        function setMinesStars(cnt){
+            currentMinesStars=cnt;
+            document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
+            event.target.classList.add('active');
+            playSound();
+        }
+
+        function showStatusStars(text,type=''){
+            const s=document.getElementById('statusStars');
+            s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text;
+            s.className=`status ${type}`;
+        }
+
+        function generateStarsScheme(mines){
+            const totalStars = 25 - mines;
+            const showCount = Math.floor(Math.random() * 8) + 3; // 3–10
+            const safePositions = [];
+            while(safePositions.length < totalStars){
+                const pos = Math.floor(Math.random() * 25);
+                if(!safePositions.includes(pos) && !safePositions.includes(pos)) safePositions.push(pos);
+            }
+            const shown = safePositions.slice(0, showCount);
+            return { shown, mines };
+        }
+
+        function showStarsScheme(){
+            const s = generateStarsScheme(currentMinesStars);
+            const grid = document.getElementById('schemeStars');
+            const playBtn = document.getElementById('playButtonStars');
+            const nav = document.getElementById('navButtonsStars');
+            const mults = document.getElementById('multipliers');
+
+            grid.classList.remove('hidden'); grid.innerHTML='';
+            for(let i=0;i<25;i++){
+                const c=document.createElement('div');
+                c.className='cell';
+                if(s.shown.includes(i)){
+                    c.classList.add(Math.random() > 0.5 ? 'star-blue' : 'star-red');
+                }
+                grid.appendChild(c);
+            }
+            playBtn.classList.add('hidden');
+            nav.classList.remove('hidden');
+            mults.classList.remove('hidden');
+            document.getElementById('nextButtonStars').disabled=false;
+        }
+
+        function startVerificationStars(cb){
+            document.getElementById('playButtonStars').disabled=true;
+            showStatusStars('Вернись в 1win для получения схемы','error');
+            setTimeout(()=>{ showStatusStars('Проверка хэша транзакции...','loading');
+                setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success');
+                    setTimeout(cb,800);
+                },10000);
+            },1500);
+        }
+
+        // === ОБЩИЕ ФУНКЦИИ ===
         function startGame(){ playSound(); startVerification(showScheme); }
         function nextScheme(){ playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); }
         function goBack(){
@@ -475,18 +604,32 @@
             const p=document.getElementById('playButton');
             const n=document.getElementById('navButtons');
             g.classList.add('hidden'); p.classList.remove('hidden');
-            enablePlayButton(); n.classList.add('hidden');
+            document.getElementById('playButton').disabled=false;
+            n.classList.add('hidden');
             document.getElementById('status').innerHTML='';
+        }
+
+        function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
+        function nextSchemeStars(){ playSound(); document.getElementById('schemeStars').classList.add('hidden'); startVerificationStars(showStarsScheme); }
+        function goBackStars(){
+            playSound();
+            const g=document.getElementById('schemeStars');
+            const p=document.getElementById('playButtonStars');
+            const n=document.getElementById('navButtonsStars');
+            const m=document.getElementById('multipliers');
+            g.classList.add('hidden'); p.classList.remove('hidden');
+            document.getElementById('playButtonStars').disabled=false;
+            n.classList.add('hidden'); m.classList.add('hidden');
+            document.getElementById('statusStars').innerHTML='';
         }
 
         function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
         function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
         function goTo1win(){ closeModal(); open1win(); }
 
-        // === КОПИРОВАТЬ ПРОМОКОД ===
         function copyPromo() {
             playSound();
-            const promo = 'GEKT 2';
+            const promo = 'GEKTOR2';
             navigator.clipboard.writeText(promo).then(() => {
                 const toast = document.getElementById('copyToast');
                 toast.classList.add('show');
@@ -496,9 +639,14 @@
             });
         }
 
-        document.getElementById('playButton').addEventListener('click',startGame);
-        document.getElementById('backButton').addEventListener('click',goBack);
-        document.getElementById('nextButton').addEventListener('click',nextScheme);
+        // === СОБЫТИЯ ===
+        document.getElementById('playButton').addEventListener('click', startGame);
+        document.getElementById('backButton').addEventListener('click', goBack);
+        document.getElementById('nextButton').addEventListener('click', nextScheme);
+
+        document.getElementById('playButtonStars').addEventListener('click', startGameStars);
+        document.getElementById('backButtonStars').addEventListener('click', goBackStars);
+        document.getElementById('nextButtonStars').addEventListener('click', nextSchemeStars);
     </script>
 </body>
 </html>
