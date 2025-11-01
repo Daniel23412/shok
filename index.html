@@ -180,7 +180,8 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
 
-        .cell {
+        /* === КЛАССИЧЕСКАЯ СЕТКА (ЛЕВАЯ ИГРА) — НЕ ТРОГАЕМ === */
+        #classicGame .cell {
             width: 100%;
             padding-bottom: 100%;
             background: #111;
@@ -221,6 +222,46 @@
             text-shadow: 0 0 12px rgba(100, 180, 255, 0.7), 0 0 6px #000;
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
+        }
+
+        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — С "1W") === */
+        #starsGame .cell {
+            width: 100%;
+            padding-bottom: 100%;
+            background: 
+                radial-gradient(ellipse at center, rgba(40, 40, 60, 0.8) 0%, #111 70%),
+                url('https://i.ibb.co/v4kVX42B/1w-grid.png') center/cover;
+            background-size: 100% 100%, 25px 25px;
+            background-repeat: no-repeat, repeat;
+            border-radius: 12px;
+            position: relative;
+            box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
+            overflow: hidden;
+        }
+
+        /* Безопасная ячейка — синяя звезда */
+        #starsGame .cell.safe::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 28px;
+            color: #4da6ff;
+            text-shadow: 0 0 12px #4da6ff, 0 0 6px #000;
+            font-weight: bold;
+            z-index: 2;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* Мина — затемнённая ячейка */
+        #starsGame .cell.bomb {
+            filter: brightness(0.5);
+            background-color: rgba(0, 0, 0, 0.6);
         }
 
         .play-btn {
@@ -406,7 +447,7 @@
             </div>
         </div>
 
-        <!-- НОВЫЕ МИНЫ (ТОЛЬКО СИНИЕ ЗВЁЗДЫ) -->
+        <!-- НОВЫЕ МИНЫ (С "1W" ФОНОМ) -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -509,7 +550,7 @@
             document.getElementById('nextButton').disabled=false;
         }
 
-        // === НОВЫЕ МИНЫ (ТОЛЬКО СИНИЕ ЗВЁЗДЫ) ===
+        // === НОВЫЕ МИНЫ (С "1W" ФОНОМ) ===
         function setMinesStars(cnt){
             currentMinesStars=cnt;
             document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
@@ -540,16 +581,25 @@
             const playBtn = document.getElementById('playButtonStars');
             const nav = document.getElementById('navButtonsStars');
 
-            grid.classList.remove('hidden'); grid.innerHTML='';
-            for(let i=0;i<25;i++){
-                const c=document.createElement('div');
-                c.className='cell';
-                if(shown.includes(i)) c.classList.add('star-blue');
+            grid.classList.remove('hidden'); 
+            grid.innerHTML = '';
+
+            for(let i = 0; i < 25; i++){
+                const c = document.createElement('div');
+                c.className = 'cell';
+                
+                if(shown.includes(i)) {
+                    c.classList.add('safe'); // ← звезда
+                } else {
+                    c.classList.add('bomb'); // ← затемнение
+                }
+                
                 grid.appendChild(c);
             }
+
             playBtn.classList.add('hidden');
             nav.classList.remove('hidden');
-            document.getElementById('nextButtonStars').disabled=false;
+            document.getElementById('nextButtonStars').disabled = false;
         }
 
         function startVerificationStars(cb){
