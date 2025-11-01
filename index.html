@@ -179,7 +179,7 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
 
-        /* === КЛАССИЧЕСКАЯ СЕТКА (ЛЕВАЯ ИГРА) === */
+        /* === КЛАССИЧЕСКАЯ СЕТКА === */
         #classicGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -223,7 +223,7 @@
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
         }
 
-        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — ЗВЁЗДЫ + 1W ТЕКСТ) === */
+        /* === ЗВЁЗДЫ + 1W === */
         #starsGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -240,7 +240,6 @@
             filter: brightness(0.85);
         }
 
-        /* Текст "1W" в пустых ячейках */
         #starsGame .cell::before {
             content: '1W';
             position: absolute;
@@ -254,7 +253,6 @@
             pointer-events: none;
         }
 
-        /* Безопасная ячейка — синяя звезда */
         #starsGame .cell.safe::after {
             content: '★';
             position: absolute;
@@ -268,14 +266,70 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Убираем "1W" у безопасных ячеек */
-        #starsGame .cell.safe::before {
-            content: none;
-        }
+        #starsGame .cell.safe::before { content: none; }
 
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
+        }
+
+        /* === COINFLIP МОНЕТА === */
+        .coin-container {
+            perspective: 1000px;
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .coin {
+            width: 120px;
+            height: 120px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 2s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .coin.spinning {
+            animation: spin 2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
+        }
+
+        .coin .side {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            backface-visibility: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
+            background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
+            box-shadow: 
+                0 0 20px rgba(255, 215, 0, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.3),
+                0 0 40px rgba(255, 215, 0, 0.4);
+            border: 4px solid #daa520;
+        }
+
+        .coin .side::before {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .coin .heads { transform: rotateY(0deg); z-index: 2; }
+        .coin .tails { transform: rotateY(180deg); }
+
+        @keyframes spin {
+            0% { transform: rotateY(0deg); }
+            100% { transform: rotateY(1800deg); }
         }
 
         .play-btn {
@@ -315,10 +369,11 @@
             gap: 12px;
             margin: 12px 0;
             justify-content: center;
+            flex-wrap: wrap;
         }
         .game-card {
-            width: 140px;
-            height: 180px;
+            width: 100px;
+            height: 140px;
             background: #1a1a2e;
             border-radius: 16px;
             overflow: hidden;
@@ -382,7 +437,7 @@
             .logo-container svg { height: 36px; }
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
-            .game-card { width: 120px; height: 160px; }
+            .game-card { width: 90px; height: 120px; }
         }
     </style>
 </head>
@@ -436,8 +491,12 @@
             <div class="game-card" onclick="selectGame('stars')">
                 <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Новые мины">
             </div>
+            <div class="game-card" onclick="selectGame('coinflip')">
+                <img src="https://i.ibb.co/DfsG9fSC/0b5f68bc-dd72-4b8d-976e-538270cdd92b-vertical.jpg" alt="Coinflip">
+            </div>
         </div>
 
+        <!-- === КЛАССИЧЕСКАЯ ИГРА === -->
         <div id="classicGame">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -454,6 +513,7 @@
             </div>
         </div>
 
+        <!-- === ЗВЁЗДЫ === -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -466,6 +526,29 @@
             <div id="navButtonsStars" class="nav-btns hidden">
                 <button id="backButtonStars" class="nav-btn back-btn">Назад</button>
                 <button id="nextButtonStars" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === COINFLIP === -->
+        <div id="coinflipGame" class="hidden">
+            <div class="mines-label">Выберите сторону</div>
+            <div class="controls">
+                <button class="mine-btn" onclick="predictCoin('heads')">Орёл</button>
+                <button class="mine-btn" onclick="predictCoin('tails')">Решка</button>
+            </div>
+            <div id="statusCoin" class="status"></div>
+
+            <div class="coin-container">
+                <div id="coin" class="coin">
+                    <div class="side heads">$</div>
+                    <div class="side tails">€</div>
+                </div>
+            </div>
+
+            <button id="playButtonCoin" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsCoin" class="nav-btns hidden">
+                <button id="backButtonCoin" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonCoin" class="nav-btn next-btn">Следующий сигнал</button>
             </div>
         </div>
 
@@ -485,6 +568,7 @@
         const clickSound = document.getElementById('clickSound');
         let currentMines = 1;
         let currentMinesStars = 2;
+        let currentPrediction = null;
         let currentGame = 'classic';
 
         function updateOnlineCount(){
@@ -501,9 +585,11 @@
             event.target.closest('.game-card').classList.add('active');
             document.getElementById('classicGame').classList.toggle('hidden', game !== 'classic');
             document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
+            document.getElementById('coinflipGame').classList.toggle('hidden', game !== 'coinflip');
             playSound();
         }
 
+        // === MINES CLASSIC ===
         function generateScheme(mines){
             const bombs=[]; while(bombs.length<mines){
                 const pos=Math.floor(Math.random()*25);
@@ -554,6 +640,7 @@
             document.getElementById('nextButton').disabled=false;
         }
 
+        // === STARS ===
         function setMinesStars(cnt){
             currentMinesStars=cnt;
             document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
@@ -590,11 +677,7 @@
             for(let i = 0; i < 25; i++){
                 const c = document.createElement('div');
                 c.className = 'cell';
-                
-                if(shown.includes(i)) {
-                    c.classList.add('safe');
-                }
-                
+                if(shown.includes(i)) c.classList.add('safe');
                 grid.appendChild(c);
             }
 
@@ -613,6 +696,85 @@
             },1500);
         }
 
+        // === COINFLIP ===
+        function predictCoin(side) {
+            document.querySelectorAll('#coinflipGame .mine-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+            currentPrediction = side;
+            playSound();
+        }
+
+        function showCoinResult() {
+            const coin = document.getElementById('coin');
+            const status = document.getElementById('statusCoin');
+            const playBtn = document.getElementById('playButtonCoin');
+            const nav = document.getElementById('navButtonsCoin');
+
+            coin.classList.remove('spinning');
+            void coin.offsetWidth;
+
+            showStatusCoin('Проверка хэша...', 'loading');
+            setTimeout(() => {
+                showStatusCoin('Сигнал подтверждён!', 'success');
+                coin.classList.add('spinning');
+
+                setTimeout(() => {
+                    if (currentPrediction === 'heads') {
+                        coin.style.transform = 'rotateY(1800deg)';
+                    } else {
+                        coin.style.transform = 'rotateY(1980deg)';
+                    }
+                    playBtn.classList.add('hidden');
+                    nav.classList.remove('hidden');
+                    document.getElementById('nextButtonCoin').disabled = false;
+                }, 100);
+            }, 1500);
+        }
+
+        function showStatusCoin(text, type = '') {
+            const s = document.getElementById('statusCoin');
+            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
+            s.className = `status ${type}`;
+        }
+
+        function startVerificationCoin(cb) {
+            document.getElementById('playButtonCoin').disabled = true;
+            showStatusCoin('Вернись в 1win...', 'error');
+            setTimeout(() => {
+                showStatusCoin('Проверка транзакции...', 'loading');
+                setTimeout(() => {
+                    showStatusCoin('Хэш подтверждён!', 'success');
+                    setTimeout(cb, 800);
+                }, 8000);
+            }, 1500);
+        }
+
+        function startCoinGame() {
+            if (!currentPrediction) {
+                showStatusCoin('Выберите Орёл или Решку', 'error');
+                return;
+            }
+            playSound();
+            startVerificationCoin(showCoinResult);
+        }
+
+        function nextCoinSignal() {
+            playSound();
+            document.getElementById('coin').style.transform = 'rotateY(0deg)';
+            document.getElementById('navButtonsCoin').classList.add('hidden');
+            document.getElementById('playButtonCoin').classList.remove('hidden');
+            document.getElementById  ('playButtonCoin').disabled = false;
+            document.getElementById('statusCoin').innerHTML = '';
+            currentPrediction = null;
+            document.querySelectorAll('#coinflipGame .mine-btn').forEach(b => b.classList.remove('active'));
+        }
+
+        function goBackCoin() {
+            playSound();
+            nextCoinSignal();
+        }
+
+        // === КНОПКИ ===
         function startGame(){ playSound(); startVerification(showScheme); }
         function nextScheme(){ playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); }
         function goBack(){
@@ -655,6 +817,7 @@
             });
         }
 
+        // === ПРИВЯЗКА СОБЫТИЙ ===
         document.getElementById('playButton').addEventListener('click', startGame);
         document.getElementById('backButton').addEventListener('click', goBack);
         document.getElementById('nextButton').addEventListener('click', nextScheme);
@@ -662,6 +825,13 @@
         document.getElementById('playButtonStars').addEventListener('click', startGameStars);
         document.getElementById('backButtonStars').addEventListener('click', goBackStars);
         document.getElementById('nextButtonStars').addEventListener('click', nextSchemeStars);
+
+        document.getElementById('playButtonCoin').addEventListener('click', startCoinGame);
+        document.getElementById('backButtonCoin').addEventListener('click', goBackCoin);
+        document.getElementById('nextButtonCoin').addEventListener('click', () => {
+            nextCoinSignal();
+            setTimeout(startCoinGame, 500);
+        });
     </script>
 </body>
 </html>
