@@ -43,7 +43,6 @@
             filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
         }
 
-        /* === МОДАЛЬНОЕ ОКНО === */
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
@@ -180,7 +179,7 @@
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
 
-        /* === КЛАССИЧЕСКАЯ СЕТКА (ЛЕВАЯ ИГРА) — НЕ ТРОГАЕМ === */
+        /* === КЛАССИЧЕСКАЯ СЕТКА (ЛЕВАЯ ИГРА) === */
         #classicGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -224,7 +223,7 @@
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
         }
 
-        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — С "1W") === */
+        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — ТОЛЬКО ЗВЁЗДЫ + 1W) === */
         #starsGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -237,6 +236,8 @@
             position: relative;
             box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
             overflow: hidden;
+            transition: all 0.3s ease;
+            filter: brightness(0.85);
         }
 
         /* Безопасная ячейка — синяя звезда */
@@ -253,15 +254,20 @@
             animation: pulse 1.5s infinite;
         }
 
+        /* Убираем всё лишнее у небезопасных ячеек */
+        #starsGame .cell:not(.safe) {
+            background-color: transparent !important;
+            box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
+            animation: none;
+        }
+
+        #starsGame .cell:not(.safe)::after {
+            content: none;
+        }
+
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
-        }
-
-        /* Мина — затемнённая ячейка */
-        #starsGame .cell.bomb {
-            filter: brightness(0.5);
-            background-color: rgba(0, 0, 0, 0.6);
         }
 
         .play-btn {
@@ -296,7 +302,6 @@
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
         .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
 
-        /* === ВЫБОР ИГРЫ ПО КАРТИНКАМ === */
         .game-select {
             display: flex;
             gap: 12px;
@@ -375,12 +380,10 @@
 </head>
 <body>
 
-    <!-- ОНЛАЙН -->
     <div class="online-bar">
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
 
-    <!-- ЛОГОТИП 1WIN -->
     <div class="logo-container">
         <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -402,7 +405,6 @@
         </svg>
     </div>
 
-    <!-- МОДАЛЬНОЕ ОКНО -->
     <div id="registerModal" class="modal-overlay">
         <div class="modal">
             <h2>Зарегистрированы по нашей ссылке?</h2>
@@ -416,11 +418,9 @@
         </div>
     </div>
 
-    <!-- КОНТЕНТ -->
     <div class="container">
         <h1>MINES SIGNAL</h1>
 
-        <!-- ВЫБОР ИГРЫ ПО КАРТИНКАМ -->
         <div class="game-select">
             <div class="game-card active" onclick="selectGame('classic')">
                 <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Старые мины">
@@ -430,7 +430,6 @@
             </div>
         </div>
 
-        <!-- КЛАССИЧЕСКИЕ МИНЫ -->
         <div id="classicGame">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -447,7 +446,6 @@
             </div>
         </div>
 
-        <!-- НОВЫЕ МИНЫ (С "1W" ФОНОМ) -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -489,7 +487,6 @@
 
         function playSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
 
-        // === ВЫБОР ИГРЫ ===
         function selectGame(game) {
             currentGame = game;
             document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
@@ -499,7 +496,6 @@
             playSound();
         }
 
-        // === КЛАССИЧЕСКИЕ МИНЫ ===
         function generateScheme(mines){
             const bombs=[]; while(bombs.length<mines){
                 const pos=Math.floor(Math.random()*25);
@@ -550,7 +546,6 @@
             document.getElementById('nextButton').disabled=false;
         }
 
-        // === НОВЫЕ МИНЫ (С "1W" ФОНОМ) ===
         function setMinesStars(cnt){
             currentMinesStars=cnt;
             document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
@@ -566,7 +561,7 @@
 
         function generateStarsScheme(mines){
             const totalSafe = 25 - mines;
-            const showCount = Math.floor(Math.random() * 11) + 5; // 5–15
+            const showCount = Math.floor(Math.random() * 11) + 5;
             const safePositions = [];
             while(safePositions.length < totalSafe){
                 const pos = Math.floor(Math.random() * 25);
@@ -589,10 +584,9 @@
                 c.className = 'cell';
                 
                 if(shown.includes(i)) {
-                    c.classList.add('safe'); // ← звезда
-                } else {
-                    c.classList.add('bomb'); // ← затемнение
+                   \                    c.classList.add('safe');
                 }
+                // ← НЕБЕЗОПАСНЫЕ — просто 1W фон
                 
                 grid.appendChild(c);
             }
@@ -612,7 +606,6 @@
             },1500);
         }
 
-        // === ОБЩИЕ ФУНКЦИИ ===
         function startGame(){ playSound(); startVerification(showScheme); }
         function nextScheme(){ playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); }
         function goBack(){
@@ -655,7 +648,6 @@
             });
         }
 
-        // === СОБЫТИЯ ===
         document.getElementById('playButton').addEventListener('click', startGame);
         document.getElementById('backButton').addEventListener('click', goBack);
         document.getElementById('nextButton').addEventListener('click', nextScheme);
