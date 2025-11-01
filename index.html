@@ -223,7 +223,7 @@
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
         }
 
-        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — ТОЛЬКО ЗВЁЗДЫ + 1W) === */
+        /* === НОВАЯ СЕТКА (ПРАВАЯ ИГРА — ЗВЁЗДЫ + 1W ТЕКСТ) === */
         #starsGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -240,6 +240,20 @@
             filter: brightness(0.85);
         }
 
+        /* Текст "1W" в пустых ячейках */
+        #starsGame .cell::before {
+            content: '1W';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 6px rgba(0,0,0,0.8);
+            z-index: 1;
+            pointer-events: none;
+        }
+
         /* Безопасная ячейка — синяя звезда */
         #starsGame .cell.safe::after {
             content: '★';
@@ -254,14 +268,8 @@
             animation: pulse 1.5s infinite;
         }
 
-        /* Убираем всё лишнее у небезопасных ячеек */
-        #starsGame .cell:not(.safe) {
-            background-color: transparent !important;
-            box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
-            animation: none;
-        }
-
-        #starsGame .cell:not(.safe)::after {
+        /* Убираем "1W" у безопасных ячеек */
+        #starsGame .cell.safe::before {
             content: none;
         }
 
@@ -586,7 +594,6 @@
                 if(shown.includes(i)) {
                     c.classList.add('safe');
                 }
-                // ← НЕБЕЗОПАСНЫЕ — просто фон с 1W
                 
                 grid.appendChild(c);
             }
