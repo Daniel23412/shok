@@ -269,7 +269,7 @@
         #starsGame .cell.safe::before { content: none; }
 
         @keyframes pulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            0%, 100% { transform: traduce(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
@@ -279,6 +279,9 @@
             margin: 30px 0;
             display: flex;
             justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            gap: 16px;
         }
 
         .coin {
@@ -330,6 +333,19 @@
         @keyframes spin {
             0% { transform: rotateY(0deg); }
             100% { transform: rotateY(1800deg); }
+        }
+
+        .coin-result {
+            font-size: 24px;
+            font-weight: bold;
+            color: #00ff88;
+            text-shadow: 0 0 10px #00ff88;
+            margin-top: 10px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        .coin-result.show {
+            opacity: 1;
         }
 
         .play-btn {
@@ -529,13 +545,9 @@
             </div>
         </div>
 
-        <!-- === COINFLIP === -->
+        <!-- === COINFLIP (НОВАЯ ВЕРСИЯ) === -->
         <div id="coinflipGame" class="hidden">
-            <div class="mines-label">Выберите сторону</div>
-            <div class="controls">
-                <button class="mine-btn" onclick="predictCoin('heads')">Орёл</button>
-                <button class="mine-btn" onclick="predictCoin('tails')">Решка</button>
-            </div>
+            <div class="mines-label">Нажмите, чтобы получить сигнал</div>
             <div id="statusCoin" class="status"></div>
 
             <div class="coin-container">
@@ -543,9 +555,10 @@
                     <div class="side heads">$</div>
                     <div class="side tails">€</div>
                 </div>
+                <div id="coinResult" class="coin-result"></div>
             </div>
 
-            <button id="playButtonCoin" class="play-btn">Получить сигнал</button>
+            <button id="playButtonCoin" class="play-btn">Начать игру</button>
             <div id="navButtonsCoin" class="nav-btns hidden">
                 <button id="backButtonCoin" class="nav-btn back-btn">Назад</button>
                 <button id="nextButtonCoin" class="nav-btn next-btn">Следующий сигнал</button>
@@ -568,12 +581,11 @@
         const clickSound = document.getElementById('clickSound');
         let currentMines = 1;
         let currentMinesStars = 2;
-        let currentPrediction = null;
         let currentGame = 'classic';
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
-            document.getElementById('onlineCount').textContent = cnt;
+            document.getElementById('onlineCount').textContent = cnt, cnt;
         }
         updateOnlineCount(); setInterval(updateOnlineCount,300000);
 
@@ -696,19 +708,16 @@
             },1500);
         }
 
-        // === COINFLIP ===
-        function predictCoin(side) {
-            document.querySelectorAll('#coinflipGame .mine-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-            currentPrediction = side;
-            playSound();
-        }
-
+        // === COINFLIP (ОДНА КНОПКА) ===
         function showCoinResult() {
             const coin = document.getElementById('coin');
-            const status = document.getElementById('statusCoin');
+            const resultText = document.getElementById('coinResult');
             const playBtn = document.getElementById('playButtonCoin');
             const nav = document.getElementById('navButtonsCoin');
+
+            // Случайный результат
+            const isHeads = Math.random() < 0.5;
+            const result = isHeads ? 'Орёл' : 'Решка';
 
             coin.classList.remove('spinning');
             void coin.offsetWidth;
@@ -719,11 +728,13 @@
                 coin.classList.add('spinning');
 
                 setTimeout(() => {
-                    if (currentPrediction === 'heads') {
-                        coin.style.transform = 'rotateY(1800deg)';
-                    } else {
-                        coin.style.transform = 'rotateY(1980deg)';
-                    }
+                    // Останавливаем на нужной стороне
+                    coin.style.transform = isHeads ? 'rotateY(1800deg)' : 'rotateY(1980deg)';
+                    
+                    // Показываем текст
+                    resultText.textContent = result;
+                    resultText.classList.add('show');
+
                     playBtn.classList.add('hidden');
                     nav.classList.remove('hidden');
                     document.getElementById('nextButtonCoin').disabled = false;
@@ -750,23 +761,21 @@
         }
 
         function startCoinGame() {
-            if (!currentPrediction) {
-                showStatusCoin('Выберите Орёл или Решку', 'error');
-                return;
-            }
             playSound();
             startVerificationCoin(showCoinResult);
         }
 
         function nextCoinSignal() {
             playSound();
-            document.getElementById('coin').style.transform = 'rotateY(0deg)';
+            const coin = document.getElementById('coin');
+            const resultText = document.getElementById('coinResult');
+            coin.style.transform = 'rotateY(0deg)';
+            resultText.classList.remove('show');
+            resultText.textContent = '';
             document.getElementById('navButtonsCoin').classList.add('hidden');
             document.getElementById('playButtonCoin').classList.remove('hidden');
-            document.getElementById  ('playButtonCoin').disabled = false;
+            document.getElementById('playButtonCoin').disabled = false;
             document.getElementById('statusCoin').innerHTML = '';
-            currentPrediction = null;
-            document.querySelectorAll('#coinflipGame .mine-btn').forEach(b => b.classList.remove('active'));
         }
 
         function goBackCoin() {
