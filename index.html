@@ -269,7 +269,7 @@
         #starsGame .cell.safe::before { content: none; }
 
         @keyframes pulse {
-            0%, 100% { transform: traduce(-50%, -50%) scale(1); }
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
@@ -346,6 +346,141 @@
         }
         .coin-result.show {
             opacity: 1;
+        }
+
+        /* === PENALTY ИГРА === */
+        .penalty-container {
+            width: 100%;
+            height: 300px;
+            position: relative;
+            background: #000;
+            overflow: hidden;
+            border-radius: 20px;
+            margin: 20px 0;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
+        }
+
+        .goal {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            height: 100%;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect x="0" y="0" width="300" height="200" fill="none" stroke="%23fff" stroke-width="8"/><line x1="0" y1="0" x2="300" y2="0" stroke="%23fff" stroke-width="8"/><line x1="0" y1="200" x2="300" y2="200" stroke="%23fff" stroke-width="8"/><line x1="0" y1="0" x2="0" y2="200" stroke="%23fff" stroke-width="8"/><line x1="300" y1="0" x2="300" y2="200" stroke="%23fff" stroke-width="8"/><path d="M0 0 Q150 50 300 0" fill="none" stroke="%23fff" stroke-width="8"/><path d="M0 200 Q150 150 300 200" fill="none" stroke="%23fff" stroke-width="8"/></svg>') no-repeat center/cover, linear-gradient(to bottom, transparent 40%, rgba(0,100,255,0.4) 40%, rgba(0,100,255,0.4) 60%, transparent 60%);
+            background-size: contain, 100% 100%;
+        }
+
+        .goal-net {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 10px, transparent 10px, transparent 20px),
+                        repeating-linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 10px, transparent 10px, transparent 20px);
+            opacity: 0.3;
+        }
+
+        .blue-strip {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: rgba(0, 100, 255, 0.4);
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 8px #00d0ff;
+            letter-spacing: 8px;
+            overflow: hidden;
+        }
+
+        .blue-strip::before {
+            content: '1win 1win 1win 1win 1win';
+            white-space: nowrap;
+            animation: scroll 10s linear infinite;
+        }
+
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .gear {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+            border-radius: 50%;
+            border: 3px solid rgba(255,255,255,0.3);
+            opacity: 0.6;
+            z-index: 1;
+        }
+
+        .gear::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 30px;
+            height: 30px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+        }
+
+        .gear.green {
+            border-color: #00ff88;
+            box-shadow: 0 0 20px #00ff88;
+            opacity: 1;
+            animation: glow 2s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { box-shadow: 0 0 10px #00ff88; }
+            100% { box-shadow: 0 0 30px #00ff88; }
+        }
+
+        .ball {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle at 30% 30%, #fff, #000);
+            border-radius: 50%;
+            box-shadow: 0 0 20px rgba(255,255,255,0.8);
+            z-index: 3;
+            transition: all 1.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+        }
+
+        .ball::after {
+            content: '1W';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            font-weight: bold;
+            color: #000;
+            text-shadow: 0 0 4px #fff;
+        }
+
+        .ball.kick {
+            animation: kick 1.5s forwards;
+        }
+
+        @keyframes kick {
+            0% { bottom: 20px; left: 50%; transform: translateX(-50%) scale(1); }
+            50% { bottom: 150px; left: 50%; transform: translateX(-50%) scale(1.2); }
+            100% { bottom: 100px; left: var(--target-x); transform: translateX(-50%) scale(1); }
         }
 
         .play-btn {
@@ -454,6 +589,7 @@
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
             .game-card { width: 90px; height: 120px; }
+            .penalty-container { height: 250px; }
         }
     </style>
 </head>
@@ -510,6 +646,9 @@
             <div class="game-card" onclick="selectGame('coinflip')">
                 <img src="https://i.ibb.co/DfsG9fSC/0b5f68bc-dd72-4b8d-976e-538270cdd92b-vertical.jpg" alt="Coinflip">
             </div>
+            <div class="game-card" onclick="selectGame('penalty')">
+                <img src="https://i.ibb.co/9H6WKK4r/461c9008-7685-4e45-84d8-bd0fc59161a6-vertical.jpg" alt="Penalty">
+            </div>
         </div>
 
         <!-- === КЛАССИЧЕСКАЯ ИГРА === -->
@@ -545,7 +684,7 @@
             </div>
         </div>
 
-        <!-- === COINFLIP (НОВАЯ ВЕРСИЯ) === -->
+        <!-- === COINFLIP === -->
         <div id="coinflipGame" class="hidden">
             <div class="mines-label">Нажмите, чтобы получить сигнал</div>
             <div id="statusCoin" class="status"></div>
@@ -562,6 +701,36 @@
             <div id="navButtonsCoin" class="nav-btns hidden">
                 <button id="backButtonCoin" class="nav-btn back-btn">Назад</button>
                 <button id="nextButtonCoin" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === PENALTY === -->
+        <div id="penaltyGame" class="hidden">
+            <div class="mines-label">Нажмите, чтобы получить сигнал</div>
+            <div id="statusPenalty" class="status"></div>
+
+            <div class="penalty-container">
+                <div class="goal">
+                    <div class="goal-net"></div>
+                    <div class="blue-strip"></div>
+                    <!-- Шестерёнки (9 позиций) -->
+                    <div class="gear" style="top: 20%; left: 10%;"></div>
+                    <div class="gear" style="top: 20%; left: 45%;"></div>
+                    <div class="gear" style="top: 20%; left: 80%;"></div>
+                    <div class="gear" style="top: 50%; left: 10%;"></div>
+                    <div class="gear green" id="greenGear" style="top: 50%; left: 45%;"></div>
+                    <div class="gear" style="top: 50%; left: 80%;"></div>
+                    <div class="gear" style="top: 80%; left: 10%;"></div>
+                    <div class="gear" style="top: 80%; left: 45%;"></div>
+                    <div class="gear" style="top: 80%; left: 80%;"></div>
+                </div>
+                <div class="ball" id="ball"></div>
+            </div>
+
+            <button id="playButtonPenalty" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsPenalty" class="nav-btns hidden">
+                <button id="backButtonPenalty" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonPenalty" class="nav-btn next-btn">Следующий сигнал</button>
             </div>
         </div>
 
@@ -585,7 +754,7 @@
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
-            document.getElementById('onlineCount').textContent = cnt, cnt;
+            document.getElementById('onlineCount').textContent = cnt;
         }
         updateOnlineCount(); setInterval(updateOnlineCount,300000);
 
@@ -598,6 +767,7 @@
             document.getElementById('classicGame').classList.toggle('hidden', game !== 'classic');
             document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
             document.getElementById('coinflipGame').classList.toggle('hidden', game !== 'coinflip');
+            document.getElementById('penaltyGame').classList.toggle('hidden', game !== 'penalty');
             playSound();
         }
 
@@ -708,14 +878,13 @@
             },1500);
         }
 
-        // === COINFLIP (ОДНА КНОПКА) ===
+        // === COINFLIP ===
         function showCoinResult() {
             const coin = document.getElementById('coin');
             const resultText = document.getElementById('coinResult');
             const playBtn = document.getElementById('playButtonCoin');
             const nav = document.getElementById('navButtonsCoin');
 
-            // Случайный результат
             const isHeads = Math.random() < 0.5;
             const result = isHeads ? 'Орёл' : 'Решка';
 
@@ -728,10 +897,7 @@
                 coin.classList.add('spinning');
 
                 setTimeout(() => {
-                    // Останавливаем на нужной стороне
                     coin.style.transform = isHeads ? 'rotateY(1800deg)' : 'rotateY(1980deg)';
-                    
-                    // Показываем текст
                     resultText.textContent = result;
                     resultText.classList.add('show');
 
@@ -781,6 +947,72 @@
         function goBackCoin() {
             playSound();
             nextCoinSignal();
+        }
+
+        // === PENALTY ===
+        function showPenaltyResult() {
+            const ball = document.getElementById('ball');
+            const greenGear = document.getElementById('greenGear');
+            const status = document.getElementById('statusPenalty');
+            const playBtn = document.getElementById('playButtonPenalty');
+            const nav = document.getElementById('navButtonsPenalty');
+
+            // Случайная зелёная шестерёнка (но для примера фиксируем центральную)
+            const targetX = greenGear.style.left;
+
+            showStatusPenalty('Проверка хэша...', 'loading');
+            setTimeout(() => {
+                showStatusPenalty('Сигнал подтверждён!', 'success');
+
+                setTimeout(() => {
+                    ball.style.setProperty('--target-x', targetX);
+                    ball.classList.add('kick');
+
+                    playBtn.classList.add('hidden');
+                    nav.classList.remove('hidden');
+                    document.getElementById('nextButtonPenalty').disabled = false;
+                }, 100);
+            }, 1500);
+        }
+
+        function showStatusPenalty(text, type = '') {
+            const s = document.getElementById('statusPenalty');
+            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
+            s.className = `status ${type}`;
+        }
+
+        function startVerificationPenalty(cb) {
+            document.getElementById('playButtonPenalty').disabled = true;
+            showStatusPenalty('Вернись в 1win...', 'error');
+            setTimeout(() => {
+                showStatusPenalty('Проверка транзакции...', 'loading');
+                setTimeout(() => {
+                    showStatusPenalty('Хэш подтверждён!', 'success');
+                    setTimeout(cb, 800);
+                }, 8000);
+            }, 1500);
+        }
+
+        function startPenaltyGame() {
+            playSound();
+            startVerificationPenalty(showPenaltyResult);
+        }
+
+        function nextPenaltySignal() {
+            playSound();
+            const ball = document.getElementById('ball');
+            ball.classList.remove('kick');
+            ball.style.bottom = '20px';
+            ball.style.left = '50%';
+            document.getElementById('navButtonsPenalty').classList.add('hidden');
+            document.getElementById('playButtonPenalty').classList.remove('hidden');
+            document.getElementById('playButtonPenalty').disabled = false;
+            document.getElementById('statusPenalty').innerHTML = '';
+        }
+
+        function goBackPenalty() {
+            playSound();
+            nextPenaltySignal();
         }
 
         // === КНОПКИ ===
@@ -840,6 +1072,13 @@
         document.getElementById('nextButtonCoin').addEventListener('click', () => {
             nextCoinSignal();
             setTimeout(startCoinGame, 500);
+        });
+
+        document.getElementById('playButtonPenalty').addEventListener('click', startPenaltyGame);
+        document.getElementById('backButtonPenalty').addEventListener('click', goBackPenalty);
+        document.getElementById('nextButtonPenalty').addEventListener('click', () => {
+            nextPenaltySignal();
+            setTimeout(startPenaltyGame, 500);
         });
     </script>
 </body>
