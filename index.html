@@ -351,7 +351,7 @@
         /* === PENALTY ИГРА === */
         .penalty-container {
             width: 100%;
-            height: 300px;
+            height: 320px;
             position: relative;
             background: #000;
             overflow: hidden;
@@ -360,15 +360,19 @@
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
         }
 
-        .goal {
+        .goal-frame {
             position: absolute;
-            top: 0;
+            top: 10%;
             left: 50%;
             transform: translateX(-50%);
             width: 90%;
-            height: 100%;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 200"><rect x="0" y="0" width="300" height="200" fill="none" stroke="%23fff" stroke-width="8"/><line x1="0" y1="0" x2="300" y2="0" stroke="%23fff" stroke-width="8"/><line x1="0" y1="200" x2="300" y2="200" stroke="%23fff" stroke-width="8"/><line x1="0" y1="0" x2="0" y2="200" stroke="%23fff" stroke-width="8"/><line x1="300" y1="0" x2="300" y2="200" stroke="%23fff" stroke-width="8"/><path d="M0 0 Q150 50 300 0" fill="none" stroke="%23fff" stroke-width="8"/><path d="M0 200 Q150 150 300 200" fill="none" stroke="%23fff" stroke-width="8"/></svg>') no-repeat center/cover, linear-gradient(to bottom, transparent 40%, rgba(0,100,255,0.4) 40%, rgba(0,100,255,0.4) 60%, transparent 60%);
-            background-size: contain, 100% 100%;
+            height: 80%;
+            border: 12px solid #fff;
+            border-top: none;
+            border-bottom: none;
+            border-radius: 8px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.5);
+            z-index: 1;
         }
 
         .goal-net {
@@ -377,9 +381,11 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: repeating-linear-gradient(0deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 10px, transparent 10px, transparent 20px),
-                        repeating-linear-gradient(90deg, rgba(255,255,255,0.1), rgba(255,255,255,0.1) 10px, transparent 10px, transparent 20px);
-            opacity: 0.3;
+            background: 
+                repeating-linear-gradient(0deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px),
+                repeating-linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px);
+            opacity: 0.4;
+            z-index: 0;
         }
 
         .blue-strip {
@@ -387,25 +393,26 @@
             top: 50%;
             left: 0;
             width: 100%;
-            height: 50px;
-            background: rgba(0, 100, 255, 0.4);
+            height: 60px;
+            background: rgba(0, 100, 255, 0.5);
             transform: translateY(-50%);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 20px;
-            font-size: 18px;
+            gap: 30px;
+            font-size: 20px;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 8px #00d0ff;
-            letter-spacing: 8px;
+            text-shadow: 0 0 10px #00d0ff;
+            letter-spacing: 10px;
             overflow: hidden;
+            z-index: 2;
         }
 
         .blue-strip::before {
-            content: '1win 1win 1win 1win 1win';
+            content: '1win 1win 1win 1win 1win 1win';
             white-space: nowrap;
-            animation: scroll 10s linear infinite;
+            animation: scroll 12s linear infinite;
         }
 
         @keyframes scroll {
@@ -413,53 +420,74 @@
             100% { transform: translateX(-50%); }
         }
 
-        .gear {
+        .goalkeeper-hands {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-            border-radius: 50%;
-            border: 3px solid rgba(255,255,255,0.3);
-            opacity: 0.6;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 40px;
+            z-index: 3;
+            opacity: 0.9;
+        }
+
+        .gears-grid {
+            position: absolute;
+            top: 15%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 85%;
+            height: 70%;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 10px;
             z-index: 1;
+            padding: 10px;
+        }
+
+        .gear {
+            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            opacity: 0.5;
+            position: relative;
+            transition: all 0.3s;
         }
 
         .gear::before {
             content: '';
             position: absolute;
-            top: 50%;
-            left: 50%;
+            top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 30px;
-            height: 30px;
+            width: 50%;
+            height: 50%;
             background: rgba(255,255,255,0.1);
             border-radius: 50%;
         }
 
         .gear.green {
             border-color: #00ff88;
-            box-shadow: 0 0 20px #00ff88;
+            box-shadow: 0 0 30px #00ff88, inset 0 0 20px #00ff88;
             opacity: 1;
-            animation: glow 2s infinite alternate;
+            animation: glow 1.5s infinite alternate;
         }
 
         @keyframes glow {
-            0% { box-shadow: 0 0 10px #00ff88; }
-            100% { box-shadow: 0 0 30px #00ff88; }
+            0% { box-shadow: 0 0 15px #00ff88, inset 0 0 10px #00ff88; }
+            100% { box-shadow: 0 0 40px #00ff88, inset 0 0 25px #00ff88; }
         }
 
         .ball {
             position: absolute;
-            bottom: 20px;
+            bottom: 15px;
             left: 50%;
             transform: translateX(-50%);
             width: 50px;
             height: 50px;
             background: radial-gradient(circle at 30% 30%, #fff, #000);
             border-radius: 50%;
-            box-shadow: 0 0 20px rgba(255,255,255,0.8);
-            z-index: 3;
-            transition: all 1.5s cubic-bezier(0.2, 0.8, 0.3, 1);
+            box-shadow: 0 0 25px rgba(255,255,255,0.9);
+            z-index: 4;
         }
 
         .ball::after {
@@ -467,20 +495,21 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 14px;
+            font-size: 15px;
             font-weight: bold;
             color: #000;
-            text-shadow: 0 0 4px #fff;
+            text-shadow: 0 0 5px #fff;
         }
 
         .ball.kick {
-            animation: kick 1.5s forwards;
+            transition: none;
+            animation: kick 1.8s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
         }
 
         @keyframes kick {
-            0% { bottom: 20px; left: 50%; transform: translateX(-50%) scale(1); }
-            50% { bottom: 150px; left: 50%; transform: translateX(-50%) scale(1.2); }
-            100% { bottom: 100px; left: var(--target-x); transform: translateX(-50%) scale(1); }
+            0% { bottom: 15px; left: 50%; transform: translateX(-50%) scale(1); }
+            40% { bottom: 180px; left: 50%; transform: translateX(-50%) scale(1.3); opacity: 1; }
+            100% { bottom: var(--target-y); left: var(--target-x); transform: translate(-50%, -50%) scale(1); opacity: 1; }
         }
 
         .play-btn {
@@ -589,7 +618,8 @@
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
             .game-card { width: 90px; height: 120px; }
-            .penalty-container { height: 250px; }
+            .penalty-container { height: 280px; }
+            .gears-grid { gap: 8px; padding: 8px; }
         }
     </style>
 </head>
@@ -710,19 +740,14 @@
             <div id="statusPenalty" class="status"></div>
 
             <div class="penalty-container">
-                <div class="goal">
+                <div class="goal-frame">
                     <div class="goal-net"></div>
-                    <div class="blue-strip"></div>
-                    <!-- Шестерёнки (9 позиций) -->
-                    <div class="gear" style="top: 20%; left: 10%;"></div>
-                    <div class="gear" style="top: 20%; left: 45%;"></div>
-                    <div class="gear" style="top: 20%; left: 80%;"></div>
-                    <div class="gear" style="top: 50%; left: 10%;"></div>
-                    <div class="gear green" id="greenGear" style="top: 50%; left: 45%;"></div>
-                    <div class="gear" style="top: 50%; left: 80%;"></div>
-                    <div class="gear" style="top: 80%; left: 10%;"></div>
-                    <div class="gear" style="top: 80%; left: 45%;"></div>
-                    <div class="gear" style="top: 80%; left: 80%;"></div>
+                </div>
+                <div class="blue-strip">
+                    <div class="goalkeeper-hands">✋ ✋</div>
+                </div>
+                <div class="gears-grid" id="gearsGrid">
+                    <!-- 15 шестерёнок создаются в JS -->
                 </div>
                 <div class="ball" id="ball"></div>
             </div>
@@ -751,6 +776,8 @@
         let currentMines = 1;
         let currentMinesStars = 2;
         let currentGame = 'classic';
+        let greenGearIndex = -1;
+        const gears = [];
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -768,6 +795,7 @@
             document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
             document.getElementById('coinflipGame').classList.toggle('hidden', game !== 'coinflip');
             document.getElementById('penaltyGame').classList.toggle('hidden', game !== 'penalty');
+            if (game === 'penalty') createGears();
             playSound();
         }
 
@@ -950,28 +978,56 @@
         }
 
         // === PENALTY ===
+        function createGears() {
+            const grid = document.getElementById('gearsGrid');
+            grid.innerHTML = '';
+            gears.length = 0;
+            greenGearIndex = -1;
+            for (let i = 0; i < 15; i++) {
+                const gear = document.createElement('div');
+                gear.className = 'gear';
+                gear.dataset.index = i;
+                grid.appendChild(gear);
+                gears.push(gear);
+            }
+        }
+
         function showPenaltyResult() {
             const ball = document.getElementById('ball');
-            const greenGear = document.getElementById('greenGear');
             const status = document.getElementById('statusPenalty');
             const playBtn = document.getElementById('playButtonPenalty');
             const nav = document.getElementById('navButtonsPenalty');
 
-            // Случайная зелёная шестерёнка (но для примера фиксируем центральную)
-            const targetX = greenGear.style.left;
+            // Убираем предыдущую зелёную
+            if (greenGearIndex >= 0 && gears[greenGearIndex]) {
+                gears[greenGearIndex].classList.remove('green');
+            }
+
+            // Новая случайная
+            greenGearIndex = Math.floor(Math.random() * 15);
+            const targetGear = gears[greenGearIndex];
+
+            // Координаты
+            const rect = targetGear.getBoundingClientRect();
+            const containerRect = document.querySelector('.penalty-container').getBoundingClientRect();
+            const targetX = (rect.left - containerRect.left + rect.width / 2);
+            const targetY = (rect.top - containerRect.top + rect.height / 2);
 
             showStatusPenalty('Проверка хэша...', 'loading');
             setTimeout(() => {
                 showStatusPenalty('Сигнал подтверждён!', 'success');
 
                 setTimeout(() => {
-                    ball.style.setProperty('--target-x', targetX);
+                    targetGear.classList.add('green');
+
+                    ball.style.setProperty('--target-x', `${targetX}px`);
+                    ball.style.setProperty('--target-y', `${targetY}px`);
                     ball.classList.add('kick');
 
                     playBtn.classList.add('hidden');
                     nav.classList.remove('hidden');
                     document.getElementById('nextButtonPenalty').disabled = false;
-                }, 100);
+                }, 200);
             }, 1500);
         }
 
@@ -995,6 +1051,7 @@
 
         function startPenaltyGame() {
             playSound();
+            createGears();
             startVerificationPenalty(showPenaltyResult);
         }
 
@@ -1002,8 +1059,10 @@
             playSound();
             const ball = document.getElementById('ball');
             ball.classList.remove('kick');
-            ball.style.bottom = '20px';
+            void ball.offsetWidth; // reflow
+            ball.style.bottom = '15px';
             ball.style.left = '50%';
+            ball.style.transform = 'translateX(-50%)';
             document.getElementById('navButtonsPenalty').classList.add('hidden');
             document.getElementById('playButtonPenalty').classList.remove('hidden');
             document.getElementById('playButtonPenalty').disabled = false;
@@ -1078,7 +1137,12 @@
         document.getElementById('backButtonPenalty').addEventListener('click', goBackPenalty);
         document.getElementById('nextButtonPenalty').addEventListener('click', () => {
             nextPenaltySignal();
-            setTimeout(startPenaltyGame, 500);
+            setTimeout(startPenaltyGame, 600);
+        });
+
+        // Инициализация шестерёнок при выборе игры
+        window.addEventListener('load', () => {
+            if (currentGame === 'penalty') createGears();
         });
     </script>
 </body>
