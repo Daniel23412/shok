@@ -46,9 +46,7 @@
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 20px;
         }
         .modal {
@@ -462,8 +460,14 @@
             top: 0; left: 0;
         }
 
+        .gear.green svg {
+            filter: brightness(0) hue-rotate(90deg) saturate(5) brightness(1.5);
+            stroke: #00ff00 !important;
+            fill: #00ff00 !important;
+        }
+
         .gear.green {
-            filter: drop-shadow(0 0 20px #00ff88);
+            filter: drop-shadow(0 0 30px #00ff00);
             animation: glow 1.5s infinite alternate;
         }
 
@@ -472,17 +476,17 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 60%;
-            height: 60%;
-            background: rgba(0, 255, 136, 0.3);
+            width: 70%;
+            height: 70%;
+            background: rgba(0, 255, 0, 0.4);
             border-radius: 50%;
-            box-shadow: 0 0 40px #00ff88;
+            box-shadow: 0 0 50px #00ff00;
             z-index: -1;
         }
 
         @keyframes glow {
-            0% { filter: drop-shadow(0 0 15px #00ff88); }
-            100% { filter: drop-shadow(0 0 40px #00ff88); }
+            0% { filter: drop-shadow(0 0 20px #00ff00); }
+            100% { filter: drop-shadow(0 0 50px #00ff00); }
         }
 
         .ball {
@@ -507,31 +511,6 @@
             font-weight: bold;
             color: #000;
             text-shadow: 0 0 5px #fff;
-        }
-
-        .ball.kick {
-            transition: none !important;
-            animation: kick 1.8s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
-        }
-
-        @keyframes kick {
-            0% { 
-                bottom: 15px; 
-                left: 50%; 
-                transform: translateX(-50%) scale(1); 
-            }
-            40% { 
-                bottom: 180px; 
-                left: 50%; 
-                transform: translateX(-50%) scale(1.3); 
-                opacity: 1; 
-            }
-            100% { 
-                bottom: var(--target-y); 
-                left: var(--target-x); 
-                transform: translate(-50%, -50%) scale(1); 
-                opacity: 1; 
-            }
         }
 
         .play-btn {
@@ -1047,29 +1026,20 @@
             greenGearIndex = Math.floor(Math.random() * 15);
             const targetGear = gears[greenGearIndex];
 
-            requestAnimationFrame(() => {
-                const rect = targetGear.getBoundingClientRect();
-                const containerRect = document.querySelector('.penalty-container').getBoundingClientRect();
-                const targetX = rect.left - containerRect.left + rect.width / 2;
-                const targetY = rect.top - containerRect.top + rect.height / 2;
+            showStatusPenalty('Проверка хэша...', 'loading');
+            setTimeout(() => {
+                showStatusPenalty('Сигнал подтверждён!', 'success');
 
-                showStatusPenalty('Проверка хэша...', 'loading');
                 setTimeout(() => {
-                    showStatusPenalty('Сигнал подтверждён!', 'success');
+                    targetGear.classList.add('green');
 
-                    setTimeout(() => {
-                        targetGear.classList.add('green');
+                    // Мяч остаётся на месте — анимация убрана
 
-                        ball.style.setProperty('--target-x', `${targetX}px`);
-                        ball.style.setProperty('--target-y', `${targetY}px`);
-                        ball.classList.add('kick');
-
-                        playBtn.classList.add('hidden');
-                        nav.classList.remove('hidden');
-                        document.getElementById('nextButtonPenalty').disabled = false;
-                    }, 200);
-                }, 1500);
-            });
+                    playBtn.classList.add('hidden');
+                    nav.classList.remove('hidden');
+                    document.getElementById('nextButtonPenalty').disabled = false;
+                }, 200);
+            }, 1500);
         }
 
         function showStatusPenalty(text, type = '') {
@@ -1104,8 +1074,6 @@
             ball.style.bottom = '15px';
             ball.style.left = '50%';
             ball.style.transform = 'translateX(-50%)';
-            ball.style.setProperty('--target-x', '');
-            ball.style.setProperty('--target-y', '');
             document.getElementById('navButtonsPenalty').classList.add('hidden');
             document.getElementById('playButtonPenalty').classList.remove('hidden');
             document.getElementById('playButtonPenalty').disabled = false;
