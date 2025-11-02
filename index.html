@@ -46,7 +46,9 @@
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
         .modal {
@@ -577,7 +579,7 @@
             position: relative;
         }
         .game-card.active {
-            border: 2px solid #00d4ff;
+            border: 2px solid #00d0ff;
             box-shadow: 0 0 20px rgba(0, 212, 255, 0.6);
             transform: scale(1.05);
         }
@@ -1021,7 +1023,7 @@
             greenGearIndex = Math.floor(Math.random() * 15);
             const targetGear = gears[greenGearIndex];
 
-            // Ждём, пока DOM обновится (gears созданы)
+            // Ждём reflow
             setTimeout(() => {
                 const rect = targetGear.getBoundingClientRect();
                 const containerRect = document.querySelector('.penalty-container').getBoundingClientRect();
@@ -1044,7 +1046,7 @@
                         document.getElementById('nextButtonPenalty').disabled = false;
                     }, 200);
                 }, 1500);
-            }, 50); // Небольшая задержка для reflow
+            }, 100); // Увеличил задержку для полной отрисовки
         }
 
         function showStatusPenalty(text, type = '') {
@@ -1075,7 +1077,7 @@
             playSound();
             const ball = document.getElementById('ball');
             ball.classList.remove('kick');
-            void ball.offsetWidth; // reflow
+            void ball.offsetWidth;
             ball.style.bottom = '15px';
             ball.style.left = '50%';
             ball.style.transform = 'translateX(-50%)';
