@@ -46,9 +46,7 @@
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: flex; align-items: center; justify-content: center;
             padding: 20px;
         }
         .modal {
@@ -445,38 +443,30 @@
             gap: 10px;
             z-index: 1;
             padding: 10px;
+            background-image: url('https://i.ibb.co/Z1v72vpQ/Screenshot-5386.png');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .gear {
-            background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-            border: 3px solid rgba(255,255,255,0.3);
             border-radius: 50%;
-            opacity: 0.5;
+            opacity: 0;
             position: relative;
             transition: all 0.3s;
-        }
-
-        .gear::before {
-            content: '';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 50%;
-            height: 50%;
-            background: rgba(255,255,255,0.1);
-            border-radius: 50%;
+            pointer-events: none;
         }
 
         .gear.green {
-            border-color: #00ff88;
             box-shadow: 0 0 30px #00ff88, inset 0 0 20px #00ff88;
             opacity: 1;
+            background: rgba(0, 255, 136, 0.2);
             animation: glow 1.5s infinite alternate;
         }
 
         @keyframes glow {
             0% { box-shadow: 0 0 15px #00ff88, inset 0 0 10px #00ff88; }
-            100% { box-shadow: 0 0 40px #00ff88, inset 0 0 25px #00ff88; }
+            100% { box-shadow: 0 0 50px #00ff88, inset 0 0 30px #00ff88; }
         }
 
         .ball {
@@ -1014,17 +1004,14 @@
             const playBtn = document.getElementById('playButtonPenalty');
             const nav = document.getElementById('navButtonsPenalty');
 
-            // Убираем предыдущую зелёную
             if (greenGearIndex >= 0 && gears[greenGearIndex]) {
                 gears[greenGearIndex].classList.remove('green');
             }
 
-            // Новая случайная
             greenGearIndex = Math.floor(Math.random() * 15);
             const targetGear = gears[greenGearIndex];
 
-            // Ждём reflow
-            setTimeout(() => {
+            requestAnimationFrame(() => {
                 const rect = targetGear.getBoundingClientRect();
                 const containerRect = document.querySelector('.penalty-container').getBoundingClientRect();
                 const targetX = rect.left - containerRect.left + rect.width / 2;
@@ -1046,7 +1033,7 @@
                         document.getElementById('nextButtonPenalty').disabled = false;
                     }, 200);
                 }, 1500);
-            }, 100); // Увеличил задержку для полной отрисовки
+            });
         }
 
         function showStatusPenalty(text, type = '') {
