@@ -46,7 +46,9 @@
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
-            display: flex; align-items: center; justify-content: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
         .modal {
@@ -443,30 +445,44 @@
             gap: 10px;
             z-index: 1;
             padding: 10px;
-            background-image: url('https://i.ibb.co/Z1v72vpQ/Screenshot-5386.png');
-            background-size: contain;
-            background-position: center;
-            background-repeat: no-repeat;
         }
 
         .gear {
-            border-radius: 50%;
-            opacity: 0;
             position: relative;
+            width: 100%;
+            height: 100%;
+            opacity: 1;
             transition: all 0.3s;
-            pointer-events: none;
+        }
+
+        .gear svg {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; left: 0;
         }
 
         .gear.green {
-            box-shadow: 0 0 30px #00ff88, inset 0 0 20px #00ff88;
-            opacity: 1;
-            background: rgba(0, 255, 136, 0.2);
+            filter: drop-shadow(0 0 20px #00ff88);
             animation: glow 1.5s infinite alternate;
         }
 
+        .gear.green::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 60%;
+            background: rgba(0, 255, 136, 0.3);
+            border-radius: 50%;
+            box-shadow: 0 0 40px #00ff88;
+            z-index: -1;
+        }
+
         @keyframes glow {
-            0% { box-shadow: 0 0 15px #00ff88, inset 0 0 10px #00ff88; }
-            100% { box-shadow: 0 0 50px #00ff88, inset 0 0 30px #00ff88; }
+            0% { filter: drop-shadow(0 0 15px #00ff88); }
+            100% { filter: drop-shadow(0 0 40px #00ff88); }
         }
 
         .ball {
@@ -753,7 +769,7 @@
                     <div class="goalkeeper-hands">✋ ✋</div>
                 </div>
                 <div class="gears-grid" id="gearsGrid">
-                    <!-- 15 шестерёнок создаются в JS -->
+                    <!-- 15 SVG-шестерёнок создаются в JS -->
                 </div>
                 <div class="ball" id="ball"></div>
             </div>
@@ -784,6 +800,25 @@
         let currentGame = 'classic';
         let greenGearIndex = -1;
         const gears = [];
+
+        const gearSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+            <circle cx="50" cy="50" r="45" fill="none" stroke="#666" stroke-width="8"/>
+            <circle cx="50" cy="50" r="35" fill="#111" />
+            <g fill="#666">
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(0 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(36 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(72 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(108 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(144 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(180 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(216 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(252 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(288 50 50)"/>
+                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(324 50 50)"/>
+            </g>
+            <circle cx="50" cy="50" r="20" fill="#222" />
+            <circle cx="50" cy="50" r="12" fill="#444" />
+        </svg>`;
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -990,11 +1025,12 @@
             gears.length = 0;
             greenGearIndex = -1;
             for (let i = 0; i < 15; i++) {
-                const gear = document.createElement('div');
-                gear.className = 'gear';
-                gear.dataset.index = i;
-                grid.appendChild(gear);
-                gears.push(gear);
+                const gearDiv = document.createElement('div');
+                gearDiv.className = 'gear';
+                gearDiv.dataset.index = i;
+                gearDiv.innerHTML = gearSVG;
+                grid.appendChild(gearDiv);
+                gears.push(gearDiv);
             }
         }
 
