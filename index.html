@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1win Mines Signal</title>
+    <title>1win Mines Signal + Astronaut</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
@@ -21,7 +20,6 @@
             padding: 10px;
             overflow-y: auto;
         }
-
         .online-bar {
             width: 100%;
             text-align: center;
@@ -32,7 +30,6 @@
             font-weight: 500;
         }
         @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
-
         .logo-container {
             text-align: center;
             margin-bottom: 10px;
@@ -42,7 +39,6 @@
             width: auto;
             filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
         }
-
         .modal-overlay {
             position: fixed; top: 0; left: 0; right: 0; bottom: 0;
             background: rgba(0,0,0,0.92); z-index: 999;
@@ -62,7 +58,6 @@
         .modal h2 { color: #00ff88; margin-bottom: 12px; font-size: 16px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
         .modal p { font-size: 13px; color: #ddd; margin-bottom: 14px; line-height: 1.5; }
         .modal .promo { font-weight: bold; color: #00ff88; font-size: 14px; background: rgba(0,255,136,0.15); padding: 6px 10px; border-radius: 8px; margin: 10px 0 8px; display: inline-block; }
-
         .copy-promo-btn {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: #fff;
@@ -88,12 +83,10 @@
             color: #fff;
             text-shadow: 0 0 6px #000;
         }
-
         .modal-buttons { display: flex; gap: 10px; margin-top: 12px; }
         .modal-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; transition: all 0.2s; }
         .yes-btn { background: linear-gradient(45deg, #00ff88, #00cc66); color: #000; border: none; }
         .reg-btn { background: linear-gradient(45deg, #00d4ff, #0099cc); color: #fff; border: none; }
-
         .container {
             width: 100%;
             max-width: 340px;
@@ -104,10 +97,8 @@
             border: 1px solid rgba(0, 200, 255, 0.25);
             margin-top: 5px;
         }
-
         h1 { text-align: center; font-size: 18px; color: #00ff88; margin-bottom: 6px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
         .mines-label { text-align: center; font-size: 14px; color: #aaa; margin: 12px 0 8px; font-weight: 500; }
-
         .controls {
             display: flex;
             justify-content: center;
@@ -133,7 +124,6 @@
             color: #000;
             transform: scale(1.05);
         }
-
         .status {
             text-align: center;
             margin: 12px 0;
@@ -153,7 +143,6 @@
         .error { color: #ff6b6b; }
         .loading { color: #00d0ff; }
         .success { color: #00ff88; }
-
         .spinner {
             display: inline-block;
             width: 14px;
@@ -161,12 +150,11 @@
             border: 2px solid #00d0ff;
             border-top: 2px solid transparent;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
+            animation: spin  1s linear infinite;
             margin-right: 6px;
             flex-shrink: 0;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-
         .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -178,7 +166,6 @@
             border: 2px solid #1a1a3a;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
-
         /* === КЛАССИЧЕСКАЯ СЕТКА === */
         #classicGame .cell {
             width: 100%;
@@ -189,7 +176,6 @@
             box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5);
             overflow: hidden;
         }
-
         .star-blue {
             background: radial-gradient(ellipse at 30% 30%, #4da6ff 0%, #1a8cff 50%, #0066cc 100%);
             box-shadow: 0 0 12px rgba(77, 166, 255, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4);
@@ -205,7 +191,6 @@
             font-weight: bold;
             z-index: 2;
         }
-
         .bomb {
             background: #111;
             box-shadow: inset 0 0 10px #000;
@@ -222,12 +207,11 @@
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
         }
-
         /* === ЗВЁЗДЫ + 1W === */
         #starsGame .cell {
             width: 100%;
             padding-bottom: 100%;
-            background: 
+            background:
                 radial-gradient(ellipse at center, rgba(40, 40, 60, 0.8) 0%, #111 70%),
                 url('https://i.ibb.co/v4kVX42B/1w-grid.png') center/cover;
             background-size: 100% 100%, 25px 25px;
@@ -239,7 +223,6 @@
             transition: all 0.3s ease;
             filter: brightness(0.85);
         }
-
         #starsGame .cell::before {
             content: '1W';
             position: absolute;
@@ -252,7 +235,6 @@
             z-index: 1;
             pointer-events: none;
         }
-
         #starsGame .cell.safe::after {
             content: '★';
             position: absolute;
@@ -265,14 +247,11 @@
             z-index: 2;
             animation: pulse 1.5s infinite;
         }
-
         #starsGame .cell.safe::before { content: none; }
-
         @keyframes pulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
-
         /* === COINFLIP МОНЕТА === */
         .coin-container {
             perspective: 1000px;
@@ -283,7 +262,6 @@
             align-items: center;
             gap: 16px;
         }
-
         .coin {
             width: 120px;
             height: 120px;
@@ -291,11 +269,9 @@
             transform-style: preserve-3d;
             transition: transform 2s cubic-bezier(0.2, 0.8, 0.3, 1);
         }
-
         .coin.spinning {
             animation: spin 2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards;
         }
-
         .coin .side {
             position: absolute;
             width: 100%;
@@ -310,13 +286,12 @@
             color: #fff;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.8);
             background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b);
-            box-shadow: 
+            box-shadow:
                 0 0 20px rgba(255, 215, 0, 0.6),
                 inset 0 0 20px rgba(255, 255, 255, 0.3),
                 0 0 40px rgba(255, 215, 0, 0.4);
             border: 4px solid #daa520;
         }
-
         .coin .side::before {
             content: '';
             position: absolute;
@@ -326,15 +301,12 @@
             background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%);
             pointer-events: none;
         }
-
         .coin .heads { transform: rotateY(0deg); z-index: 2; }
         .coin .tails { transform: rotateY(180deg); }
-
         @keyframes spin {
             0% { transform: rotateY(0deg); }
             100% { transform: rotateY(1800deg); }
         }
-
         .coin-result {
             font-size: 24px;
             font-weight: bold;
@@ -347,7 +319,6 @@
         .coin-result.show {
             opacity: 1;
         }
-
         /* === PENALTY ИГРА === */
         .penalty-container {
             width: 100%;
@@ -359,7 +330,6 @@
             margin: 20px 0;
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
         }
-
         .goal-frame {
             position: absolute;
             top: 10%;
@@ -374,20 +344,18 @@
             box-shadow: 0 0 20px rgba(255,255,255,0.5);
             z-index: 1;
         }
-
         .goal-net {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 repeating-linear-gradient(0deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px),
                 repeating-linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px);
             opacity: 0.4;
             z-index: 0;
         }
-
         .blue-strip {
             position: absolute;
             top: 50%;
@@ -408,18 +376,15 @@
             overflow: hidden;
             z-index: 2;
         }
-
         .blue-strip::before {
             content: '1win 1win 1win 1win 1win 1win';
             white-space: nowrap;
             animation: scroll 12s linear infinite;
         }
-
         @keyframes scroll {
             0% { transform: translateX(0); }
             100% { transform: translateX(-50%); }
         }
-
         .goalkeeper-hands {
             position: absolute;
             top: 50%;
@@ -429,7 +394,6 @@
             z-index: 3;
             opacity: 0.9;
         }
-
         .gears-grid {
             position: absolute;
             top: 15%;
@@ -444,7 +408,6 @@
             z-index: 1;
             padding: 10px;
         }
-
         .gear {
             position: relative;
             width: 100%;
@@ -452,25 +415,21 @@
             opacity: 1;
             transition: all 0.3s;
         }
-
         .gear svg {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0; left: 0;
         }
-
         .gear.green svg {
             filter: brightness(0) hue-rotate(90deg) saturate(5) brightness(1.5);
             stroke: #00ff00 !important;
             fill: #00ff00 !important;
         }
-
         .gear.green {
             filter: drop-shadow(0 0 30px #00ff00);
             animation: glow 1.5s infinite alternate;
         }
-
         .gear.green::after {
             content: '';
             position: absolute;
@@ -483,12 +442,10 @@
             box-shadow: 0 0 50px #00ff00;
             z-index: -1;
         }
-
         @keyframes glow {
             0% { filter: drop-shadow(0 0 20px #00ff00); }
             100% { filter: drop-shadow(0 0 50px #00ff00); }
         }
-
         .ball {
             position: absolute;
             bottom: 15px;
@@ -501,7 +458,6 @@
             box-shadow: 0 0 25px rgba(255,255,255,0.9);
             z-index: 4;
         }
-
         .ball::after {
             content: '1W';
             position: absolute;
@@ -512,7 +468,6 @@
             color: #000;
             text-shadow: 0 0 5px #fff;
         }
-
         .play-btn {
             background: linear-gradient(45deg, #00d4ff 0%, #0099cc 100%);
             color: white;
@@ -528,7 +483,6 @@
             transition: all 0.2s;
         }
         .play-btn:active { transform: translateY(1px); }
-
         .ref-btn {
             background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
             color: #000;
@@ -539,12 +493,10 @@
             gap: 8px;
             font-weight: 700;
         }
-
         .nav-btns { display: flex; gap: 10px; margin-top: 16px; }
         .nav-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; }
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
         .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
-
         .game-select {
             display: flex;
             gap: 12px;
@@ -574,7 +526,6 @@
             object-fit: cover;
             display: block;
         }
-
         .telegram-link {
             display: flex;
             align-items: center;
@@ -587,9 +538,7 @@
             font-weight: 500;
         }
         .telegram-link img { width: 20px; height: 20px; }
-
         .hidden { display: none !important; }
-
         .copy-toast {
             position: fixed;
             bottom: 20px;
@@ -611,6 +560,84 @@
             transform: translateX(-50%) translateY(-10px);
         }
 
+        /* === ASTRONAUT GAME === */
+        .astronaut-container {
+            position: relative;
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(to bottom, #0a0a1a 0%, #1a1a3a 100%);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 16px 0;
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+        .rocket {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 80px;
+            z-index: 2;
+            transition: all 0.6s ease;
+        }
+        .rocket.launching {
+            animation: launch 3s ease-out forwards;
+        }
+        .rocket.explode {
+            animation: explode 0.6s ease-out forwards;
+        }
+        @keyframes launch {
+            0% { bottom: 40px; transform: translateX(-50%) scale(1); }
+            100% { bottom: 320px; transform: translateX(-50%) scale(0.6); opacity: 0; }
+        }
+        @keyframes explode {
+            0% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.3); opacity: 1; }
+            100% { transform: translateX(-50%) scale(0); opacity: 0; }
+        }
+        .coef-display {
+            position: absolute;
+            bottom: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: 700;
+            color: #00ff88;
+            text-shadow: 0 0 15px #00ff88;
+            z-index: 3;
+        }
+        .astro-input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #1a1a2e;
+            border: 1px solid #00d0ff;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .astro-input::placeholder { color: #666; }
+        .fire-trail {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 50px;
+            background: linear-gradient(to bottom, #ff6b35, transparent);
+            border-radius: 50%;
+            opacity: 0;
+            z-index: 1;
+            animation: fire 1.5s infinite;
+        }
+        @keyframes fire {
+            0%, 100% { opacity: 0; height: 50px; }
+            50% { opacity: 0.8; height: 80px; }
+        }
+
         @media (max-width: 380px) {
             .container { padding: 14px; }
             .mine-btn { width: 46px; height: 46px; font-size: 16px; }
@@ -625,11 +652,9 @@
     </style>
 </head>
 <body>
-
     <div class="online-bar">
         Онлайн: <span id="onlineCount">47</span> игроков
     </div>
-
     <div class="logo-container">
         <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
             <defs>
@@ -650,7 +675,6 @@
             <circle cx="38" cy="28" r="6" fill="#00d4ff" filter="url(#glow)"/>
         </svg>
     </div>
-
     <div id="registerModal" class="modal-overlay">
         <div class="modal">
             <h2>Зарегистрированы по нашей ссылке?</h2>
@@ -663,10 +687,8 @@
             </div>
         </div>
     </div>
-
     <div class="container">
         <h1>MINES SIGNAL</h1>
-
         <div class="game-select">
             <div class="game-card active" onclick="selectGame('classic')">
                 <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Старые мины">
@@ -679,6 +701,9 @@
             </div>
             <div class="game-card" onclick="selectGame('penalty')">
                 <img src="https://i.ibb.co/9H6WKK4r/461c9008-7685-4e45-84d8-bd0fc59161a6-vertical.jpg" alt="Penalty">
+            </div>
+            <div class="game-card" onclick="selectGame('astronaut')">
+                <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Astronaut">
             </div>
         </div>
 
@@ -719,7 +744,6 @@
         <div id="coinflipGame" class="hidden">
             <div class="mines-label">Нажмите, чтобы получить сигнал</div>
             <div id="statusCoin" class="status"></div>
-
             <div class="coin-container">
                 <div id="coin" class="coin">
                     <div class="side heads">$</div>
@@ -727,7 +751,6 @@
                 </div>
                 <div id="coinResult" class="coin-result"></div>
             </div>
-
             <button id="playButtonCoin" class="play-btn">Начать игру</button>
             <div id="navButtonsCoin" class="nav-btns hidden">
                 <button id="backButtonCoin" class="nav-btn back-btn">Назад</button>
@@ -739,7 +762,6 @@
         <div id="penaltyGame" class="hidden">
             <div class="mines-label">Нажмите, чтобы получить сигнал</div>
             <div id="statusPenalty" class="status"></div>
-
             <div class="penalty-container">
                 <div class="goal-frame">
                     <div class="goal-net"></div>
@@ -747,16 +769,37 @@
                 <div class="blue-strip">
                     <div class="goalkeeper-hands">✋ ✋</div>
                 </div>
-                <div class="gears-grid" id="gearsGrid">
-                    <!-- 15 SVG-шестерёнок создаются в JS -->
-                </div>
+                <div class="gears-grid" id="gearsGrid"></div>
                 <div class="ball" id="ball"></div>
             </div>
-
             <button id="playButtonPenalty" class="play-btn">Получить сигнал</button>
             <div id="navButtonsPenalty" class="nav-btns hidden">
                 <button id="backButtonPenalty" class="nav-btn back-btn">Назад</button>
                 <button id="nextButtonPenalty" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === ASTRONAUT GAME === -->
+        <div id="astronautGame" class="hidden">
+            <div class="mines-label">Введите коэффициент для сигнала</div>
+            <input type="number" id="astroCoefInput" placeholder="Например: 2.5" step="0.1" min="1.1" class="astro-input" />
+            <div id="statusAstro" class="status"></div>
+            <div class="astronaut-container">
+                <div class="rocket" id="rocket">
+                    <svg viewBox="0 0 100 100" class="rocket-svg">
+                        <path d="M50 10 L40 40 L35 60 Q30 70 35 80 L40 90 L60 90 L65 80 Q70 70 65 60 L60 40 Z" fill="#00d4ff" stroke="#0099cc" stroke-width="2"/>
+                        <circle cx="50" cy="25" r="8" fill="#fff"/>
+                        <circle cx="50" cy="25" r="4" fill="#00d4ff"/>
+                        <path d="M35 70 L30 85 L35 90 M65 70 L70 85 L65 90" stroke="#ff6b35" stroke-width="3"/>
+                        <ellipse cx="50" cy="95" rx="15" ry="5" fill="#ff6b35" opacity="0.8"/>
+                    </svg>
+                </div>
+                <div class="coef-display" id="coefDisplay">x1.00</div>
+            </div>
+            <button id="playButtonAstro" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsAstro" class="nav-btns hidden">
+                <button id="backButtonAstro" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonAstro" class="nav-btn next-btn">Следующий сигнал</button>
             </div>
         </div>
 
@@ -766,9 +809,7 @@
             @LuckyD2
         </a>
     </div>
-
     <div id="copyToast" class="copy-toast">Промокод скопирован!</div>
-
     <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiINwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
 
     <script>
@@ -779,7 +820,6 @@
         let currentGame = 'classic';
         let greenGearIndex = -1;
         const gears = [];
-
         const gearSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
             <circle cx="50" cy="50" r="45" fill="none" stroke="#666" stroke-width="8"/>
             <circle cx="50" cy="50" r="35" fill="#111" />
@@ -815,7 +855,12 @@
             document.getElementById('starsGame').classList.toggle('hidden', game !== 'stars');
             document.getElementById('coinflipGame').classList.toggle('hidden', game !== 'coinflip');
             document.getElementById('penaltyGame').classList.toggle('hidden', game !== 'penalty');
+            document.getElementById('astronautGame').classList.toggle('hidden', game !== 'astronaut');
             if (game === 'penalty') createGears();
+            if (game === 'astronaut') {
+                document.getElementById('coefDisplay').textContent = 'x1.00';
+                document.getElementById('rocket').classList.remove('launching', 'explode');
+            }
             playSound();
         }
 
@@ -827,20 +872,17 @@
             }
             return {bombs};
         }
-
         function setMines(cnt){
             currentMines=cnt;
             document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active'));
             event.target.classList.add('active');
             playSound();
         }
-
         function showStatus(text,type=''){
             const s=document.getElementById('status');
             s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text;
             s.className=`status ${type}`;
         }
-
         function startVerification(cb){
             document.getElementById('playButton').disabled=true;
             showStatus('Вернись в 1win для получения схемы','error');
@@ -850,13 +892,11 @@
                 },10000);
             },1500);
         }
-
         function showScheme(){
             const s=generateScheme(currentMines);
             const grid = document.getElementById('scheme');
             const playBtn=document.getElementById('playButton');
             const nav=document.getElementById('navButtons');
-
             grid.classList.remove('hidden'); grid.innerHTML='';
             for(let i=0;i<25;i++){
                 const c=document.createElement('div');
@@ -877,13 +917,11 @@
             event.target.classList.add('active');
             playSound();
         }
-
         function showStatusStars(text,type=''){
             const s=document.getElementById('statusStars');
             s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text;
             s.className=`status ${type}`;
         }
-
         function generateStarsScheme(mines){
             const totalSafe = 25 - mines;
             const showCount = Math.floor(Math.random() * 11) + 5;
@@ -894,28 +932,23 @@
             }
             return safePositions.slice(0, showCount);
         }
-
         function showStarsScheme(){
             const shown = generateStarsScheme(currentMinesStars);
             const grid = document.getElementById('schemeStars');
             const playBtn = document.getElementById('playButtonStars');
             const nav = document.getElementById('navButtonsStars');
-
-            grid.classList.remove('hidden'); 
+            grid.classList.remove('hidden');
             grid.innerHTML = '';
-
             for(let i = 0; i < 25; i++){
                 const c = document.createElement('div');
                 c.className = 'cell';
                 if(shown.includes(i)) c.classList.add('safe');
                 grid.appendChild(c);
             }
-
             playBtn.classList.add('hidden');
             nav.classList.remove('hidden');
             document.getElementById('nextButtonStars').disabled = false;
         }
-
         function startVerificationStars(cb){
             document.getElementById('playButtonStars').disabled=true;
             showStatusStars('Вернись в 1win для получения схемы','error');
@@ -932,36 +965,29 @@
             const resultText = document.getElementById('coinResult');
             const playBtn = document.getElementById('playButtonCoin');
             const nav = document.getElementById('navButtonsCoin');
-
             const isHeads = Math.random() < 0.5;
             const result = isHeads ? 'Орёл' : 'Решка';
-
             coin.classList.remove('spinning');
             void coin.offsetWidth;
-
             showStatusCoin('Проверка хэша...', 'loading');
             setTimeout(() => {
                 showStatusCoin('Сигнал подтверждён!', 'success');
                 coin.classList.add('spinning');
-
                 setTimeout(() => {
                     coin.style.transform = isHeads ? 'rotateY(1800deg)' : 'rotateY(1980deg)';
                     resultText.textContent = result;
                     resultText.classList.add('show');
-
                     playBtn.classList.add('hidden');
                     nav.classList.remove('hidden');
                     document.getElementById('nextButtonCoin').disabled = false;
                 }, 100);
             }, 1500);
         }
-
         function showStatusCoin(text, type = '') {
             const s = document.getElementById('statusCoin');
             s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
             s.className = `status ${type}`;
         }
-
         function startVerificationCoin(cb) {
             document.getElementById('playButtonCoin').disabled = true;
             showStatusCoin('Вернись в 1win...', 'error');
@@ -973,12 +999,10 @@
                 }, 8000);
             }, 1500);
         }
-
         function startCoinGame() {
             playSound();
             startVerificationCoin(showCoinResult);
         }
-
         function nextCoinSignal() {
             playSound();
             const coin = document.getElementById('coin');
@@ -991,7 +1015,6 @@
             document.getElementById('playButtonCoin').disabled = false;
             document.getElementById('statusCoin').innerHTML = '';
         }
-
         function goBackCoin() {
             playSound();
             nextCoinSignal();
@@ -1012,42 +1035,31 @@
                 gears.push(gearDiv);
             }
         }
-
         function showPenaltyResult() {
-            const ball = document.getElementById('ball');
             const status = document.getElementById('statusPenalty');
             const playBtn = document.getElementById('playButtonPenalty');
             const nav = document.getElementById('navButtonsPenalty');
-
             if (greenGearIndex >= 0 && gears[greenGearIndex]) {
                 gears[greenGearIndex].classList.remove('green');
             }
-
             greenGearIndex = Math.floor(Math.random() * 15);
             const targetGear = gears[greenGearIndex];
-
             showStatusPenalty('Проверка хэша...', 'loading');
             setTimeout(() => {
                 showStatusPenalty('Сигнал подтверждён!', 'success');
-
                 setTimeout(() => {
                     targetGear.classList.add('green');
-
-                    // Мяч остаётся на месте — анимация убрана
-
                     playBtn.classList.add('hidden');
                     nav.classList.remove('hidden');
                     document.getElementById('nextButtonPenalty').disabled = false;
                 }, 200);
             }, 1500);
         }
-
         function showStatusPenalty(text, type = '') {
             const s = document.getElementById('statusPenalty');
             s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
             s.className = `status ${type}`;
         }
-
         function startVerificationPenalty(cb) {
             document.getElementById('playButtonPenalty').disabled = true;
             showStatusPenalty('Вернись в 1win...', 'error');
@@ -1059,30 +1071,91 @@
                 }, 8000);
             }, 1500);
         }
-
         function startPenaltyGame() {
             playSound();
             createGears();
             startVerificationPenalty(showPenaltyResult);
         }
-
         function nextPenaltySignal() {
             playSound();
-            const ball = document.getElementById('ball');
-            ball.classList.remove('kick');
-            void ball.offsetWidth;
-            ball.style.bottom = '15px';
-            ball.style.left = '50%';
-            ball.style.transform = 'translateX(-50%)';
             document.getElementById('navButtonsPenalty').classList.add('hidden');
             document.getElementById('playButtonPenalty').classList.remove('hidden');
             document.getElementById('playButtonPenalty').disabled = false;
             document.getElementById('statusPenalty').innerHTML = '';
         }
-
         function goBackPenalty() {
             playSound();
             nextPenaltySignal();
+        }
+
+        // === ASTRONAUT GAME ===
+        let targetCoef = 2.5;
+        function startAstronautGame() {
+            playSound();
+            const input = document.getElementById('astroCoefInput');
+            const val = parseFloat(input.value);
+            if (!val || val < 1.1) {
+                showStatusAstro('Введите коэффициент ≥ 1.1', 'error');
+                return;
+            }
+            targetCoef = val;
+            startVerificationAstro(launchRocket);
+        }
+        function launchRocket() {
+            const rocket = document.getElementById('rocket');
+            const display = document.getElementById('coefDisplay');
+            const fire = document.createElement('div');
+            fire.className = 'fire-trail';
+            document.querySelector('.astronaut-container').appendChild(fire);
+
+            let current = 1.00;
+            const interval = setInterval(() => {
+                current += 0.05;
+                display.textContent = `x${current.toFixed(2)}`;
+                if (current >= targetCoef) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        rocket.classList.add('explode');
+                        showStatusAstro('СИГНАЛ: ВЫВОДИ НА x' + targetCoef.toFixed(2) + '!', 'success');
+                        document.getElementById('playButtonAstro').classList.add('hidden');
+                        document.getElementById('navButtonsAstro').classList.remove('hidden');
+                        document.getElementById('nextButtonAstro').disabled = false;
+                    }, 300);
+                }
+            }, 80);
+
+            rocket.classList.add('launching');
+            setTimeout(() => fire.remove(), 3000);
+        }
+        function showStatusAstro(text, type = '') {
+            const s = document.getElementById('statusAstro');
+            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
+            s.className = `status ${type}`;
+        }
+        function startVerificationAstro(cb) {
+            document.getElementById('playButtonAstro').disabled = true;
+            showStatusAstro('Вернись в 1win...', 'error');
+            setTimeout(() => {
+                showStatusAstro('Проверка хэша...', 'loading');
+                setTimeout(() => {
+                    showStatusAstro('Хэш подтверждён!', 'success');
+                    setTimeout(cb, 800);
+                }, 8000);
+            }, 1500);
+        }
+        function nextAstroSignal() {
+            playSound();
+            document.getElementById('rocket').classList.remove('launching', 'explode');
+            document.getElementById('coefDisplay').textContent = 'x1.00';
+            document.getElementById('astroCoefInput').value = '';
+            document.getElementById('statusAstro').innerHTML = '';
+            document.getElementById('navButtonsAstro').classList.add('hidden');
+            document.getElementById('playButtonAstro').classList.remove('hidden');
+            document.getElementById('playButtonAstro').disabled = false;
+        }
+        function goBackAstro() {
+            playSound();
+            nextAstroSignal();
         }
 
         // === КНОПКИ ===
@@ -1098,7 +1171,6 @@
             n.classList.add('hidden');
             document.getElementById('status').innerHTML='';
         }
-
         function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
         function nextSchemeStars(){ playSound(); document.getElementById('schemeStars').classList.add('hidden'); startVerificationStars(showStarsScheme); }
         function goBackStars(){
@@ -1111,11 +1183,9 @@
             n.classList.add('hidden');
             document.getElementById('statusStars').innerHTML='';
         }
-
         function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
         function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
         function goTo1win(){ closeModal(); open1win(); }
-
         function copyPromo() {
             playSound();
             const promo = 'GEKTOR2';
@@ -1132,23 +1202,26 @@
         document.getElementById('playButton').addEventListener('click', startGame);
         document.getElementById('backButton').addEventListener('click', goBack);
         document.getElementById('nextButton').addEventListener('click', nextScheme);
-
         document.getElementById('playButtonStars').addEventListener('click', startGameStars);
         document.getElementById('backButtonStars').addEventListener('click', goBackStars);
         document.getElementById('nextButtonStars').addEventListener('click', nextSchemeStars);
-
         document.getElementById('playButtonCoin').addEventListener('click', startCoinGame);
         document.getElementById('backButtonCoin').addEventListener('click', goBackCoin);
         document.getElementById('nextButtonCoin').addEventListener('click', () => {
             nextCoinSignal();
             setTimeout(startCoinGame, 500);
         });
-
         document.getElementById('playButtonPenalty').addEventListener('click', startPenaltyGame);
         document.getElementById('backButtonPenalty').addEventListener('click', goBackPenalty);
         document.getElementById('nextButtonPenalty').addEventListener('click', () => {
             nextPenaltySignal();
             setTimeout(startPenaltyGame, 600);
+        });
+        document.getElementById('playButtonAstro').addEventListener('click', startAstronautGame);
+        document.getElementById('backButtonAstro').addEventListener('click', goBackAstro);
+        document.getElementById('nextButtonAstro').addEventListener('click', () => {
+            nextAstroSignal();
+            setTimeout(startAstronautGame, 600);
         });
 
         // Инициализация
