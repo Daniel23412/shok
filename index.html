@@ -236,12 +236,12 @@
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
-        /* === LUCKY JET — ЧЁРНЫЙ ФОН + НАДПИСЬ + БЕЗ ВЗЛЁТА === */
+        /* === LUCKY JET — БЕЗ ОГНЯ === */
         .luckyjet-container {
             position: relative;
             width: 100%;
             height: 300px;
-            background: #000; /* ЧЁРНЫЙ ФОН */
+            background: #000;
             border-radius: 20px;
             overflow: hidden;
             margin: 16px 0;
@@ -273,24 +273,6 @@
         @keyframes hover-lj {
             0%, 100% { transform: translateX(-50%) rotate(-10deg) translateY(0); }
             50% { transform: translateX(-50%) rotate(-10deg) translateY(-10px); }
-        }
-        .fire-lj {
-            position: absolute;
-            bottom: 40px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 40px;
-            height: 80px;
-            background: linear-gradient(to bottom, #ff6b35, #ff4500, #ff8c00, transparent);
-            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-            opacity: 0;
-            z-index: 2;
-            filter: blur(6px);
-            animation: fire-lj-anim 1.2s infinite;
-        }
-        @keyframes fire-lj-anim {
-            0%, 100% { opacity: 0.8; height: 70px; }
-            50% { opacity: 1; height: 100px; }
         }
         .coef-display-lj {
             position: absolute;
@@ -588,7 +570,7 @@
             </div>
         </div>
 
-        <!-- === LUCKY JET — ОБНОВЛЁННЫЙ === -->
+        <!-- === LUCKY JET — БЕЗ ОГНЯ === -->
         <div id="luckyjetGame" class="hidden">
             <div id="statusLJ" class="status"></div>
             <div class="luckyjet-container">
@@ -596,7 +578,6 @@
                 <div class="luckyjet-guy" id="luckyjetGuy">
                     <img src="https://i.ibb.co/bgqxdqHX/luckyjet-guy.png" alt="Lucky Jet Guy" style="width:100%;height:100%;">
                 </div>
-                <div class="fire-lj" id="fireLJ"></div>
                 <div class="coef-display-lj" id="coefDisplayLJ">x1.00</div>
             </div>
             <button id="playButtonLJ" class="play-btn">Получить сигнал</button>
@@ -691,21 +672,18 @@
         function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
         function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
 
-        // === LUCKY JET — БЕЗ ВЗЛЁТА ===
+        // === LUCKY JET — БЕЗ ОГНЯ ===
         function resetLJ() {
             const display = document.getElementById('coefDisplayLJ');
             display.textContent = 'x1.00';
             display.classList.remove('show');
-            document.getElementById('fireLJ').style.opacity = '0';
         }
         function startLJGame() {
             playSound();
             startVerificationLJ(showFinalLJ);
         }
         function showFinalLJ() {
-            const fire = document.getElementById('fireLJ');
             const display = document.getElementById('coefDisplayLJ');
-            fire.style.opacity = '1';
             display.textContent = `x${targetCoefLJ.toFixed(2)}`;
             display.classList.add('show');
             playSound();
