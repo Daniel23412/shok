@@ -98,64 +98,8 @@
             margin-top: 5px;
         }
         h1 { text-align: center; font-size: 18px; color: #00ff88; margin-bottom: 6px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
-        .controls {
-            display: flex;
-            justify-content: center;
-            gap: 14px;
-            margin: 12px 0;
-        }
-        .mine-btn {
-            background: #1a1a2e;
-            color: #fff;
-            border: 1px solid #333;
-            width: 50px;
-            height: 50px;
-            font-size: 17px;
-            border-radius: 50%;
-            cursor: pointer;
-            font-weight: 700;
-            transition: all 0.2s;
-        }
-        .mine-btn.active {
-            background: #00d0ff;
-            border-color: #00d0ff;
-            box-shadow: 0 0 18px #00d0ff;
-            color: #000;
-            transform: scale(1.05);
-        }
-        .status {
-            text-align: center;
-            margin: 12px 0;
-            font-size: 13px;
-            line-height: 1.4;
-            word-wrap: break-word;
-            padding: 8px 12px;
-            border-radius: 8px;
-            min-height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 500;
-            background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(0, 208, 255, 0.2);
-        }
-        .error { color: #ff6b6b; }
-        .loading { color: #00d0ff; }
-        .success { color: #00ff88; }
-        .spinner {
-            display: inline-block;
-            width: 14px;
-            height: 14px;
-            border: 2px solid #00d0ff;
-            border-top: 2px solid transparent;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-right: 6px;
-            flex-shrink: 0;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* === ASTRONAUT GAME — НОВАЯ РАКЕТА === */
+        /* === ASTRONAUT — НОВАЯ АНИМАЦИЯ ИКСА === */
         .astronaut-container {
             position: relative;
             width: 100%;
@@ -210,16 +154,30 @@
             0%, 100% { opacity: 0.7; height: 80px; }
             50% { opacity: 1; height: 110px; }
         }
+
+        /* === КРУТАЯ АНИМАЦИЯ ИКСА === */
         .coef-display-red {
             position: absolute;
             bottom: 16px;
             left: 50%;
             transform: translateX(-50%);
-            font-size: 36px;
+            font-size: 42px;
             font-weight: 700;
             color: #ff6b35;
-            text-shadow: 0 0 15px #ff6b35, 0 0 30px #ff4500;
+            text-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ff2d55;
             z-index: 4;
+            opacity: 0;
+            transform: translateX(-50%) scale(0.3);
+            transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .coef-display-red.show {
+            opacity: 1;
+            transform: translateX(-50%) scale(1.1);
+            animation: pulse-x 1.8s infinite;
+        }
+        @keyframes pulse-x {
+            0%, 100% { text-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ff2d55; transform: translateX(-50%) scale(1.1); }
+            50% { text-shadow: 0 0 30px #ff4500, 0 0 60px #ff8c00, 0 0 90px #ff2d55; transform: translateX(-50%) scale(1.15); }
         }
 
         .play-btn {
@@ -316,11 +274,9 @@
 
         @media (max-width: 380px) {
             .container { padding: 14px; }
-            .mine-btn { width: 46px; height: 46px; font-size: 16px; }
             .modal { padding: 18px; }
             .logo-container svg { height: 36px; }
-            .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
-            .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
+            .play-btn { padding: 13px; font-size: 16px; }
             .game-card { width: 90px; height: 120px; }
         }
     </style>
@@ -364,20 +320,8 @@
     </div>
 
     <div class="container">
-        <h1>MINES SIGNAL</h1>
+        <h1>ASTRONAUT SIGNAL</h1>
         <div class="game-select">
-            <div class="game-card" onclick="selectGame('classic')">
-                <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Старые мины">
-            </div>
-            <div class="game-card" onclick="selectGame('stars')">
-                <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Новые мины">
-            </div>
-            <div class="game-card" onclick="selectGame('coinflip')">
-                <img src="https://i.ibb.co/DfsG9fSC/0b5f68bc-dd72-4b8d-976e-538270cdd92b-vertical.jpg" alt="Coinflip">
-            </div>
-            <div class="game-card" onclick="selectGame('penalty')">
-                <img src="https://i.ibb.co/9H6WKK4r/461c9008-7685-4e45-84d8-bd0fc59161a6-vertical.jpg" alt="Penalty">
-            </div>
             <div class="game-card active" onclick="selectGame('astronaut')">
                 <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Astronaut">
             </div>
@@ -390,17 +334,12 @@
                 <div class="grid-lines"></div>
                 <div class="rocket-red" id="rocketRed">
                     <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
-                        <!-- Корпус ракеты -->
                         <path d="M50 10 Q40 30 42 50 L42 90 Q42 100 50 110 Q58 100 58 90 L58 50 Q60 30 50 10 Z" fill="#ff2d55" stroke="#cc0022" stroke-width="2"/>
-                        <!-- Нос -->
                         <path d="M50 10 L45 25 L50 30 L55 25 Z" fill="#ff6b35"/>
-                        <!-- Окна -->
                         <circle cx="50" cy="45" r="6" fill="#000" opacity="0.8"/>
                         <circle cx="50" cy="65" r="5" fill="#000" opacity="0.8"/>
-                        <!-- Крылья -->
                         <path d="M42 70 L30 85 L35 90 L42 80 Z" fill="#ff4500"/>
                         <path d="M58 70 L70 85 L65 90 L58 80 Z" fill="#ff4500"/>
-                        <!-- Двигатель -->
                         <rect x="44" y="90" width="12" height="15" fill="#ff8c00" rx="2"/>
                         <rect x="46" y="105" width="8" height="10" fill="#ff4500" rx="1"/>
                     </svg>
@@ -429,10 +368,8 @@
         const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
         const clickSound = document.getElementById('clickSound');
 
-        // === ИЗМЕНИ ЭТОТ КОЭФФИЦИЕНТ ВРУЧНУЮ ===
-        let targetCoef = 2.5; // ← ТЫ ЗАДАЁШЬ ЗДЕСЬ
-
-        let currentGame = 'astronaut';
+        // === ЗАДАЙ СВОЙ КОЭФФИЦИЕНТ ЗДЕСЬ ===
+        let targetCoef = 2.5; // ← ТЫ МЕНЯЕШЬ ЗДЕСЬ
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -442,52 +379,43 @@
 
         function playSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
 
-        function selectGame(game) {
-            currentGame = game;
-            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
-            event.target.closest('.game-card').classList.add('active');
-            ['classic','stars','coinflip','penalty','astronaut'].forEach(g => {
-                document.getElementById(g+'Game')?.classList.toggle('hidden', g !== game);
-            });
-            if (game === 'astronaut') resetAstronaut();
-            playSound();
-        }
-
-        // === ASTRONAUT LOGIC ===
+        // === ASTRONAUT ===
         function resetAstronaut() {
-            document.getElementById('coefDisplayRed').textContent = 'x1.00';
+            const display = document.getElementById('coefDisplayRed');
+            display.textContent = 'x1.00';
+            display.classList.remove('show');
             document.getElementById('rocketRed').classList.remove('flying');
             document.getElementById('fireRed').style.opacity = '0';
         }
 
         function startAstronautGame() {
             playSound();
-            startVerificationAstro(launchRedRocket);
+            startVerificationAstro(showFinalX);
         }
 
-        function launchRedRocket() {
+        function showFinalX() {
             const rocket = document.getElementById('rocketRed');
             const fire = document.getElementById('fireRed');
             const display = document.getElementById('coefDisplayRed');
 
+            // Запуск ракеты
             fire.style.opacity = '1';
             rocket.classList.add('flying');
 
-            let current = 1.00;
-            const step = 0.05;
-            const interval = setInterval(() => {
-                current += step;
-                display.textContent = `x${current.toFixed(2)}`;
-                if (current >= targetCoef) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoef.toFixed(2)}!`, 'success');
-                        document.getElementById('playButtonAstro').classList.add('hidden');
-                        document.getElementById('navButtonsAstro').classList.remove('hidden');
-                        document.getElementById('nextButtonAstro').disabled = false;
-                    }, 400);
-                }
-            }, 120);
+            // Показываем икс мгновенно
+            display.textContent = `x${targetCoef.toFixed(2)}`;
+            display.classList.add('show');
+
+            // Звук появления
+            playSound();
+
+            // Сигнал
+            showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoef.toFixed(2)}!`, 'success');
+
+            // Кнопки
+            document.getElementById('playButtonAstro').classList.add('hidden');
+            document.getElementById('navButtonsAstro').classList.remove('hidden');
+            document.getElementById('nextButtonAstro').disabled = false;
         }
 
         function showStatusAstro(text, type = '') {
@@ -498,14 +426,11 @@
 
         function startVerificationAstro(cb) {
             document.getElementById('playButtonAstro').disabled = true;
-            showStatusAstro('Вернись в 1win...', 'error');
+            showStatusAstro('Проверка хэша...', 'loading');
             setTimeout(() => {
-                showStatusAstro('Проверка хэша...', 'loading');
-                setTimeout(() => {
-                    showStatusAstro('Хэш подтверждён!', 'success');
-                    setTimeout(cb, 800);
-                }, 8000);
-            }, 1500);
+                showStatusAstro('Хэш подтверждён!', 'success');
+                setTimeout(cb, 300); // 0.3 сек после "подтверждено"
+            }, 1500); // 1.5 сек на проверку
         }
 
         function nextAstroSignal() {
@@ -545,7 +470,6 @@
             });
         }
 
-        // Инициализация
         window.addEventListener('load', () => {
             resetAstronaut();
         });
