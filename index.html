@@ -57,7 +57,7 @@
         }
         .modal h2 { color: #00ff88; margin-bottom: 12px; font-size: 16px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
         .modal p { font-size: 13px; color: #ddd; margin-bottom: 14px; line-height: 1.5; }
-        .modal .promo { font-weight: bold; color: #00ff88; font-size: 14px; background: rgba(0,255,136,0.15); padding: 6px 10px; border-radius: 8px; margin: 10px Aeronautics 0 8px; display: inline-block; }
+        .modal .promo { font-weight: bold; color: #00ff88; font-size: 14px; background: rgba(0,255,136,0.15); padding: 6px 10px; border-radius: 8px; margin: 10px 0 8px; display: inline-block; }
         .copy-promo-btn {
             background: linear-gradient(45deg, #ff6b35, #f7931e);
             color: #fff;
@@ -236,25 +236,29 @@
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
 
-        /* === LUCKY JET — ПРАВИЛЬНЫЕ ФОТО === */
+        /* === LUCKY JET — ЧЁРНЫЙ ФОН + НАДПИСЬ + БЕЗ ВЗЛЁТА === */
         .luckyjet-container {
             position: relative;
             width: 100%;
             height: 300px;
-            background: #0a0a1a;
+            background: #000; /* ЧЁРНЫЙ ФОН */
             border-radius: 20px;
             overflow: hidden;
             margin: 16px 0;
             box-shadow: 0 0 30px rgba(138, 43, 226, 0.4);
             border: 2px solid #8a2be2;
         }
-        .luckyjet-bg {
+        .luckyjet-title {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(circle at 50% 30%, rgba(138, 43, 226, 0.2), transparent 60%),
-                        radial-gradient(circle at 20% 80%, rgba(255, 215, 0, 0.1), transparent 50%),
-                        radial-gradient(circle at 80% 70%, rgba(0, 255, 255, 0.1), transparent 50%);
-            z-index: 1;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            font-weight: 700;
+            color: #d8b4fe;
+            text-shadow: 0 0 15px #8a2be2, 0 0 30px #9932cc;
+            z-index: 5;
+            letter-spacing: 1px;
         }
         .luckyjet-guy {
             position: absolute;
@@ -264,14 +268,11 @@
             width: 110px;
             height: 150px;
             z-index: 3;
-            transition: all 0.8s ease;
+            animation: hover-lj 2s ease-in-out infinite;
         }
-        .luckyjet-guy.fly {
-            animation: fly-lj 2.8s ease-in-out forwards;
-        }
-        @keyframes fly-lj {
-            0% { bottom: 60px; transform: translateX(-50%) rotate(-10deg); }
-            100% { bottom: 220px; transform: translateX(-50%) rotate(5deg); }
+        @keyframes hover-lj {
+            0%, 100% { transform: translateX(-50%) rotate(-10deg) translateY(0); }
+            50% { transform: translateX(-50%) rotate(-10deg) translateY(-10px); }
         }
         .fire-lj {
             position: absolute;
@@ -587,11 +588,11 @@
             </div>
         </div>
 
-        <!-- === LUCKY JET — ПРАВИЛЬНЫЕ ИЗОБРАЖЕНИЯ === -->
+        <!-- === LUCKY JET — ОБНОВЛЁННЫЙ === -->
         <div id="luckyjetGame" class="hidden">
             <div id="statusLJ" class="status"></div>
             <div class="luckyjet-container">
-                <div class="luckyjet-bg"></div>
+                <div class="luckyjet-title">Lucky Jet</div>
                 <div class="luckyjet-guy" id="luckyjetGuy">
                     <img src="https://i.ibb.co/bgqxdqHX/luckyjet-guy.png" alt="Lucky Jet Guy" style="width:100%;height:100%;">
                 </div>
@@ -690,12 +691,11 @@
         function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
         function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
 
-        // === LUCKY JET ===
+        // === LUCKY JET — БЕЗ ВЗЛЁТА ===
         function resetLJ() {
             const display = document.getElementById('coefDisplayLJ');
             display.textContent = 'x1.00';
             display.classList.remove('show');
-            document.getElementById('luckyjetGuy').classList.remove('fly');
             document.getElementById('fireLJ').style.opacity = '0';
         }
         function startLJGame() {
@@ -703,11 +703,9 @@
             startVerificationLJ(showFinalLJ);
         }
         function showFinalLJ() {
-            const guy = document.getElementById('luckyjetGuy');
             const fire = document.getElementById('fireLJ');
             const display = document.getElementById('coefDisplayLJ');
             fire.style.opacity = '1';
-            guy.classList.add('fly');
             display.textContent = `x${targetCoefLJ.toFixed(2)}`;
             display.classList.add('show');
             playSound();
