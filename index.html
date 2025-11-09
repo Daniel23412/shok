@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1win Mines + Astronaut Signal</title>
+    <title>1win Signals — Mines, Lucky Jet, Astronaut</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
@@ -166,7 +166,6 @@
             border: 2px solid #1a1a3a;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
-        /* === КЛАССИЧЕСКАЯ СЕТКА === */
         #classicGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -207,7 +206,6 @@
             z-index: 2;
             filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6));
         }
-        /* === ЗВЁЗДЫ + 1W === */
         #starsGame .cell {
             width: 100%;
             padding-bottom: 100%;
@@ -252,38 +250,9 @@
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.15); }
         }
-        /* === COINFLIP === */
-        .coin-container { perspective: 1000px; margin: 30px 0; display: flex; justify-content: center; flex-direction: column; align-items: center; gap: 16px; }
-        .coin { width: 120px; height: 120px; position: relative; transform-style: preserve-3d; transition: transform 2s cubic-bezier(0.2, 0.8, 0.3, 1); }
-        .coin.spinning { animation: spin 2s cubic-bezier(0.2, 0.8, 0.3, 1) forwards; }
-        .coin .side { position: absolute; width: 100%; height: 100%; border-radius: 50%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; font-size: 48px; font-weight: bold; color: #fff; text-shadow: 0 0 15px rgba(255, 215, 0, 0.8); background: radial-gradient(circle at 30% 30%, #ffd700, #b8860b); box-shadow: 0 0 20px rgba(255, 215, 0, 0.6), inset 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 215, 0, 0.4); border: 4px solid #daa520; }
-        .coin .side::before { content: ''; position: absolute; width: 90%; height: 90%; border-radius: 50%; background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, transparent 70%); pointer-events: none; }
-        .coin .heads { transform: rotateY(0deg); z-index: 2; }
-        .coin .tails { transform: rotateY(180deg); }
-        @keyframes spin { 0% { transform: rotateY(0deg); } 100% { transform: rotateY(1800deg); } }
-        .coin-result { font-size: 24px; font-weight: bold; color: #00ff88; text-shadow: 0 0 10px #00ff88; margin-top: 10px; opacity: 0; transition: opacity 0.5s; }
-        .coin-result.show { opacity: 1; }
 
-        /* === PENALTY === */
-        .penalty-container { width: 100%; height: 320px; position: relative; background: #000; overflow: hidden; border-radius: 20px; margin: 20px 0; box-shadow: 0 0 30px rgba(0, 200, 255, 0.3); }
-        .goal-frame { position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 90%; height: 80%; border: 12px solid #fff; border-top: none; border-bottom: none; border-radius: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.5); z-index: 1; }
-        .goal-net { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px), repeating-linear-gradient(90deg, rgba(255,255,255,0.15), rgba(255,255,255,0.15) 15px, transparent 15px, transparent 30px); opacity: 0.4; z-index: 0; }
-        .blue-strip { position: absolute; top: 50%; left: 0; width: 100%; height: 60px; background: rgba(0, 100, 255, 0.5); transform: translateY(-50%); display: flex; align-items: center; justify-content: center; gap: 30px; font-size: 20px; font-weight: 20px; color: #fff; text-shadow: 0 0 10px #00d0ff; letter-spacing: 10px; overflow: hidden; z-index: 2; }
-        .blue-strip::before { content: '1win 1win 1win 1win 1win 1win'; white-space: nowrap; animation: scroll 12s linear infinite; }
-        @keyframes scroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-        .goalkeeper-hands { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 40px; z-index: 3; opacity: 0.9; }
-        .gears-grid { position: absolute; top: 15%; left: 50%; transform: translateX(-50%); width: 85%; height: 70%; display: grid; grid-template-columns: repeat(5, 1fr); grid-template-rows: repeat(3, 1fr); gap: 10px; z-index: 1; padding: 10px; }
-        .gear { position: relative; width: 100%; height: 100%; opacity: 1; transition: all 0.3s; }
-        .gear svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; }
-        .gear.green svg { filter: brightness(0) hue-rotate(90deg) saturate(5) brightness(1.5); stroke: #00ff00 !important; fill: #00ff00 !important; }
-        .gear.green { filter: drop-shadow(0 0 30px #00ff00); animation: glow 1.5s infinite alternate; }
-        .gear.green::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 70%; height: 70%; background: rgba(0, 255, 0, 0.4); border-radius: 50%; box-shadow: 0 0 50px #00ff00; z-index: -1; }
-        @keyframes glow { 0% { filter: drop-shadow(0 0 20px #00ff00); } 100% { filter: drop-shadow(0 0 50px #00ff00); } }
-        .ball { position: absolute; bottom: 15px; left: 50%; transform: translateX(-50%); width: 50px; height: 50px; background: radial-gradient(circle at 30% 30%, #fff, #000); border-radius: 50%; box-shadow: 0 0 25px rgba(255,255,255,0.9); z-index: 4; }
-        .ball::after { content: '1W'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 15px; font-weight: bold; color: #000; text-shadow: 0 0 5px #fff; }
-
-        /* === ASTRONAUT — НОВАЯ ВЕРСИЯ === */
-        .astronaut-container {
+        /* === LUCKY JET & ASTRONAUT === */
+        .crash-container {
             position: relative;
             width: 100%;
             height: 280px;
@@ -310,14 +279,14 @@
             width: 90px;
             height: 140px;
             z-index: 3;
-            transition: transform 0.6s ease;
+            transition: all 0.8s ease;
         }
         .rocket-red.flying {
-            animation: fly-red 3s ease-in-out infinite;
+            animation: fly-up 2.5s ease-in-out forwards;
         }
-        @keyframes fly-red {
-            0%, 100% { transform: translateX(-50%) rotate(-15deg) translateY(0); }
-            50% { transform: translateX(-50%) rotate(-10deg) translateY(-8px); }
+        @keyframes fly-up {
+            0% { bottom: 60px; transform: translateX(-50%) rotate(-15deg); }
+            100% { bottom: 200px; transform: translateX(-50%) rotate(0deg); }
         }
         .fire-red {
             position: absolute;
@@ -360,6 +329,20 @@
             0%, 100% { text-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ff2d55; transform: translateX(-50%) scale(1.1); }
             50% { text-shadow: 0 0 30px #ff4500, 0 0 60px #ff8c00, 0 0 90px #ff2d55; transform: translateX(-50%) scale(1.15); }
         }
+
+        .coef-input {
+            width: 100%;
+            padding: 12px;
+            margin: 12px 0;
+            background: #1a1a2e;
+            border: 1px solid #333;
+            border-radius: 12px;
+            color: #fff;
+            font-size: 16px;
+            text-align: center;
+            font-family: 'Orbitron', sans-serif;
+        }
+        .coef-input::placeholder { color: #666; }
 
         .play-btn {
             background: linear-gradient(45deg, #00d4ff 0%, #0099cc 100%);
@@ -461,8 +444,6 @@
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn, .copy-promo-btn { padding: 13px; font-size: 16px; }
             .game-card { width: 90px; height: 120px; }
-            .penalty-container { height: 280px; }
-            .gears-grid { gap: 8px; padding: 8px; }
         }
     </style>
 </head>
@@ -505,26 +486,23 @@
     </div>
 
     <div class="container">
-        <h1>MINES SIGNAL</h1>
+        <h1>1WIN SIGNALS</h1>
         <div class="game-select">
             <div class="game-card active" onclick="selectGame('classic')">
-                <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Старые мины">
+                <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Mines">
             </div>
             <div class="game-card" onclick="selectGame('stars')">
-                <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Новые мины">
+                <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Stars">
             </div>
-            <div class="game-card" onclick="selectGame('coinflip')">
-                <img src="https://i.ibb.co/DfsG9fSC/0b5f68bc-dd72-4b8d-976e-538270cdd92b-vertical.jpg" alt="Coinflip">
-            </div>
-            <div class="game-card" onclick="selectGame('penalty')">
-                <img src="https://i.ibb.co/9H6WKK4r/461c9008-7685-4e45-84d8-bd0fc59161a6-vertical.jpg" alt="Penalty">
+            <div class="game-card" onclick="selectGame('luckyjet')">
+                <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Lucky Jet">
             </div>
             <div class="game-card" onclick="selectGame('astronaut')">
                 <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Astronaut">
             </div>
         </div>
 
-        <!-- === КЛАССИЧЕСКАЯ ИГРА === -->
+        <!-- === MINES CLASSIC === -->
         <div id="classicGame">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -541,7 +519,7 @@
             </div>
         </div>
 
-        <!-- === ЗВЁЗДЫ === -->
+        <!-- === STARS === -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -557,51 +535,13 @@
             </div>
         </div>
 
-        <!-- === COINFLIP === -->
-        <div id="coinflipGame" class="hidden">
-            <div class="mines-label">Нажмите, чтобы получить сигнал</div>
-            <div id="statusCoin" class="status"></div>
-            <div class="coin-container">
-                <div id="coin" class="coin">
-                    <div class="side heads">$</div>
-                    <div class="side tails">€</div>
-                </div>
-                <div id="coinResult" class="coin-result"></div>
-            </div>
-            <button id="playButtonCoin" class="play-btn">Начать игру</button>
-            <div id="navButtonsCoin" class="nav-btns hidden">
-                <button id="backButtonCoin" class="nav-btn back-btn">Назад</button>
-                <button id="nextButtonCoin" class="nav-btn next-btn">Следующий сигнал</button>
-            </div>
-        </div>
-
-        <!-- === PENALTY === -->
-        <div id="penaltyGame" class="hidden">
-            <div class="mines-label">Нажмите, чтобы получить сигнал</div>
-            <div id="statusPenalty" class="status"></div>
-            <div class="penalty-container">
-                <div class="goal-frame">
-                    <div class="goal-net"></div>
-                </div>
-                <div class="blue-strip">
-                    <div class="goalkeeper-hands">✋ ✋</div>
-                </div>
-                <div class="gears-grid" id="gearsGrid"></div>
-                <div class="ball" id="ball"></div>
-            </div>
-            <button id="playButtonPenalty" class="play-btn">Получить сигнал</button>
-            <div id="navButtonsPenalty" class="nav-btns hidden">
-                <button id="backButtonPenalty" class="nav-btn back-btn">Назад</button>
-                <button id="nextButtonPenalty" class="nav-btn next-btn">Следующий сигнал</button>
-            </div>
-        </div>
-
-        <!-- === ASTRONAUT GAME === -->
-        <div id="astronautGame" class="hidden">
-            <div id="statusAstro" class="status"></div>
-            <div class="astronaut-container">
+        <!-- === LUCKY JET === -->
+        <div id="luckyjetGame" class="hidden">
+            <div id="statusLJ" class="status"></div>
+            <input type="number" id="coefInputLJ" class="coef-input" placeholder="Введите коэф (например: 2.50)" step="0.01" min="1.01">
+            <div class="crash-container">
                 <div class="grid-lines"></div>
-                <div class="rocket-red" id="rocketRed">
+                <div class="rocket-red" id="rocketLJ">
                     <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
                         <path d="M50 10 Q40 30 42 50 L42 90 Q42 100 50 110 Q58 100 58 90 L58 50 Q60 30 50 10 Z" fill="#ff2d55" stroke="#cc0022" stroke-width="2"/>
                         <path d="M50 10 L45 25 L50 30 L55 25 Z" fill="#ff6b35"/>
@@ -613,8 +553,35 @@
                         <rect x="46" y="105" width="8" height="10" fill="#ff4500" rx="1"/>
                     </svg>
                 </div>
-                <div class="fire-red" id="fireRed"></div>
-                <div class="coef-display-red" id="coefDisplayRed">x1.00</div>
+                <div class="fire-red" id="fireLJ"></div>
+                <div class="coef-display-red" id="coefDisplayLJ">x1.00</div>
+            </div>
+            <button id="playButtonLJ" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsLJ" class="nav-btns hidden">
+                <button id="backButtonLJ" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonLJ" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === ASTRONAUT === -->
+        <div id="astronautGame" class="hidden">
+            <div id="statusAstro" class="status"></div>
+            <div class="crash-container">
+                <div class="grid-lines"></div>
+                <div class="rocket-red" id="rocketAstro">
+                    <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q40 30 42 50 L42 90 Q42 100 50 110 Q58 100 58 90 L58 50 Q60 30 50 10 Z" fill="#ff2d55" stroke="#cc0022" stroke-width="2"/>
+                        <path d="M50 10 L45 25 L50 30 L55 25 Z" fill="#ff6b35"/>
+                        <circle cx="50" cy="45" r="6" fill="#000" opacity="0.8"/>
+                        <circle cx="50" cy="65" r="5" fill="#000" opacity="0.8"/>
+                        <path d="M42 70 L30 85 L35 90 L42 80 Z" fill="#ff4500"/>
+                        <path d="M58 70 L70 85 L65 90 L58 80 Z" fill="#ff4500"/>
+                        <rect x="44" y="90" width="12" height="15" fill="#ff8c00" rx="2"/>
+                        <rect x="46" y="105" width="8" height="10" fill="#ff4500" rx="1"/>
+                    </svg>
+                </div>
+                <div class="fire-red" id="fireAstro"></div>
+                <div class="coef-display-red" id="coefDisplayAstro">x1.00</div>
             </div>
             <button id="playButtonAstro" class="play-btn">Получить сигнал</button>
             <div id="navButtonsAstro" class="nav-btns hidden">
@@ -637,32 +604,11 @@
         const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
         const clickSound = document.getElementById('clickSound');
 
-        // === ИЗМЕНИ ЭТОТ КОЭФФИЦИЕНТ ВРУЧНУЮ ===
-        let targetCoef = 2.5; // ← ТЫ ЗАДАЁШЬ ЗДЕСЬ
-
         let currentMines = 1;
         let currentMinesStars = 2;
         let currentGame = 'classic';
-        let greenGearIndex = -1;
-        const gears = [];
-        const gearSVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-            <circle cx="50" cy="50" r="45" fill="none" stroke="#666" stroke-width="8"/>
-            <circle cx="50" cy="50" r="35" fill="#111" />
-            <g fill="#666">
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(0 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(36 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(72 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(108 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(144 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(180 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(216 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(252 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(288 50 50)"/>
-                <path d="M50 5 L55 15 L65 15 L57 23 L62 33 L50 28 L38 33 L43 23 L35 15 L45 15 Z" transform="rotate(324 50 50)"/>
-            </g>
-            <circle cx="50" cy="50" r="20" fill="#222" />
-            <circle cx="50" cy="50" r="12" fill="#444" />
-        </svg>`;
+        let targetCoefLJ = 2.5;
+        let targetCoefAstro = 2.5;
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -676,357 +622,143 @@
             currentGame = game;
             document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
             event.target.closest('.game-card').classList.add('active');
-            ['classic','stars','coinflip','penalty','astronaut'].forEach(g => {
+            ['classic','stars','luckyjet','astronaut'].forEach(g => {
                 document.getElementById(g+'Game').classList.toggle('hidden', g !== game);
             });
-            if (game === 'penalty') createGears();
-            if (game === 'astronaut') resetAstronaut();
+            if (game === 'luckyjet') resetLJ();
+            if (game === 'astronaut') resetAstro();
             playSound();
         }
 
         // === MINES CLASSIC ===
-        function generateScheme(mines){
-            const bombs=[]; while(bombs.length<mines){
-                const pos=Math.floor(Math.random()*25);
-                if(!bombs.includes(pos)) bombs.push(pos);
-            }
-            return {bombs};
-        }
-        function setMines(cnt){
-            currentMines=cnt;
-            document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active'));
-            event.target.classList.add('active');
-            playSound();
-        }
-        function showStatus(text,type=''){
-            const s=document.getElementById('status');
-            s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text;
-            s.className=`status ${type}`;
-        }
-        function startVerification(cb){
-            document.getElementById('playButton').disabled=true;
-            showStatus('Вернись в 1win для получения схемы','error');
-            setTimeout(()=>{ showStatus('Проверка хэша транзакции...','loading');
-                setTimeout(()=>{ showStatus('Хэш подтверждён!','success');
-                    setTimeout(cb,800);
-                },10000);
-            },1500);
-        }
-        function showScheme(){
-            const s=generateScheme(currentMines);
-            const grid = document.getElementById('scheme');
-            const playBtn=document.getElementById('playButton');
-            const nav=document.getElementById('navButtons');
-            grid.classList.remove('hidden'); grid.innerHTML='';
-            for(let i=0;i<25;i++){
-                const c=document.createElement('div');
-                c.className='cell';
-                if(s.bombs.includes(i)) c.classList.add('bomb');
-                else c.classList.add('star-blue');
-                grid.appendChild(c);
-            }
-            playBtn.classList.add('hidden');
-            nav.classList.remove('hidden');
-            document.getElementById('nextButton').disabled=false;
-        }
+        function setMines(cnt){ currentMines=cnt; document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
+        function showStatus(text,type=''){ const s=document.getElementById('status'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
+        function startVerification(cb){ document.getElementById('playButton').disabled=true; showStatus('Проверка хэша...','loading'); setTimeout(()=>{ showStatus('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
+        function generateScheme(mines){ const bombs=[]; while(bombs.length<mines){ const pos=Math.floor(Math.random()*25); if(!bombs.includes(pos)) bombs.push(pos); } return {bombs}; }
+        function showScheme(){ const s=generateScheme(currentMines); const grid = document.getElementById('scheme'); grid.classList.remove('hidden'); grid.innerHTML=''; for(let i=0;i<25;i++){ const c=document.createElement('div'); c.className='cell'; if(s.bombs.includes(i)) c.classList.add('bomb'); else c.classList.add('star-blue'); grid.appendChild(c); } document.getElementById('playButton').classList.add('hidden'); document.getElementById('navButtons').classList.remove('hidden'); document.getElementById('nextButton').disabled=false; }
+        function startGame(){ playSound(); startVerification(showScheme); }
 
         // === STARS ===
-        function setMinesStars(cnt){
-            currentMinesStars=cnt;
-            document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active'));
-            event.target.classList.add('active');
-            playSound();
-        }
-        function showStatusStars(text,type=''){
-            const s=document.getElementById('statusStars');
-            s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text;
-            s.className=`status ${type}`;
-        }
-        function generateStarsScheme(mines){
-            const totalSafe = 25 - mines;
-            const showCount = Math.floor(Math.random() * 11) + 5;
-            const safePositions = [];
-            while(safePositions.length < totalSafe){
-                const pos = Math.floor(Math.random() * 25);
-                if(!safePositions.includes(pos)) safePositions.push(pos);
-            }
-            return safePositions.slice(0, showCount);
-        }
-        function showStarsScheme(){
-            const shown = generateStarsScheme(currentMinesStars);
-            const grid = document.getElementById('schemeStars');
-            const playBtn = document.getElementById('playButtonStars');
-            const nav = document.getElementById('navButtonsStars');
-            grid.classList.remove('hidden');
-            grid.innerHTML = '';
-            for(let i = 0; i < 25; i++){
-                const c = document.createElement('div');
-                c.className = 'cell';
-                if(shown.includes(i)) c.classList.add('safe');
-                grid.appendChild(c);
-            }
-            playBtn.classList.add('hidden');
-            nav.classList.remove('hidden');
-            document.getElementById('nextButtonStars').disabled = false;
-        }
-        function startVerificationStars(cb){
-            document.getElementById('playButtonStars').disabled=true;
-            showStatusStars('Вернись в 1win для получения схемы','error');
-            setTimeout(()=>{ showStatusStars('Проверка хэша транзакции...','loading');
-                setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success');
-                    setTimeout(cb,800);
-                },10000);
-            },1500);
-        }
+        function setMinesStars(cnt){ currentMinesStars=cnt; document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
+        function showStatusStars(text,type=''){ const s=document.getElementById('statusStars'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
+        function startVerificationStars(cb){ document.getElementById('playButtonStars').disabled=true; showStatusStars('Проверка хэша...','loading'); setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
+        function generateStarsScheme(mines){ const totalSafe = 25 - mines; const showCount = Math.floor(Math.random() * 11) + 5; const safePositions = []; while(safePositions.length < totalSafe){ const pos = Math.floor(Math.random() * 25); if(!safePositions.includes(pos)) safePositions.push(pos); } return safePositions.slice(0, showCount); }
+        function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
+        function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
 
-        // === COINFLIP ===
-        function showCoinResult() {
-            const coin = document.getElementById('coin');
-            const resultText = document.getElementById('coinResult');
-            const playBtn = document.getElementById('playButtonCoin');
-            const nav = document.getElementById('navButtonsCoin');
-            const isHeads = Math.random() < 0.5;
-            const result = isHeads ? 'Орёл' : 'Решка';
-            coin.classList.remove('spinning');
-            void coin.offsetWidth;
-            showStatusCoin('Проверка хэша...', 'loading');
-            setTimeout(() => {
-                showStatusCoin('Сигнал подтверждён!', 'success');
-                coin.classList.add('spinning');
-                setTimeout(() => {
-                    coin.style.transform = isHeads ? 'rotateY(1800deg)' : 'rotateY(1980deg)';
-                    resultText.textContent = result;
-                    resultText.classList.add('show');
-                    playBtn.classList.add('hidden');
-                    nav.classList.remove('hidden');
-                    document.getElementById('nextButtonCoin').disabled = false;
-                }, 100);
-            }, 1500);
-        }
-        function showStatusCoin(text, type = '') {
-            const s = document.getElementById('statusCoin');
-            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
-            s.className = `status ${type}`;
-        }
-        function startVerificationCoin(cb) {
-            document.getElementById('playButtonCoin').disabled = true;
-            showStatusCoin('Вернись в 1win...', 'error');
-            setTimeout(() => {
-                showStatusCoin('Проверка транзакции...', 'loading');
-                setTimeout(() => {
-                    showStatusCoin('Хэш подтверждён!', 'success');
-                    setTimeout(cb, 800);
-                }, 8000);
-            }, 1500);
-        }
-        function startCoinGame() {
-            playSound();
-            startVerificationCoin(showCoinResult);
-        }
-        function nextCoinSignal() {
-            playSound();
-            const coin = document.getElementById('coin');
-            const resultText = document.getElementById('coinResult');
-            coin.style.transform = 'rotateY(0deg)';
-            resultText.classList.remove('show');
-            resultText.textContent = '';
-            document.getElementById('navButtonsCoin').classList.add('hidden');
-            document.getElementById('playButtonCoin').classList.remove('hidden');
-            document.getElementById('playButtonCoin').disabled = false;
-            document.getElementById('statusCoin').innerHTML = '';
-        }
-        function goBackCoin() {
-            playSound();
-            nextCoinSignal();
-        }
-
-        // === PENALTY ===
-        function createGears() {
-            const grid = document.getElementById('gearsGrid');
-            grid.innerHTML = '';
-            gears.length = 0;
-            greenGearIndex = -1;
-            for (let i = 0; i < 15; i++) {
-                const gearDiv = document.createElement('div');
-                gearDiv.className = 'gear';
-                gearDiv.dataset.index = i;
-                gearDiv.innerHTML = gearSVG;
-                grid.appendChild(gearDiv);
-                gears.push(gearDiv);
-            }
-        }
-        function showPenaltyResult() {
-            const status = document.getElementById('statusPenalty');
-            const playBtn = document.getElementById('playButtonPenalty');
-            const nav = document.getElementById('navButtonsPenalty');
-            if (greenGearIndex >= 0 && gears[greenGearIndex]) {
-                gears[greenGearIndex].classList.remove('green');
-            }
-            greenGearIndex = Math.floor(Math.random() * 15);
-            const targetGear = gears[greenGearIndex];
-            showStatusPenalty('Проверка хэша...', 'loading');
-            setTimeout(() => {
-                showStatusPenalty('Сигнал подтверждён!', 'success');
-                setTimeout(() => {
-                    targetGear.classList.add('green');
-                    playBtn.classList.add('hidden');
-                    nav.classList.remove('hidden');
-                    document.getElementById('nextButtonPenalty').disabled = false;
-                }, 200);
-            }, 1500);
-        }
-        function showStatusPenalty(text, type = '') {
-            const s = document.getElementById('statusPenalty');
-            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
-            s.className = `status ${type}`;
-        }
-        function startVerificationPenalty(cb) {
-            document.getElementById('playButtonPenalty').disabled = true;
-            showStatusPenalty('Вернись в 1win...', 'error');
-            setTimeout(() => {
-                showStatusPenalty('Проверка транзакции...', 'loading');
-                setTimeout(() => {
-                    showStatusPenalty('Хэш подтверждён!', 'success');
-                    setTimeout(cb, 800);
-                }, 8000);
-            }, 1500);
-        }
-        function startPenaltyGame() {
-            playSound();
-            createGears();
-            startVerificationPenalty(showPenaltyResult);
-        }
-        function nextPenaltySignal() {
-            playSound();
-            document.getElementById('navButtonsPenalty').classList.add('hidden');
-            document.getElementById('playButtonPenalty').classList.remove('hidden');
-            document.getElementById('playButtonPenalty').disabled = false;
-            document.getElementById('statusPenalty').innerHTML = '';
-        }
-        function goBackPenalty() {
-            playSound();
-            nextPenaltySignal();
-        }
-
-        // === ASTRONAUT GAME ===
-        function resetAstronaut() {
-            const display = document.getElementById('coefDisplayRed');
+        // === LUCKY JET ===
+        function resetLJ() {
+            const display = document.getElementById('coefDisplayLJ');
             display.textContent = 'x1.00';
             display.classList.remove('show');
-            document.getElementById('rocketRed').classList.remove('flying');
-            document.getElementById('fireRed').style.opacity = '0';
+            document.getElementById('rocketLJ').classList.remove('flying');
+            document.getElementById('fireLJ').style.opacity = '0';
         }
-
-        function startAstronautGame() {
+        function startLJGame() {
+            const input = document.getElementById('coefInputLJ').value.trim();
+            targetCoefLJ = input ? parseFloat(input) : 2.5;
+            if (targetCoefLJ < 1.01) targetCoefLJ = 2.5;
             playSound();
-            startVerificationAstro(showFinalX);
+            startVerificationLJ(showFinalLJ);
         }
-
-        function showFinalX() {
-            const rocket = document.getElementById('rocketRed');
-            const fire = document.getElementById('fireRed');
-            const display = document.getElementById('coefDisplayRed');
-
-            // Запуск ракеты
+        function showFinalLJ() {
+            const rocket = document.getElementById('rocketLJ');
+            const fire = document.getElementById('fireLJ');
+            const display = document.getElementById('coefDisplayLJ');
             fire.style.opacity = '1';
             rocket.classList.add('flying');
-
-            // Показываем икс мгновенно
-            display.textContent = `x${targetCoef.toFixed(2)}`;
+            display.textContent = `x${targetCoefLJ.toFixed(2)}`;
             display.classList.add('show');
-
-            // Звук
             playSound();
+            showStatusLJ(`СИГНАЛ: ВЫВОДИ НА x${targetCoefLJ.toFixed(2)}!`, 'success');
+            document.getElementById('playButtonLJ').classList.add('hidden');
+            document.getElementById('navButtonsLJ').classList.remove('hidden');
+            document.getElementById('nextButtonLJ').disabled = false;
+        }
+        function showStatusLJ(text, type = '') {
+            const s = document.getElementById('statusLJ');
+            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
+            s.className = `status ${type}`;
+        }
+        function startVerificationLJ(cb) {
+            document.getElementById('playButtonLJ').disabled = true;
+            showStatusLJ('Проверка хэша...', 'loading');
+            setTimeout(() => {
+                showStatusLJ('Хэш подтверждён!', 'success');
+                setTimeout(cb, 300);
+            }, 1500);
+        }
+        function nextLJSignal() {
+            playSound();
+            resetLJ();
+            document.getElementById('statusLJ').innerHTML = '';
+            document.getElementById('navButtonsLJ').classList.add('hidden');
+            document.getElementById('playButtonLJ').classList.remove('hidden');
+            document.getElementById('playButtonLJ').disabled = false;
+        }
 
-            // Сигнал
-            showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoef.toFixed(2)}!`, 'success');
-
-            // Кнопки
+        // === ASTRONAUT ===
+        function resetAstro() {
+            const display = document.getElementById('coefDisplayAstro');
+            display.textContent = 'x1.00';
+            display.classList.remove('show');
+            document.getElementById('rocketAstro').classList.remove('flying');
+            document.getElementById('fireAstro').style.opacity = '0';
+        }
+        function startAstroGame() {
+            targetCoefAstro = 2.5;
+            playSound();
+            startVerificationAstro(showFinalAstro);
+        }
+        function showFinalAstro() {
+            const rocket = document.getElementById('rocketAstro');
+            const fire = document.getElementById('fireAstro');
+            const display = document.getElementById('coefDisplayAstro');
+            fire.style.opacity = '1';
+            rocket.classList.add('flying');
+            display.textContent = `x${targetCoefAstro.toFixed(2)}`;
+            display.classList.add('show');
+            playSound();
+            showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoefAstro.toFixed(2)}!`, 'success');
             document.getElementById('playButtonAstro').classList.add('hidden');
             document.getElementById('navButtonsAstro').classList.remove('hidden');
             document.getElementById('nextButtonAstro').disabled = false;
         }
-
         function showStatusAstro(text, type = '') {
             const s = document.getElementById('statusAstro');
             s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
             s.className = `status ${type}`;
         }
-
         function startVerificationAstro(cb) {
             document.getElementById('playButtonAstro').disabled = true;
             showStatusAstro('Проверка хэша...', 'loading');
             setTimeout(() => {
                 showStatusAstro('Хэш подтверждён!', 'success');
                 setTimeout(cb, 300);
-            }, 1500); // 1.5 сек
+            }, 1500);
         }
-
         function nextAstroSignal() {
             playSound();
-            resetAstronaut();
+            resetAstro();
             document.getElementById('statusAstro').innerHTML = '';
             document.getElementById('navButtonsAstro').classList.add('hidden');
             document.getElementById('playButtonAstro').classList.remove('hidden');
             document.getElementById('playButtonAstro').disabled = false;
         }
 
-        function goBackAstro() {
-            playSound();
-            nextAstroSignal();
-        }
-
         // === КНОПКИ ===
-        function startGame(){ playSound(); startVerification(showScheme); }
-        function nextScheme(){ playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); }
-        function goBack(){
-            playSound();
-            const g=document.getElementById('scheme');
-            const p=document.getElementById('playButton');
-            const n=document.getElementById('navButtons');
-            g.classList.add('hidden'); p.classList.remove('hidden');
-            document.getElementById('playButton').disabled=false;
-            n.classList.add('hidden');
-            document.getElementById('status').innerHTML='';
-        }
-        function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
-        function nextSchemeStars(){ playSound(); document.getElementById('schemeStars').classList.add('hidden'); startVerificationStars(showStarsScheme); }
-        function goBackStars(){
-            playSound();
-            const g=document.getElementById('schemeStars');
-            const p=document.getElementById('playButtonStars');
-            const n=document.getElementById('navButtonsStars');
-            g.classList.add('hidden'); p.classList.remove('hidden');
-            document.getElementById('playButtonStars').disabled=false;
-            n.classList.add('hidden');
-            document.getElementById('statusStars').innerHTML='';
-        }
-
-        // === ПРИВЯЗКА СОБЫТИЙ ===
         document.getElementById('playButton').addEventListener('click', startGame);
-        document.getElementById('backButton').addEventListener('click', goBack);
-        document.getElementById('nextButton').addEventListener('click', nextScheme);
+        document.getElementById('backButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); document.getElementById('playButton').classList.remove('hidden'); document.getElementById('playButton').disabled=false; document.getElementById('navButtons').classList.add('hidden'); document.getElementById('status').innerHTML=''; });
+        document.getElementById('nextButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); });
         document.getElementById('playButtonStars').addEventListener('click', startGameStars);
-        document.getElementById('backButtonStars').addEventListener('click', goBackStars);
-        document.getElementById('nextButtonStars').addEventListener('click', nextSchemeStars);
-        document.getElementById('playButtonCoin').addEventListener('click', startCoinGame);
-        document.getElementById('backButtonCoin').addEventListener('click', goBackCoin);
-        document.getElementById('nextButtonCoin').addEventListener('click', () => {
-            nextCoinSignal();
-            setTimeout(startCoinGame, 500);
-        });
-        document.getElementById('playButtonPenalty').addEventListener('click', startPenaltyGame);
-        document.getElementById('backButtonPenalty').addEventListener('click', goBackPenalty);
-        document.getElementById('nextButtonPenalty').addEventListener('click', () => {
-            nextPenaltySignal();
-            setTimeout(startPenaltyGame, 600);
-        });
-        document.getElementById('playButtonAstro').addEventListener('click', startAstronautGame);
-        document.getElementById('backButtonAstro').addEventListener('click', goBackAstro);
-        document.getElementById('nextButtonAstro').addEventListener('click', () => {
-            nextAstroSignal();
-            setTimeout(startAstronautGame, 600);
-        });
+        document.getElementById('backButtonStars').addEventListener('click', () => { playSound(); document.getElementById('schemeStars').classList.add('hidden'); document.getElementById('playButtonStars').classList.remove('hidden'); document.getElementById('playButtonStars').disabled=false; document.getElementById('navButtonsStars').classList.add('hidden'); document.getElementById('statusStars').innerHTML=''; });
+        document.getElementById('nextButtonStars').addEventListener('click', () => { playSound(); document.getElementById('schemeStars').classList.add('hidden'); startVerificationStars(showStarsScheme); });
+        document.getElementById('playButtonLJ').addEventListener('click', startLJGame);
+        document.getElementById('backButtonLJ').addEventListener('click', nextLJSignal);
+        document.getElementById('nextButtonLJ').addEventListener('click', () => { nextLJSignal(); setTimeout(startLJGame, 600); });
+        document.getElementById('playButtonAstro').addEventListener('click', startAstroGame);
+        document.getElementById('backButtonAstro').addEventListener('click', nextAstroSignal);
+        document.getElementById('nextButtonAstro').addEventListener('click', () => { nextAstroSignal(); setTimeout(startAstroGame, 600); });
 
         function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
         function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
@@ -1043,10 +775,9 @@
             });
         }
 
-        // Инициализация
         window.addEventListener('load', () => {
-            if (currentGame === 'penalty') createGears();
-            resetAstronaut();
+            resetLJ();
+            resetAstro();
         });
     </script>
 </body>
