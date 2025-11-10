@@ -10,15 +10,16 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 # === НАСТРОЙКИ ===
-BOT_TOKEN = "8540670040:AAFyqoJNU2LVjbub-IJFQ9jqIbAiwIMNknE"  # ← Замени на свой токен
+BOT_TOKEN = "7777777777:AAF..."  # ← твой токен
 REF_LINK = "https://lkbz.pro/e1877d"
 
-# ← ВСТАВЬ СЮДА СВОИ file_id ↓
-PHOTO_REG_1 = "https://ibb.co/RGH059wk"  # Фото 1
-PHOTO_REG_2 = "https://ibb.co/5hD0pLq1"  # Фото 2
-PHOTO_SIGNAL = "https://ibb.co/5hD0pLq1"  # Фото сигнала
+# ← ВСТАВЬ СВОИ file_id ↓
+PHOTO_REG_1 = "AgACAgIAAxkBAAI..."
+PHOTO_REG_2 = "AgACAgIAAxkBAAI..."
+PHOTO_SIGNAL = "AgACAgIAAxkBAAI..."
 
 logging.basicConfig(level=logging.INFO)
+
 from aiogram.client.default import DefaultBotProperties
 from aiogram.enums import ParseMode
 
@@ -28,6 +29,10 @@ bot = Bot(
 )
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
+
+# === СОСТОЯНИЯ (ВАЖНО: ДО ВСЕХ ХЕНДЛЕРОВ!) ===
+class UserState(StatesGroup):
+    registered = State()
 
 # === Клавиатуры ===
 def main_menu():
