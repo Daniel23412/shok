@@ -19,12 +19,15 @@ PHOTO_REG_2 = "https://ibb.co/5hD0pLq1"  # Фото 2
 PHOTO_SIGNAL = "https://ibb.co/5hD0pLq1"  # Фото сигнала
 
 logging.basicConfig(level=logging.INFO)
-bot = Bot(token=BOT_TOKEN, parse_mode="HTML")
+from aiogram.client.default import DefaultBotProperties
+from aiogram.enums import ParseMode
+
+bot = Bot(
+    token=BOT_TOKEN,
+    default=DefaultBotProperties(parse_mode=ParseMode.HTML)
+)
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
-
-class UserState(StatesGroup):
-    registered = State()
 
 # === Клавиатуры ===
 def main_menu():
