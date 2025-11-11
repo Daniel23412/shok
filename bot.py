@@ -10,7 +10,7 @@ from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.utils.keyboard import InlineKeyboardBuilder
 
 # === НАСТРОЙКИ ===
-BOT_TOKEN = "7777777777:AAF..."  # ← твой токен
+BOT_TOKEN = "8540670040:AAFyqoJNU2LVjbub-IJFQ9jqIbAiwIMNknE"  # ← твой токен
 REF_LINK = "https://lkbz.pro/e1877d"
 
 # ← ВСТАВЬ СВОИ file_id ↓
