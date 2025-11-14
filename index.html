@@ -3,19 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1win Mines Signals</title>
+    <title>1win Signals — All Games</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            background: #0a0a1a;
+            background: linear-gradient(135deg, #0a0a1a 0%, #1a1a3a 100%);
             color: #fff;
             font-family: 'Orbitron', sans-serif;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
-            min-height: 100vh;
+            justify-content: flex-start;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        .online-bar {
+            width: 100%;
+            text-align: center;
+            font-size: 13px;
+            color: #00ff88;
+            margin: 8px 0 10px;
+            animation: blink 2s infinite;
+            font-weight: 500;
+        }
+        @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+        .logo-container {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .logo-container svg {
+            height: 40px;
+            width: auto;
+            filter: drop-shadow(0 0 8px rgba(0, 255, 136, 0.5));
         }
         .container {
             width: 100%;
@@ -25,15 +47,10 @@
             padding: 16px;
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
             border: 1px solid rgba(0, 200, 255, 0.25);
+            margin-top: 5px;
         }
-        h1 {
-            text-align: center;
-            color: #00ff88;
-            text-shadow: 0 0 8px #00ff88;
-            margin-bottom: 16px;
-            font-size: 18px;
-            font-weight: 700;
-        }
+        h1 { text-align: center; font-size: 18px; color: #00ff88; margin-bottom: 6px; text-shadow: 0 0 8px #00ff88; font-weight: 700; }
+        .mines-label { text-align: center; font-size: 14px; color: #aaa; margin: 12px 0 8px; font-weight: 500; }
         .controls {
             display: flex;
             justify-content: center;
@@ -54,27 +71,30 @@
         }
         .mine-btn.active {
             background: #00d0ff;
-            color: #000;
+            border-color: #00d0ff;
             box-shadow: 0 0 18px #00d0ff;
+            color: #000;
             transform: scale(1.05);
         }
         .status {
             text-align: center;
-            padding: 8px 12px;
-            background: rgba(0,0,0,0.3);
-            border-radius: 8px;
             margin: 12px 0;
+            font-size: 13px;
+            line-height: 1.4;
+            padding: 8px 12px;
+            border-radius: 8px;
             min-height: 36px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 13px;
             font-weight: 500;
+            background: rgba(0, 0, 0, 0.3);
             border: 1px solid rgba(0, 208, 255, 0.2);
         }
         .loading { color: #00d0ff; }
         .success { color: #00ff88; }
         .spinner {
+            display: inline-block;
             width: 14px;
             height: 14px;
             border: 2px solid #00d0ff;
@@ -86,7 +106,7 @@
         @keyframes spin { to { transform: rotate(360deg); } }
 
         /* СЕТКА */
-        .grid {
+        #classicGame .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
@@ -95,14 +115,14 @@
             background: #0a0a1a;
             border-radius: 20px;
             border: 2px solid #1a1a3a;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,208,255,0.15);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
-        .cell {
+        #classicGame .cell {
             position: relative;
             background: #0a0a1a;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: inset 0 0 15px rgba(0,0,0,0.8), 0 0 20px rgba(0,208,255,0.2);
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 208, 255, 0.2);
             opacity: 0;
             transform: scale(0.8);
             animation: cellAppear 0.6s ease-out forwards;
@@ -110,22 +130,22 @@
         @keyframes cellAppear { to { opacity: 1; transform: scale(1); } }
 
         /* РАМКА */
-        .cell::before {
+        #classicGame .cell::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: url('assets/cellsFrame.png') center/contain no-repeat;
-            background-color: #0a0a1a;
+            background: url('assets/cellsFrame.png') center/cover no-repeat;
             z-index: 1;
             pointer-events: none;
+            background-color: #0a0a1a;
         }
 
-        .cell.safe { background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a); }
-        .cell.bomb {
+        #classicGame .cell.safe { background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a); }
+        #classicGame .cell.bomb {
             background: radial-gradient(circle, #330000, #110000);
-            box-shadow: inset 0 0 20px #ff0000, 0 0 25px rgba(255,0,0,0.5);
+            box-shadow: inset 0 0 20px #ff0000, 0 0 25px rgba(255, 0, 0, 0.5);
         }
-        .cell.bomb::after {
+        #classicGame .cell.bomb::after {
             content: 'X';
             position: absolute;
             top: 50%; left: 50%;
@@ -140,7 +160,7 @@
         @keyframes bombPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.2); } }
 
         /* ЗОЛОТАЯ ЗВЁЗДА */
-        .cell.safe::after {
+        #classicGame .cell.safe::after {
             content: '★';
             position: absolute;
             top: 50%; left: 50%;
@@ -163,99 +183,166 @@
             100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 1; }
         }
 
-        .play-btn {
-            background: linear-gradient(45deg, #8a2be2, #ba55d3);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 16px;
-            box-shadow: 0 4px 15px rgba(138,43,226,0.4);
-            transition: all 0.2s;
-        }
+        .play-btn { background: linear-gradient(45deg, #8a2be2 0%, #ba55d3 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 17px; font-weight: 700; border-radius: 12px; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); transition: all 0.2s; }
+        .play-btn.astro { background: linear-gradient(45deg, #ff6b35, #f7931e); box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4); }
         .play-btn:active { transform: translateY(1px); }
+        .ref-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; }
         .nav-btns { display: flex; gap: 10px; margin-top: 16px; }
-        .nav-btn { flex: 1; padding: 12px; border-radius: 12px; cursor: pointer; font-weight: 700; }
+        .nav-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; }
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
-        .next-btn { background: linear-gradient(45deg, #00ff88, #00cc66); color: #000; border: none; }
+        .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
+        .game-select { display: flex; gap: 12px; margin: 12px 0; justify-content: center; flex-wrap: wrap; }
+        .game-card { width: 100px; height: 140px; background: #1a1a2e; border-radius: 16px; overflow: hidden; cursor: pointer; border: 2px solid #333; transition: all 0.2s; position: relative; }
+        .game-card.active { border: 2px solid #8a2be2; box-shadow: 0 0 20px rgba(138, 43, 226, 0.6); transform: scale(1.05); }
+        .game-card.astro.active { border-color: #ff6b35; box-shadow: 0 0 20px rgba(255, 107, 53, 0.6); }
+        .game-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .telegram-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #00d0ff; font-size: 13px; text-decoration: none; font-weight: 500; }
+        .telegram-link img { width: 20px; height: 20px; }
         .hidden { display: none !important; }
-
+        .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0, 255, 136, 0.9); color: #000; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4); z-index: 1000; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
+        .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
         @media (max-width: 380px) {
             .container { padding: 14px; }
             .mine-btn { width: 46px; height: 46px; font-size: 16px; }
+            .logo-container svg { height: 36px; }
+            .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
+            .play-btn { padding: 13px; font-size: 16px; }
+            .game-card { width: 90px; height: 120px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>1WIN MINES SIGNALS</h1>
-        <div class="controls">
-            <button class="mine-btn active" onclick="setMines(1)">1</button>
-            <button class="mine-btn" onclick="setMines(2)">2</button>
-            <button class="mine-btn" onclick="setMines(3)">3</button>
-        </div>
-        <div id="status" class="status"></div>
-        <div id="scheme" class="grid hidden"></div>
-        <button id="playButton" class="play-btn">Получить сигнал</button>
-        <div id="navButtons" class="nav-btns hidden">
-            <button id="backButton" class="nav-btn back-btn">Назад</button>
-            <button id="nextButton" class="nav-btn next-btn">Следующий сигнал</button>
+    <!-- ОНЛАЙН -->
+    <div class="online-bar">
+        Онлайн: <span id="onlineCount">47</span> игроков
+    </div>
+
+    <!-- ЛОГОТИП 1WIN (SVG) -->
+    <div class="logo-container">
+        <svg viewBox="0 0 240 80" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#00d4ff; stop-opacity:1" />
+                    <stop offset="100%" style="stop-color:#0099cc; stop-opacity:1" />
+                </linearGradient>
+                <filter id="glow">
+                    <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+                    <feMerge>
+                        <feMergeNode in="coloredBlur"/>
+                        <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                </filter>
+            </defs>
+            <text x="10" y="58" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="url(#grad1)" stroke="#000" stroke-width="3" paint-order="stroke fill">1</text>
+            <text x="52" y="58" font-family="Arial, sans-serif" font-size="58" font-weight="900" fill="#fff" stroke="#000" stroke-width="3" paint-order="stroke fill">win</text>
+            <circle cx="38" cy="28" r="6" fill="#00d4ff" filter="url(#glow)"/>
+        </svg>
+    </div>
+
+    <!-- МОДАЛЬНОЕ ОКНО -->
+    <div id="registerModal" class="modal-overlay">
+        <div class="modal">
+            <h2>Зарегистрированы по нашей ссылке?</h2>
+            <p>Сигналы работают <strong>ТОЛЬКО</strong> по нашей рефке.<br>
+               <span class="promo">Промокод GEKTOR2 → +100% к депозиту</span></p>
+            <button class="copy-promo-btn" onclick="copyPromo()">СКОПИРОВАТЬ ПРОМОКОД</button>
+            <div class="modal-buttons">
+                <button class="modal-btn yes-btn" onclick="closeModal()">Да</button>
+                <button class="modal-btn reg-btn" onclick="goTo1win()">Зарегистрироваться</button>
+            </div>
         </div>
     </div>
 
+    <div class="container">
+        <h1>1WIN SIGNALS</h1>
+
+        <!-- ВЫБОР ИГРЫ -->
+        <div class="game-select">
+            <div class="game-card active" onclick="selectGame('classic')">
+                <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Mines">
+            </div>
+            <div class="game-card" onclick="selectGame('stars')">
+                <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Stars">
+            </div>
+            <div class="game-card" onclick="selectGame('luckyjet')">
+                <img src="https://i.ibb.co/CKqkCBbD/luckyjet-thumb.jpg" alt="Lucky Jet">
+            </div>
+            <div class="game-card astro" onclick="selectGame('astronaut')">
+                <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Astronaut">
+            </div>
+        </div>
+
+        <!-- MINES -->
+        <div id="classicGame">
+            <div class="mines-label">Выберите количество мин</div>
+            <div class="controls">
+                <button class="mine-btn active" onclick="setMines(1)">1</button>
+                <button class="mine-btn" onclick="setMines(2)">2</button>
+                <button class="mine-btn" onclick="setMines(3)">3</button>
+            </div>
+            <div id="status" class="status"></div>
+            <div id="scheme" class="grid hidden"></div>
+            <button id="playButton" class="play-btn">Получить сигнал</button>
+            <div id="navButtons" class="nav-btns hidden">
+                <button id="backButton" class="nav-btn back-btn">Назад</button>
+                <button id="nextButton" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- ДРУГИЕ ИГРЫ -->
+        <div id="starsGame" class="hidden">...</div>
+        <div id="luckyjetGame" class="hidden">...</div>
+        <div id="astronautGame" class="hidden">...</div>
+
+        <!-- КНОПКИ -->
+        <button class="play-btn ref-btn" onclick="open1win()">Играть в 1win (+100%)</button>
+        <a href="https://t.me/LuckyD2" target="_blank" class="telegram-link">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+            @LuckyD2
+        </a>
+    </div>
+
+    <div id="copyToast" class="copy-toast">Промокод скопирован!</div>
     <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiINwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
 
     <script>
+        const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
         const clickSound = document.getElementById('clickSound');
         let currentMines = 1;
 
-        function playSound() {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => {});
+        function updateOnlineCount(){
+            const cnt = Math.floor(Math.random()*51)+30;
+            document.getElementById('onlineCount').textContent = cnt;
         }
+        updateOnlineCount(); setInterval(updateOnlineCount,300000);
 
-        function setMines(n) {
-            currentMines = n;
-            document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+        function playSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
+
+        function selectGame(game) {
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+            event.target.closest('.game-card').classList.add('active');
+            ['classic','stars','luckyjet','astronaut'].forEach(g => {
+                document.getElementById(g+'Game').classList.toggle('hidden', g !== game);
+            });
             playSound();
         }
 
-        function showStatus(text, type = '') {
-            const s = document.getElementById('status');
-            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
-            s.className = `status ${type}`;
-        }
-
-        function startVerification(cb) {
-            const btn = document.getElementById('playButton');
-            btn.disabled = true;
-            showStatus('Проверка хэша...', 'loading');
-            setTimeout(() => {
-                showStatus('Хэш подтверждён!', 'success');
-                setTimeout(() => {
-                    cb();
-                    btn.disabled = false;
-                }, 800);
-            }, 1500);
-        }
+        function setMines(cnt){ currentMines=cnt; document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
+        function showStatus(text,type=''){ const s=document.getElementById('status'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
+        function startVerification(cb){ document.getElementById('playButton').disabled=true; showStatus('Проверка хэша...','loading'); setTimeout(()=>{ showStatus('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
 
         function generateSafeCells() {
-            const count = Math.floor(Math.random() * 3) + 7; // 7, 8 или 9
-            const safe = [];
-            while (safe.length < count) {
+            const showCount = Math.floor(Math.random() * 3) + 7;
+            const safePositions = [];
+            while (safePositions.length < showCount) {
                 const pos = Math.floor(Math.random() * 25);
-                if (!safe.includes(pos)) safe.push(pos);
+                if (!safePositions.includes(pos)) safePositions.push(pos);
             }
-            return safe;
+            return safePositions;
         }
 
         function showScheme() {
-            const safe = generateSafeCells();
+            const safeToShow = generateSafeCells();
             const grid = document.getElementById('scheme');
             grid.classList.remove('hidden');
             grid.innerHTML = '';
@@ -265,9 +352,8 @@
                 cell.className = 'cell';
                 cell.style.animationDelay = `${i * 0.05}s`;
 
-                if (safe.includes(i)) {
+                if (safeToShow.includes(i)) {
                     cell.classList.add('safe');
-                    // Звезда появляется через 0.5s + задержка
                     setTimeout(() => {
                         cell.style.setProperty('--star-delay', '0s');
                     }, 500 + i * 60);
@@ -283,25 +369,34 @@
             playSound();
         }
 
-        // КНОПКИ
-        document.getElementById('playButton').onclick = () => {
-            playSound();
-            startVerification(showScheme);
-        };
+        function startGame(){ playSound(); startVerification(showScheme); }
 
-        document.getElementById('backButton').onclick = () => {
+        document.getElementById('playButton').addEventListener('click', startGame);
+        document.getElementById('backButton').addEventListener('click', () => {
             playSound();
             document.getElementById('scheme').classList.add('hidden');
             document.getElementById('playButton').classList.remove('hidden');
+            document.getElementById('playButton').disabled = false;
             document.getElementById('navButtons').classList.add('hidden');
             document.getElementById('status').innerHTML = '';
-        };
-
-        document.getElementById('nextButton').onclick = () => {
+        });
+        document.getElementById('nextButton').addEventListener('click', () => {
             playSound();
             document.getElementById('scheme').classList.add('hidden');
             startVerification(showScheme);
-        };
+        });
+
+        function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
+        function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
+        function goTo1win(){ closeModal(); open1win(); }
+        function copyPromo() {
+            playSound();
+            navigator.clipboard.writeText('GEKTOR2').then(() => {
+                const toast = document.getElementById('copyToast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
     </script>
 </body>
 </html>
