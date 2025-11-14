@@ -230,7 +230,7 @@
         }
         @keyframes bombPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.2); } }
 
-        /* === STARS — ПОЛНОСТЬЮ ИСПРАВЛЕНО === */
+        /* === STARS — ЗАКРЫТЫЕ ЯЧЕЙКИ → ЗВЕЗДЫ ПО ОДНОЙ === */
         #starsGame .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -242,73 +242,59 @@
             border: 2px solid #1a1a3a;
             box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
+
         #starsGame .cell {
             position: relative;
             background: #0a0a1a;
             border-radius: 14px;
             overflow: hidden;
             box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 208, 255, 0.2);
-            animation: cellAppear 0.6s ease-out forwards;
-            opacity: 0;
-            transform: scale(0.8);
             width: 100%;
             padding-bottom: 100%;
+            cursor: pointer;
+            transition: all 0.4s ease;
         }
-        #starsGame .cell:nth-child(1) { animation-delay: 0.05s; }
-        #starsGame .cell:nth-child(2) { animation-delay: 0.10s; }
-        #starsGame .cell:nth-child(3) { animation-delay: 0.15s; }
-        #starsGame .cell:nth-child(4) { animation-delay: 0.20s; }
-        #starsGame .cell:nth-child(5) { animation-delay: 0.25s; }
-        #starsGame .cell:nth-child(6) { animation-delay: 0.30s; }
-        #starsGame .cell:nth-child(7) { animation-delay: 0.35s; }
-        #starsGame .cell:nth-child(8) { animation-delay: 0.40s; }
-        #starsGame .cell:nth-child(9) { animation-delay: 0.45s; }
-        #starsGame .cell:nth-child(10) { animation-delay: 0.50s; }
-        #starsGame .cell:nth-child(11) { animation-delay: 0.55s; }
-        #starsGame .cell:nth-child(12) { animation-delay: 0.60s; }
-        #starsGame .cell:nth-child(13) { animation-delay: 0.65s; }
-        #starsGame .cell:nth-child(14) { animation-delay: 0.70s; }
-        #starsGame .cell:nth-child(15) { animation-delay: 0.75s; }
-        #starsGame .cell:nth-child(16) { animation-delay: 0.80s; }
-        #starsGame .cell:nth-child(17) { animation-delay: 0.85s; }
-        #starsGame .cell:nth-child(18) { animation-delay: 0.90s; }
-        #starsGame .cell:nth-child(19) { animation-delay: 0.95s; }
-        #starsGame .cell:nth-child(20) { animation-delay: 1.00s; }
-        #starsGame .cell:nth-child(21) { animation-delay: 1.05s; }
-        #starsGame .cell:nth-child(22) { animation-delay: 1.10s; }
-        #starsGame .cell:nth-child(23) { animation-delay: 1.15s; }
-        #starsGame .cell:nth-child(24) { animation-delay: 1.20s; }
-        #starsGame .cell:nth-child(25) { animation-delay: 1.25s; }
 
         #starsGame .cell::before {
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
             background: url('assets/cellsFrame.png') center/cover no-repeat;
-            z-index: 1;
-            pointer-events: none;
-        }
-        #starsGame .cell.safe {
-            background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a);
-        }
-        #starsGame .cell.safe::after {
-            content: '★';
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 32px;
-            color: #4da6ff;
-            text-shadow: 0 0 12px #4da6ff, 0 0 6px #000;
-            font-weight: bold;
             z-index: 2;
-            animation: starPulse 1.5s infinite;
-        }
-        @keyframes starPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
+            pointer-events: none;
+            transition: opacity 0.4s ease;
         }
 
-        /* === LUCKY JET & ASTRONAUT (без изменений) === */
+        #starsGame .cell.revealed::before {
+            opacity: 0;
+        }
+
+        #starsGame .cell .star {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            font-size: 36px;
+            color: #4da6ff;
+            text-shadow: 0 0 15px #4da6ff, 0 0 8px #000;
+            font-weight: bold;
+            z-index: 1;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        #starsGame .cell.revealed .star {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.3);
+            animation: starPop 0.6s ease forwards;
+        }
+
+        @keyframes starPop {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            70% { transform: translate(-50%, -50%) scale(1.4); }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+        }
+
+        /* === LUCKY JET & ASTRONAUT === */
         .luckyjet-container, .crash-container {
             position: relative; width: 100%; height: 300px; background: #000; border-radius: 20px; overflow: hidden; margin: 16px 0; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); border: 2px solid #8a2be2;
         }
@@ -510,6 +496,7 @@
         let currentMinesStars = 2;
         let currentGame = 'classic';
         let cellDesigns = [];
+        let starPositions = [];
 
         async function loadCellDesigns() {
             const files = [
@@ -580,14 +567,13 @@
         // === STARS ===
         function setMinesStars(cnt){ currentMinesStars=cnt; document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
         function showStatusStars(text,type=''){ const s=document.getElementById('statusStars'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
-        function startVerificationStars(cb){ document.getElementById('playButtonStars').disabled=true; showStatusStars('Проверка хэша...','loading'); setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
 
         function showStarsScheme() {
-            const showCount = Math.floor(Math.random() * 3) + 7; // 7–9 звёзд
-            const shown = [];
-            while (shown.length < showCount) {
+            const showCount = Math.floor(Math.random() * 3) + 7; // 7–9
+            starPositions = [];
+            while (starPositions.length < showCount) {
                 const pos = Math.floor(Math.random() * 25);
-                if (!shown.includes(pos)) shown.push(pos);
+                if (!starPositions.includes(pos)) starPositions.push(pos);
             }
 
             const grid = document.getElementById('schemeStars');
@@ -597,18 +583,42 @@
             for (let i = 0; i < 25; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
-                if (shown.includes(i)) {
-                    cell.classList.add('safe');
-                }
+                cell.dataset.index = i;
+
+                const star = document.createElement('div');
+                star.className = 'star';
+                star.textContent = '★';
+                cell.appendChild(star);
+
                 grid.appendChild(cell);
             }
 
-            document.getElementById('playButtonStars').classList.add('hidden');
-            document.getElementById('navButtonsStars').classList.remove('hidden');
-            document.getElementById('nextButtonStars').disabled = false;
+            let delay = 300;
+            starPositions.forEach(pos => {
+                setTimeout(() => {
+                    const cell = grid.children[pos];
+                    cell.classList.add('revealed');
+                    playSound();
+                }, delay);
+                delay += 200;
+            });
+
+            setTimeout(() => {
+                document.getElementById('playButtonStars').classList.add('hidden');
+                document.getElementById('navButtonsStars').classList.remove('hidden');
+                document.getElementById('nextButtonStars').disabled = false;
+            }, delay + 500);
         }
 
-        function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
+        function startGameStars() {
+            playSound();
+            document.getElementById('playButtonStars').disabled = true;
+            showStatusStars('Проверка хэша...', 'loading');
+            setTimeout(() => {
+                showStatusStars('Хэш подтверждён!', 'success');
+                setTimeout(showStarsScheme, 800);
+            }, 1500);
+        }
 
         // === LUCKY JET ===
         function resetLJ() { const d = document.getElementById('coefDisplayLJ'); d.textContent = 'x1.00'; d.classList.remove('show'); }
