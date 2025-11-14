@@ -90,7 +90,7 @@
         }
         @keyframes cellAppear { to { opacity: 1; transform: scale(1); } }
 
-        /* РАМКА */
+        /* РАМКА — ЕСЛИ НЕТ, БУДЕТ СЕРЫЙ КВАДРАТ */
         .cell::before {
             content: '';
             position: absolute;
@@ -129,7 +129,7 @@
             z-index: 2;
             opacity: 0;
             animation: starPop 0.8s ease-out forwards;
-            animation-delay: var(--delay, 0.5s);
+            animation-delay: 0.5s;
         }
         @keyframes starPop {
             0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
@@ -160,9 +160,9 @@
     <div class="container">
         <h1>1WIN MINES</h1>
         <div class="controls">
-            <button class="mine-btn active" data-mines="1">1</button>
-            <button class="mine-btn" data-mines="2">2</button>
-            <button class="mine-btn" data-mines="3">3</button>
+            <button class="mine-btn active" onclick="setMines(1)">1</button>
+            <button class="mine-btn" onclick="setMines(2)">2</button>
+            <button class="mine-btn" onclick="setMines(3)">3</button>
         </div>
         <div id="status" class="status"></div>
         <div id="scheme" class="grid hidden"></div>
@@ -174,19 +174,13 @@
     </div>
 
     <script>
-        // Защита от ошибок
-        window.addEventListener('error', (e) => console.error('JS Error:', e.error));
-
         let currentMines = 1;
 
-        // Кнопки мин
-        document.querySelectorAll('.mine-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                currentMines = parseInt(btn.dataset.mines);
-                document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-            });
-        });
+        function setMines(n) {
+            currentMines = n;
+            document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
+            event.target.classList.add('active');
+        }
 
         function showStatus(text, type = '') {
             const s = document.getElementById('status');
@@ -202,13 +196,12 @@
                 showStatus('Хэш подтверждён!', 'success');
                 setTimeout(() => {
                     cb();
-                    btn.disabled = false;
                 }, 800);
             }, 1500);
         }
 
         function generateSafeCells() {
-            const count = Math.floor(Math.random() * 3) + 7; // 7-9
+            const count = Math.floor(Math.random() * 3) + 7;
             const safe = [];
             while (safe.length < count) {
                 const pos = Math.floor(Math.random() * 25);
@@ -230,10 +223,10 @@
 
                 if (safe.includes(i)) {
                     cell.classList.add('safe');
-                    const delay = (i * 60) + 600;
+                    // Звезда появляется через 0.5s + задержка
                     setTimeout(() => {
-                        cell.style.setProperty('--delay', '0s');
-                    }, delay);
+                        cell.querySelector('::after')?.style?.setProperty('animation-delay', '0s');
+                    }, 500 + i * 60);
                 } else {
                     cell.classList.add('bomb');
                 }
@@ -245,21 +238,17 @@
         }
 
         // КНОПКИ
-        document.getElementById('playButton').addEventListener('click', () => {
-            startVerification(showScheme);
-        });
-
-        document.getElementById('backButton').addEventListener('click', () => {
+        document.getElementById('playButton').onclick = () => startVerification(showScheme);
+        document.getElementById('backButton').onclick = () => {
             document.getElementById('scheme').classList.add('hidden');
             document.getElementById('playButton').classList.remove('hidden');
             document.getElementById('navButtons').classList.add('hidden');
             document.getElementById('status').innerHTML = '';
-        });
-
-        document.getElementById('nextButton').addEventListener('click', () => {
+        };
+        document.getElementById('nextButton').onclick = () => {
             document.getElementById('scheme').classList.add('hidden');
             startVerification(showScheme);
-        });
+        };
     </script>
 </body>
 </html>
