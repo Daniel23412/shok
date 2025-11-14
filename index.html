@@ -153,7 +153,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* === НОВЫЙ MINES === */
+        /* === MINES: АНИМАЦИЯ 7-9 ЗОЛОТЫХ ЗВЁЗД === */
         #classicGame .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -170,43 +170,12 @@
             background: #0a0a1a;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow: 
-                inset 0 0 15px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(0, 208, 255, 0.2);
-            animation: cellAppear 0.6s ease-out forwards;
+            box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 208, 255, 0.2);
             opacity: 0;
             transform: scale(0.8);
+            animation: cellAppear 0.6s ease-out forwards;
         }
-        #classicGame .cell:nth-child(1) { animation-delay: 0.05s; }
-        #classicGame .cell:nth-child(2) { animation-delay: 0.10s; }
-        #classicGame .cell:nth-child(3) { animation-delay: 0.15s; }
-        #classicGame .cell:nth-child(4) { animation-delay: 0.20s; }
-        #classicGame .cell:nth-child(5) { animation-delay: 0.25s; }
-        #classicGame .cell:nth-child(6) { animation-delay: 0.30s; }
-        #classicGame .cell:nth-child(7) { animation-delay: 0.35s; }
-        #classicGame .cell:nth-child(8) { animation-delay: 0.40s; }
-        #classicGame .cell:nth-child(9) { animation-delay: 0.45s; }
-        #classicGame .cell:nth-child(10) { animation-delay: 0.50s; }
-        #classicGame .cell:nth-child(11) { animation-delay: 0.55s; }
-        #classicGame .cell:nth-child(12) { animation-delay: 0.60s; }
-        #classicGame .cell:nth-child(13) { animation-delay: 0.65s; }
-        #classicGame .cell:nth-child(14) { animation-delay: 0.70s; }
-        #classicGame .cell:nth-child(15) { animation-delay: 0.75s; }
-        #classicGame .cell:nth-child(16) { animation-delay: 0.80s; }
-        #classicGame .cell:nth-child(17) { animation-delay: 0.85s; }
-        #classicGame .cell:nth-child(18) { animation-delay: 0.90s; }
-        #classicGame .cell:nth-child(19) { animation-delay: 0.95s; }
-        #classicGame .cell:nth-child(20) { animation-delay: 1.00s; }
-        #classicGame .cell:nth-child(21) { animation-delay: 1.05s; }
-        #classicGame .cell:nth-child(22) { animation-delay: 1.10s; }
-        #classicGame .cell:nth-child(23) { animation-delay: 1.15s; }
-        #classicGame .cell:nth-child(24) { animation-delay: 1.20s; }
-        #classicGame .cell:nth-child(25) { animation-delay: 1.25s; }
-
-        @keyframes cellAppear {
-            to { opacity: 1; transform: scale(1); }
-        }
-
+        @keyframes cellAppear { to { opacity: 1; transform: scale(1); } }
         #classicGame .cell::before {
             content: '';
             position: absolute;
@@ -215,18 +184,11 @@
             z-index: 1;
             pointer-events: none;
         }
-
-        #classicGame .cell.safe {
-            background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a);
-        }
-
+        #classicGame .cell.safe { background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a); }
         #classicGame .cell.bomb {
             background: radial-gradient(circle, #330000, #110000);
-            box-shadow: 
-                inset 0 0 20px #ff0000,
-                0 0 25px rgba(255, 0, 0, 0.5);
+            box-shadow: inset 0 0 20px #ff0000, 0 0 25px rgba(255, 0, 0, 0.5);
         }
-
         #classicGame .cell.bomb::after {
             content: 'X';
             position: absolute;
@@ -239,15 +201,35 @@
             z-index: 2;
             animation: bombPulse 1.5s infinite;
         }
+        @keyframes bombPulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.2); } }
 
-        @keyframes bombPulse {
-            0%, 100% { transform: translate(-50%, -50%) scale(1); }
-            50% { transform: translate(-50%, -50%) scale(1.2); }
+        /* ЗОЛОТАЯ ЗВЁЗДА — ТОЧНО КАК НА СКРИНЕ */
+        #classicGame .cell.safe::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(0) rotate(0deg);
+            font-size: 34px;
+            color: #ffd700;
+            text-shadow: 
+                0 0 8px #ffcc00,
+                0 0 16px #ff9900,
+                0 0 24px #ff6600,
+                0 0 32px #ff3300;
+            z-index: 2;
+            opacity: 0;
+            animation: goldStarPop 0.8s ease-out forwards;
+            animation-delay: var(--star-delay, 0.5s);
+        }
+        @keyframes goldStarPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            50% { transform: translate(-50%, -50%) scale(1.4) rotate(180deg); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(360deg); opacity: 1; }
         }
 
-        /* === STARS, LUCKY JET, ASTRONAUT (без изменений) === */
+        /* === STARS, LUCKY JET, ASTRONAUT === */
         .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0; padding: 14px; background: #0a0a1a; border-radius: 20px; border: 2px solid #1a1a3a; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,208,255,0.15); }
-        #starsGame .cell, #classicGame .cell { width: 100%; padding-bottom: 100%; background: #111; border-radius: 12px; position: relative; box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5); overflow: hidden; }
+        #starsGame .cell { width: 100%; padding-bottom: 100%; background: #111; border-radius: 12px; position: relative; box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5); overflow: hidden; }
         .star-blue { background: radial-gradient(ellipse at 30% 30%, #4da6ff 0%, #1a8cff 50%, #0066cc 100%); box-shadow: 0 0 12px rgba(77, 166, 255, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
         .star-blue::after { content: '★'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; color: #fff; text-shadow: 0 0 8px #4da6ff, 0 1px 2px #000; font-weight: bold; z-index: 2; }
         .bomb { background: #111; box-shadow: inset 0 0 10px #000; }
@@ -362,7 +344,7 @@
             </div>
         </div>
 
-        <!-- === MINES CLASSIC (НОВЫЙ ДИЗАЙН) === -->
+        <!-- MINES -->
         <div id="classicGame">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -379,7 +361,7 @@
             </div>
         </div>
 
-        <!-- === STARS === -->
+        <!-- STARS -->
         <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -395,7 +377,7 @@
             </div>
         </div>
 
-        <!-- === LUCKY JET === -->
+        <!-- LUCKY JET -->
         <div id="luckyjetGame" class="hidden">
             <div id="statusLJ" class="status"></div>
             <div class="luckyjet-container">
@@ -412,7 +394,7 @@
             </div>
         </div>
 
-        <!-- === ASTRONAUT === -->
+        <!-- ASTRONAUT -->
         <div id="astronautGame" class="hidden">
             <div id="statusAstro" class="status"></div>
             <div class="crash-container">
@@ -457,21 +439,6 @@
         let currentMines = 1;
         let currentMinesStars = 2;
         let currentGame = 'classic';
-        let cellDesigns = [];
-
-        // === ЗАГРУЗКА SVG ===
-        async function loadCellDesigns() {
-            const files = [
-                'image_102217.svg','image_108373.svg','image_115081.svg','image_11641.svg',
-                'image_121237.svg','image_127381.svg','image_134077.svg','image_140221.svg',
-                'image_146917.svg','image_153061.svg','image_159757.svg','image_18337.svg',
-                'image_24493.svg','image_31201.svg','image_37357.svg','image_44065.svg',
-                'image_50221.svg','image_5450.svg','image_56929.svg','image_63085.svg',
-                'image_69793.svg','image_75949.svg','image_82645.svg','image_89353.svg',
-                'image_95509.svg'
-            ];
-            cellDesigns = files.map(f => `assets/cells/${f}`);
-        }
 
         function updateOnlineCount(){
             const cnt = Math.floor(Math.random()*51)+30;
@@ -493,32 +460,44 @@
             playSound();
         }
 
-        // === MINES CLASSIC ===
+        // MINES
         function setMines(cnt){ currentMines=cnt; document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
         function showStatus(text,type=''){ const s=document.getElementById('status'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
         function startVerification(cb){ document.getElementById('playButton').disabled=true; showStatus('Проверка хэша...','loading'); setTimeout(()=>{ showStatus('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
 
-        function generateScheme(mines){ const bombs=[]; while(bombs.length<mines){ const pos=Math.floor(Math.random()*25); if(!bombs.includes(pos)) bombs.push(pos); } return {bombs}; }
+        function generateSafeCells(mines) {
+            const showCount = Math.floor(Math.random() * 3) + 7;
+            const safePositions = [];
+            while (safePositions.length < showCount) {
+                const pos = Math.floor(Math.random() * 25);
+                if (!safePositions.includes(pos)) safePositions.push(pos);
+            }
+            return safePositions;
+        }
 
-        async function showScheme(){
-            const {bombs} = generateScheme(currentMines);
+        function showScheme() {
+            const safeToShow = generateSafeCells(currentMines);
             const grid = document.getElementById('scheme');
             grid.classList.remove('hidden');
             grid.innerHTML = '';
-            for(let i=0;i<25;i++){
+
+            for (let i = 0; i < 25; i++) {
                 const cell = document.createElement('div');
                 cell.className = 'cell';
-                if(bombs.includes(i)){
-                    cell.classList.add('bomb');
-                } else {
+                cell.style.animationDelay = `${i * 0.05}s`;
+
+                if (safeToShow.includes(i)) {
                     cell.classList.add('safe');
-                    const img = document.createElement('img');
-                    img.src = cellDesigns[Math.floor(Math.random() * cellDesigns.length)];
-                    img.style.cssText = 'width:70%;height:70%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;filter:drop-shadow(0 0 8px #00d0ff);';
-                    cell.appendChild(img);
+                    const delay = (i * 60) + 600;
+                    setTimeout(() => {
+                        cell.style.setProperty('--star-delay', '0s');
+                    }, delay);
+                } else {
+                    cell.classList.add('bomb');
                 }
                 grid.appendChild(cell);
             }
+
             document.getElementById('playButton').classList.add('hidden');
             document.getElementById('navButtons').classList.remove('hidden');
             document.getElementById('nextButton').disabled = false;
@@ -526,7 +505,7 @@
 
         function startGame(){ playSound(); startVerification(showScheme); }
 
-        // === STARS ===
+        // STARS
         function setMinesStars(cnt){ currentMinesStars=cnt; document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
         function showStatusStars(text,type=''){ const s=document.getElementById('statusStars'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
         function startVerificationStars(cb){ document.getElementById('playButtonStars').disabled=true; showStatusStars('Проверка хэша...','loading'); setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
@@ -534,7 +513,7 @@
         function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
         function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
 
-        // === LUCKY JET ===
+        // LUCKY JET
         function resetLJ() { const d = document.getElementById('coefDisplayLJ'); d.textContent = 'x1.00'; d.classList.remove('show'); }
         function startLJGame() { playSound(); startVerificationLJ(showFinalLJ); }
         function showFinalLJ() { const d = document.getElementById('coefDisplayLJ'); d.textContent = `x${targetCoefLJ.toFixed(2)}`; d.classList.add('show'); playSound(); showStatusLJ(`СИГНАЛ: ВЫВОДИ НА x${targetCoefLJ.toFixed(2)}!`, 'success'); document.getElementById('playButtonLJ').classList.add('hidden'); document.getElementById('navButtonsLJ').classList.remove('hidden'); document.getElementById('nextButtonLJ').disabled = false; }
@@ -542,7 +521,7 @@
         function startVerificationLJ(cb) { document.getElementById('playButtonLJ').disabled = true; showStatusLJ('Проверка хэша...', 'loading'); setTimeout(() => { showStatusLJ('Хэш подтверждён!', 'success'); setTimeout(cb, 300); }, 1500); }
         function nextLJSignal() { playSound(); resetLJ(); document.getElementById('statusLJ').innerHTML = ''; document.getElementById('navButtonsLJ').classList.add('hidden'); document.getElementById('playButtonLJ').classList.remove('hidden'); document.getElementById('playButtonLJ').disabled = false; }
 
-        // === ASTRONAUT ===
+        // ASTRONAUT
         function resetAstro() { const d = document.getElementById('coefDisplayAstro'); d.textContent = 'x1.00'; d.classList.remove('show'); document.getElementById('rocketAstro').classList.remove('flying'); document.getElementById('fireAstro').style.opacity = '0'; }
         function startAstroGame() { playSound(); startVerificationAstro(showFinalAstro); }
         function showFinalAstro() { const r = document.getElementById('rocketAstro'); const f = document.getElementById('fireAstro'); const d = document.getElementById('coefDisplayAstro'); f.style.opacity = '1'; r.classList.add('flying'); d.textContent = `x${targetCoefAstro.toFixed(2)}`; d.classList.add('show'); playSound(); showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoefAstro.toFixed(2)}!`, 'success'); document.getElementById('playButtonAstro').classList.add('hidden'); document.getElementById('navButtonsAstro').classList.remove('hidden'); document.getElementById('nextButtonAstro').disabled = false; }
@@ -550,7 +529,7 @@
         function startVerificationAstro(cb) { document.getElementById('playButtonAstro').disabled = true; showStatusAstro('Проверка хэша...', 'loading'); setTimeout(() => { showStatusAstro('Хэш подтверждён!', 'success'); setTimeout(cb, 300); }, 1500); }
         function nextAstroSignal() { playSound(); resetAstro(); document.getElementById('statusAstro').innerHTML = ''; document.getElementById('navButtonsAstro').classList.add('hidden'); document.getElementById('playButtonAstro').classList.remove('hidden'); document.getElementById('playButtonAstro').disabled = false; }
 
-        // === КНОПКИ ===
+        // КНОПКИ
         document.getElementById('playButton').addEventListener('click', startGame);
         document.getElementById('backButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); document.getElementById('playButton').classList.remove('hidden'); document.getElementById('playButton').disabled=false; document.getElementById('navButtons').classList.add('hidden'); document.getElementById('status').innerHTML=''; });
         document.getElementById('nextButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); });
@@ -569,21 +548,12 @@
         function goTo1win(){ closeModal(); open1win(); }
         function copyPromo() {
             playSound();
-            const promo = 'GEKTOR2';
-            navigator.clipboard.writeText(promo).then(() => {
+            navigator.clipboard.writeText('GEKTOR2').then(() => {
                 const toast = document.getElementById('copyToast');
                 toast.classList.add('show');
                 setTimeout(() => toast.classList.remove('show'), 2000);
-            }).catch(() => {
-                alert('Промокод: GEKTOR2');
             });
         }
-
-        window.addEventListener('load', async () => {
-            await loadCellDesigns();
-            resetLJ();
-            resetAstro();
-        });
     </script>
 </body>
 </html>
