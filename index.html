@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1win Signals — Stars</title>
+    <title>1win Signals — All Games</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap');
@@ -153,8 +153,8 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* === STARS GRID === */
-        #starsGame .grid {
+        /* === НОВЫЙ MINES === */
+        #classicGame .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
             gap: 8px;
@@ -163,139 +163,139 @@
             background: #0a0a1a;
             border-radius: 20px;
             border: 2px solid #1a1a3a;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,208,255,0.15);
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
         }
-
-        #starsGame .cell {
+        #classicGame .cell {
             position: relative;
-            background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a);
-            border: 2px solid #00d0ff;
+            background: #0a0a1a;
             border-radius: 14px;
             overflow: hidden;
-            box-shadow:
+            box-shadow: 
                 inset 0 0 15px rgba(0, 0, 0, 0.8),
-                0 0 20px rgba(0, 208, 255, 0.4);
+                0 0 20px rgba(0, 208, 255, 0.2);
             animation: cellAppear 0.6s ease-out forwards;
             opacity: 0;
             transform: scale(0.8);
         }
-
-        /* Анимация появления */
-        #starsGame .cell:nth-child(1) { animation-delay: 0.05s; }
-        #starsGame .cell:nth-child(2) { animation-delay: 0.10s; }
-        #starsGame .cell:nth-child(3) { animation-delay: 0.15s; }
-        #starsGame .cell:nth-child(4) { animation-delay: 0.20s; }
-        #starsGame .cell:nth-child(5) { animation-delay: 0.25s; }
-        #starsGame .cell:nth-child(6) { animation-delay: 0.30s; }
-        #starsGame .cell:nth-child(7) { animation-delay: 0.35s; }
-        #starsGame .cell:nth-child(8) { animation-delay: 0.40s; }
-        #starsGame .cell:nth-child(9) { animation-delay: 0.45s; }
-        #starsGame .cell:nth-child(10) { animation-delay: 0.50s; }
-        #starsGame .cell:nth-child(11) { animation-delay: 0.55s; }
-        #starsGame .cell:nth-child(12) { animation-delay: 0.60s; }
-        #starsGame .cell:nth-child(13) { animation-delay: 0.65s; }
-        #starsGame .cell:nth-child(14) { animation-delay: 0.70s; }
-        #starsGame .cell:nth-child(15) { animation-delay: 0.75s; }
-        #starsGame .cell:nth-child(16) { animation-delay: 0.80s; }
-        #starsGame .cell:nth-child(17) { animation-delay: 0.85s; }
-        #starsGame .cell:nth-child(18) { animation-delay: 0.90s; }
-        #starsGame .cell:nth-child(19) { animation-delay: 0.95s; }
-        #starsGame .cell:nth-child(20) { animation-delay: 1.00s; }
-        #starsGame .cell:nth-child(21) { animation-delay: 1.05s; }
-        #starsGame .cell:nth-child(22) { animation-delay: 1.10s; }
-        #starsGame .cell:nth-child(23) { animation-delay: 1.15s; }
-        #starsGame .cell:nth-child(24) { animation-delay: 1.20s; }
-        #starsGame .cell:nth-child(25) { animation-delay: 1.25s; }
+        #classicGame .cell:nth-child(1) { animation-delay: 0.05s; }
+        #classicGame .cell:nth-child(2) { animation-delay: 0.10s; }
+        #classicGame .cell:nth-child(3) { animation-delay: 0.15s; }
+        #classicGame .cell:nth-child(4) { animation-delay: 0.20s; }
+        #classicGame .cell:nth-child(5) { animation-delay: 0.25s; }
+        #classicGame .cell:nth-child(6) { animation-delay: 0.30s; }
+        #classicGame .cell:nth-child(7) { animation-delay: 0.35s; }
+        #classicGame .cell:nth-child(8) { animation-delay: 0.40s; }
+        #classicGame .cell:nth-child(9) { animation-delay: 0.45s; }
+        #classicGame .cell:nth-child(10) { animation-delay: 0.50s; }
+        #classicGame .cell:nth-child(11) { animation-delay: 0.55s; }
+        #classicGame .cell:nth-child(12) { animation-delay: 0.60s; }
+        #classicGame .cell:nth-child(13) { animation-delay: 0.65s; }
+        #classicGame .cell:nth-child(14) { animation-delay: 0.70s; }
+        #classicGame .cell:nth-child(15) { animation-delay: 0.75s; }
+        #classicGame .cell:nth-child(16) { animation-delay: 0.80s; }
+        #classicGame .cell:nth-child(17) { animation-delay: 0.85s; }
+        #classicGame .cell:nth-child(18) { animation-delay: 0.90s; }
+        #classicGame .cell:nth-child(19) { animation-delay: 0.95s; }
+        #classicGame .cell:nth-child(20) { animation-delay: 1.00s; }
+        #classicGame .cell:nth-child(21) { animation-delay: 1.05s; }
+        #classicGame .cell:nth-child(22) { animation-delay: 1.10s; }
+        #classicGame .cell:nth-child(23) { animation-delay: 1.15s; }
+        #classicGame .cell:nth-child(24) { animation-delay: 1.20s; }
+        #classicGame .cell:nth-child(25) { animation-delay: 1.25s; }
 
         @keyframes cellAppear {
             to { opacity: 1; transform: scale(1); }
         }
 
-        #starsGame .cell::before {
-            content: '1W';
+        #classicGame .cell::before {
+            content: '';
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 14px;
-            font-weight: bold;
-            color: #ffffff;
-            text-shadow: 0 0 6px rgba(0,0,0,0.8);
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('assets/cellsFrame.png') center/cover no-repeat;
             z-index: 1;
             pointer-events: none;
         }
 
-        #starsGame .cell.safe {
-            background: radial-gradient(circle at 30% 30%, #4da6ff, #1a8cff);
-            box-shadow: 0 0 18px #00d0ff, inset 0 0 12px rgba(255,255,255,0.3);
+        #classicGame .cell.safe {
+            background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a);
         }
 
-        #starsGame .cell.safe::before { content: none; }
+        #classicGame .cell.bomb {
+            background: radial-gradient(circle, #330000, #110000);
+            box-shadow: 
+                inset 0 0 20px #ff0000,
+                0 0 25px rgba(255, 0, 0, 0.5);
+        }
 
-        .star-svg {
+        #classicGame .cell.bomb::after {
+            content: 'X';
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 70%;
-            height: 70%;
+            font-size: 36px;
+            font-weight: bold;
+            color: #ff3366;
+            text-shadow: 0 0 15px #ff0000, 0 0 8px #000;
             z-index: 2;
-            filter: drop-shadow(0 0 8px #00d0ff);
-            animation: starPulse 1.6s infinite;
+            animation: bombPulse 1.5s infinite;
         }
 
-        @keyframes starPulse {
+        @keyframes bombPulse {
             0%, 100% { transform: translate(-50%, -50%) scale(1); }
             50% { transform: translate(-50%, -50%) scale(1.2); }
         }
 
-        .play-btn {
-            background: linear-gradient(45deg, #8a2be2 0%, #ba55d3 100%);
-            color: white;
-            border: none;
-            width: 100%;
-            padding: 14px;
-            font-size: 17px;
-            font-weight: 700;
-            border-radius: 12px;
-            cursor: pointer;
-            margin-top: 16px;
-            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4);
-            transition: all 0.2s;
+        /* === STARS, LUCKY JET, ASTRONAUT (без изменений) === */
+        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0; padding: 14px; background: #0a0a1a; border-radius: 20px; border: 2px solid #1a1a3a; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,208,255,0.15); }
+        #starsGame .cell, #classicGame .cell { width: 100%; padding-bottom: 100%; background: #111; border-radius: 12px; position: relative; box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5); overflow: hidden; }
+        .star-blue { background: radial-gradient(ellipse at 30% 30%, #4da6ff 0%, #1a8cff 50%, #0066cc 100%); box-shadow: 0 0 12px rgba(77, 166, 255, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
+        .star-blue::after { content: '★'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; color: #fff; text-shadow: 0 0 8px #4da6ff, 0 1px 2px #000; font-weight: bold; z-index: 2; }
+        .bomb { background: #111; box-shadow: inset 0 0 10px #000; }
+        .bomb::after { content: 'X'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: rgba(100, 180, 255, 0.9); font-weight: bold; text-shadow: 0 0 12px rgba(100, 180, 255, 0.7), 0 0 6px #000; z-index: 2; filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6)); }
+        #starsGame .cell::before { content: '1W'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; font-weight: bold; color: #ffffff; text-shadow: 0 0 6px rgba(0,0,0,0.8); z-index: 1; pointer-events: none; }
+        #starsGame .cell.safe::after { content: '★'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; color: #4da6ff; text-shadow: 0 0 12px #4da6ff, 0 0 6px #000; font-weight: bold; z-index: 2; animation: pulse 1.5s infinite; }
+        #starsGame .cell.safe::before { content: none; }
+        @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.15); } }
+
+        .luckyjet-container, .crash-container {
+            position: relative; width: 100%; height: 300px; background: #000; border-radius: 20px; overflow: hidden; margin: 16px 0; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); border: 2px solid #8a2be2;
         }
+        .luckyjet-title { position: absolute; top: 16px; left: 50%; transform: translateX(-50%); font-size: 24px; font-weight: 700; color: #d8b4fe; text-shadow: 0 0 15px #8a2be2, 0 0 30px #9932cc; z-index: 5; }
+        .luckyjet-guy { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-10deg); width: 110px; height: 150px; z-index: 3; animation: hover-lj 2s ease-in-out infinite; }
+        @keyframes hover-lj { 0%, 100% { transform: translateX(-50%) rotate(-10deg) translateY(0); } 50% { transform: translateX(-50%) rotate(-10deg) translateY(-10px); } }
+        .coef-display-lj { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); font-size: 48px; font-weight: 700; color: #d8b4fe; text-shadow: 0 0 20px #8a2be2, 0 0 40px #9932cc, 0 0 60px #ba55d3; z-index: 4; opacity: 0; transform: translateX(-50%) scale(0.3); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .coef-display-lj.show { opacity: 1; transform: translateX(-50%) scale(1.1); animation: pulse-lj 1.8s infinite; }
+        @keyframes pulse-lj { 0%, 100% { text-shadow: 0 0 20px #8a2be2, 0 0 40px #9932cc, 0 0 60px #ba55d3; transform: translateX(-50%) scale(1.1); } 50% { text-shadow: 0 0 30px #8a2be2, 0 0 60px #9932cc, 0 0 90px #ba55d3; transform: translateX(-50%) scale(1.15); } }
+
+        .crash-container { box-shadow: 0 0 30px rgba(255, 107, 53, 0.4); border: 2px solid #ff6b35; }
+        .grid-lines { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 19px, rgba(255, 107, 53, 0.1) 20px, rgba(255, 107, 53, 0.1) 21px), repeating-linear-gradient(90deg, transparent, transparent 19px, rgba(255, 107, 53, 0.1) 20px, rgba(255, 107, 53, 0.1) 21px); pointer-events: none; z-index: 1; }
+        .rocket-red { position: absolute; bottom: 60px; left: 50%; transform: translateX(-50%) rotate(-15deg); width: 90px; height: 140px; z-index: 3; transition: all 0.8s ease; }
+        .rocket-red.flying { animation: fly-up 2.5s ease-in-out forwards; }
+        @keyframes fly-up { 0% { bottom: 60px; transform: translateX(-50%) rotate(-15deg); } 100% { bottom: 200px; transform: translateX(-50%) rotate(0deg); } }
+        .fire-red { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); width: 50px; height: 90px; background: linear-gradient(to bottom, #ff6b35, #ff4500, #ff8c00, transparent); border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; opacity: 0; z-index: 2; filter: blur(4px); animation: fire-red-anim 1.2s infinite; }
+        @keyframes fire-red-anim { 0%, 100% { opacity: 0.7; height: 80px; } 50% { opacity: 1; height: 110px; } }
+        .coef-display-red { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); font-size: 42px; font-weight: 700; color: #ff6b35; text-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ff2d55; z-index: 4; opacity: 0; transform: translateX(-50%) scale(0.3); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .coef-display-red.show { opacity: 1; transform: translateX(-50%) scale(1.1); animation: pulse-x 1.8s infinite; }
+        @keyframes pulse-x { 0%, 100% { text-shadow: 0 0 20px #ff4500, 0 0 40px #ff8c00, 0 0 60px #ff2d55; transform: translateX(-50%) scale(1.1); } 50% { text-shadow: 0 0 30px #ff4500, 0 0 60px #ff8c00, 0 0 90px #ff2d55; transform: translateX(-50%) scale(1.15); } }
+
+        .play-btn { background: linear-gradient(45deg, #8a2be2 0%, #ba55d3 100%); color: white; border: none; width: 100%; padding: 14px; font-size: 17px; font-weight: 700; border-radius: 12px; cursor: pointer; margin-top: 16px; box-shadow: 0 4px 15px rgba(138, 43, 226, 0.4); transition: all 0.2s; }
+        .play-btn.astro { background: linear-gradient(45deg, #ff6b35, #f7931e); box-shadow: 0 4px 15px rgba(255, 107, 53, 0.4); }
         .play-btn:active { transform: translateY(1px); }
-
-        .ref-btn {
-            background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%);
-            color: #000;
-            margin-top: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            font-weight: 700;
-        }
-
+        .ref-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; margin-top: 12px; display: flex; align-items: center; justify-content: center; gap: 8px; font-weight: 700; }
         .nav-btns { display: flex; gap: 10px; margin-top: 16px; }
         .nav-btn { flex: 1; padding: 12px; font-size: 15px; border-radius: 12px; cursor: pointer; font-weight: 700; }
         .back-btn { background: #1a1a2e; color: #fff; border: 1px solid #333; }
         .next-btn { background: linear-gradient(45deg, #00ff88 0%, #00cc66 100%); color: #000; border: none; }
-
-        .telegram-link {
-            display: flex; align-items: center; justify-content: center; gap: 8px;
-            margin-top: 12px; color: #00d0ff; font-size: 13px; text-decoration: none; font-weight: 500;
-        }
+        .game-select { display: flex; gap: 12px; margin: 12px 0; justify-content: center; flex-wrap: wrap; }
+        .game-card { width: 100px; height: 140px; background: #1a1a2e; border-radius: 16px; overflow: hidden; cursor: pointer; border: 2px solid #333; transition: all 0.2s; position: relative; }
+        .game-card.active { border: 2px solid #8a2be2; box-shadow: 0 0 20px rgba(138, 43, 226, 0.6); transform: scale(1.05); }
+        .game-card.astro.active { border-color: #ff6b35; box-shadow: 0 0 20px rgba(255, 107, 53, 0.6); }
+        .game-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .telegram-link { display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 12px; color: #00d0ff; font-size: 13px; text-decoration: none; font-weight: 500; }
         .telegram-link img { width: 20px; height: 20px; }
-
         .hidden { display: none !important; }
-
-        .copy-toast {
-            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-            background: rgba(0, 255, 136, 0.9); color: #000; padding: 12px 20px;
-            border-radius: 12px; font-weight: 700; font-size: 14px;
-            box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4);
-            z-index: 1000; opacity: 0; transition: opacity 0.3s, transform 0.3s;
-        }
+        .copy-toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0, 255, 136, 0.9); color: #000; padding: 12px 20px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 4px 15px rgba(0, 255, 136, 0.4); z-index: 1000; opacity: 0; transition: opacity 0.3s, transform 0.3s; }
         .copy-toast.show { opacity: 1; transform: translateX(-50%) translateY(-10px); }
-
         @media (max-width: 380px) {
             .container { padding: 14px; }
             .mine-btn { width: 46px; height: 46px; font-size: 16px; }
@@ -303,6 +303,7 @@
             .logo-container svg { height: 36px; }
             .status { font-size: 12px; padding: 6px 10px; min-height: 32px; }
             .play-btn { padding: 13px; font-size: 16px; }
+            .game-card { width: 90px; height: 120px; }
         }
     </style>
 </head>
@@ -345,9 +346,41 @@
     </div>
 
     <div class="container">
-        <h1>1WIN SIGNALS — STARS</h1>
+        <h1>1WIN SIGNALS</h1>
+        <div class="game-select">
+            <div class="game-card active" onclick="selectGame('classic')">
+                <img src="https://i.ibb.co/DDcnwJs6/699e2deb-49eb-4774-949f-7fbbedd55249-vertical.png" alt="Mines">
+            </div>
+            <div class="game-card" onclick="selectGame('stars')">
+                <img src="https://i.ibb.co/SZ7CtQQ/94a62434-91ab-49ed-8f47-e76ae4f5b9d6-vertical.png" alt="Stars">
+            </div>
+            <div class="game-card" onclick="selectGame('luckyjet')">
+                <img src="https://i.ibb.co/CKqkCBbD/luckyjet-thumb.jpg" alt="Lucky Jet">
+            </div>
+            <div class="game-card astro" onclick="selectGame('astronaut')">
+                <img src="https://i.ibb.co/84NbQJfX/astronaut-thumb.jpg" alt="Astronaut">
+            </div>
+        </div>
 
-        <div id="starsGame">
+        <!-- === MINES CLASSIC (НОВЫЙ ДИЗАЙН) === -->
+        <div id="classicGame">
+            <div class="mines-label">Выберите количество мин</div>
+            <div class="controls">
+                <button class="mine-btn active" onclick="setMines(1)">1</button>
+                <button class="mine-btn" onclick="setMines(2)">2</button>
+                <button class="mine-btn" onclick="setMines(3)">3</button>
+            </div>
+            <div id="status" class="status"></div>
+            <div id="scheme" class="grid hidden"></div>
+            <button id="playButton" class="play-btn">Получить сигнал</button>
+            <div id="navButtons" class="nav-btns hidden">
+                <button id="backButton" class="nav-btn back-btn">Назад</button>
+                <button id="nextButton" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === STARS === -->
+        <div id="starsGame" class="hidden">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
                 <button class="mine-btn active" onclick="setMinesStars(2)">2</button>
@@ -362,6 +395,50 @@
             </div>
         </div>
 
+        <!-- === LUCKY JET === -->
+        <div id="luckyjetGame" class="hidden">
+            <div id="statusLJ" class="status"></div>
+            <div class="luckyjet-container">
+                <div class="luckyjet-title">Lucky Jet</div>
+                <div class="luckyjet-guy" id="luckyjetGuy">
+                    <img src="https://i.ibb.co/bgqxdqHX/luckyjet-guy.png" alt="Lucky Jet Guy" style="width:100%;height:100%;">
+                </div>
+                <div class="coef-display-lj" id="coefDisplayLJ">x1.00</div>
+            </div>
+            <button id="playButtonLJ" class="play-btn">Получить сигнал</button>
+            <div id="navButtonsLJ" class="nav-btns hidden">
+                <button id="backButtonLJ" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonLJ" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
+        <!-- === ASTRONAUT === -->
+        <div id="astronautGame" class="hidden">
+            <div id="statusAstro" class="status"></div>
+            <div class="crash-container">
+                <div class="grid-lines"></div>
+                <div class="rocket-red" id="rocketAstro">
+                    <svg viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M50 10 Q40 30 42 50 L42 90 Q42 100 50 110 Q58 100 58 90 L58 50 Q60 30 50 10 Z" fill="#ff2d55" stroke="#cc0022" stroke-width="2"/>
+                        <path d="M50 10 L45 25 L50 30 L55 25 Z" fill="#ff6b35"/>
+                        <circle cx="50" cy="45" r="6" fill="#000" opacity="0.8"/>
+                        <circle cx="50" cy="65" r="5" fill="#000" opacity="0.8"/>
+                        <path d="M42 70 L30 85 L35 90 L42 80 Z" fill="#ff4500"/>
+                        <path d="M58 70 L70 85 L65 90 L58 80 Z" fill="#ff4500"/>
+                        <rect x="44" y="90" width="12" height="15" fill="#ff8c00" rx="2"/>
+                        <rect x="46" y="105" width="8" height="10" fill="#ff4500" rx="1"/>
+                    </svg>
+                </div>
+                <div class="fire-red" id="fireAstro"></div>
+                <div class="coef-display-red" id="coefDisplayAstro">x1.00</div>
+            </div>
+            <button id="playButtonAstro" class="play-btn astro">Получить сигнал</button>
+            <div id="navButtonsAstro" class="nav-btns hidden">
+                <button id="backButtonAstro" class="nav-btn back-btn">Назад</button>
+                <button id="nextButtonAstro" class="nav-btn next-btn">Следующий сигнал</button>
+            </div>
+        </div>
+
         <button class="play-btn ref-btn" onclick="open1win()">Играть в 1win (+100%)</button>
         <a href="https://t.me/LuckyD2" target="_blank" class="telegram-link">
             <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
@@ -370,26 +447,17 @@
     </div>
 
     <div id="copyToast" class="copy-toast">Промокод скопирован!</div>
-
     <audio id="clickSound" src="data:audio/wav;base64,UklGRnoGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQoGAACBhYqFbF1fdJivrJBhNjVgodDbq2EcBj+a2/LDciUFLIHO8tiINwgZaLvt559NEAxQp+PwtmMcBjiR1/LMeSwF"></audio>
 
     <script>
         const tg = window.Telegram.WebApp; tg.ready(); tg.expand();
         const clickSound = document.getElementById('clickSound');
+        let targetCoefLJ = 44.98;
+        let targetCoefAstro = 21.04;
+        let currentMines = 1;
         let currentMinesStars = 2;
+        let currentGame = 'classic';
         let cellDesigns = [];
-
-        function playSound() {
-            clickSound.currentTime = 0;
-            clickSound.play().catch(() => {});
-        }
-
-        function updateOnlineCount() {
-            const cnt = Math.floor(Math.random() * 51) + 30;
-            document.getElementById('onlineCount').textContent = cnt;
-        }
-        updateOnlineCount();
-        setInterval(updateOnlineCount, 300000);
 
         // === ЗАГРУЗКА SVG ===
         async function loadCellDesigns() {
@@ -405,106 +473,100 @@
             cellDesigns = files.map(f => `assets/cells/${f}`);
         }
 
-        // === STARS ===
-        function setMinesStars(cnt) {
-            currentMinesStars = cnt;
-            document.querySelectorAll('#starsGame .mine-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
+        function updateOnlineCount(){
+            const cnt = Math.floor(Math.random()*51)+30;
+            document.getElementById('onlineCount').textContent = cnt;
+        }
+        updateOnlineCount(); setInterval(updateOnlineCount,300000);
+
+        function playSound(){ clickSound.currentTime=0; clickSound.play().catch(()=>{}); }
+
+        function selectGame(game) {
+            currentGame = game;
+            document.querySelectorAll('.game-card').forEach(c => c.classList.remove('active'));
+            event.target.closest('.game-card').classList.add('active');
+            ['classic','stars','luckyjet','astronaut'].forEach(g => {
+                document.getElementById(g+'Game').classList.toggle('hidden', g !== game);
+            });
+            if (game === 'luckyjet') resetLJ();
+            if (game === 'astronaut') resetAstro();
             playSound();
         }
 
-        function showStatusStars(text, type = '') {
-            const s = document.getElementById('statusStars');
-            s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text;
-            s.className = `status ${type}`;
-        }
+        // === MINES CLASSIC ===
+        function setMines(cnt){ currentMines=cnt; document.querySelectorAll('#classicGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
+        function showStatus(text,type=''){ const s=document.getElementById('status'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
+        function startVerification(cb){ document.getElementById('playButton').disabled=true; showStatus('Проверка хэша...','loading'); setTimeout(()=>{ showStatus('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
 
-        function startVerificationStars(cb) {
-            document.getElementById('playButtonStars').disabled = true;
-            showStatusStars('Проверка хэша...', 'loading');
-            setTimeout(() => {
-                showStatusStars('Хэш подтверждён!', 'success');
-                setTimeout(cb, 800);
-            }, 1500);
-        }
+        function generateScheme(mines){ const bombs=[]; while(bombs.length<mines){ const pos=Math.floor(Math.random()*25); if(!bombs.includes(pos)) bombs.push(pos); } return {bombs}; }
 
-        function generateStarsScheme() {
-            const openCount = Math.floor(Math.random() * 3) + 7; // 7–9
-            const positions = [];
-            while (positions.length < openCount) {
-                const pos = Math.floor(Math.random() * 25);
-                if (!positions.includes(pos)) positions.push(pos);
-            }
-            return positions;
-        }
-
-        function showStarsScheme() {
-            const shown = generateStarsScheme();
-            const grid = document.getElementById('schemeStars');
+        async function showScheme(){
+            const {bombs} = generateScheme(currentMines);
+            const grid = document.getElementById('scheme');
             grid.classList.remove('hidden');
             grid.innerHTML = '';
-
-            for (let i = 0; i < 25; i++) {
+            for(let i=0;i<25;i++){
                 const cell = document.createElement('div');
                 cell.className = 'cell';
-
-                if (shown.includes(i)) {
+                if(bombs.includes(i)){
+                    cell.classList.add('bomb');
+                } else {
                     cell.classList.add('safe');
-
                     const img = document.createElement('img');
                     img.src = cellDesigns[Math.floor(Math.random() * cellDesigns.length)];
-                    img.className = 'star-svg';
-                    img.alt = 'Star';
+                    img.style.cssText = 'width:70%;height:70%;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:2;filter:drop-shadow(0 0 8px #00d0ff);';
                     cell.appendChild(img);
                 }
-
                 grid.appendChild(cell);
             }
-
-            document.getElementById('playButtonStars').classList.add('hidden');
-            document.getElementById('navButtonsStars').classList.remove('hidden');
-            document.getElementById('nextButtonStars').disabled = false;
+            document.getElementById('playButton').classList.add('hidden');
+            document.getElementById('navButtons').classList.remove('hidden');
+            document.getElementById('nextButton').disabled = false;
         }
 
-        function startGameStars() {
-            playSound();
-            startVerificationStars(showStarsScheme);
-        }
+        function startGame(){ playSound(); startVerification(showScheme); }
+
+        // === STARS ===
+        function setMinesStars(cnt){ currentMinesStars=cnt; document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
+        function showStatusStars(text,type=''){ const s=document.getElementById('statusStars'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
+        function startVerificationStars(cb){ document.getElementById('playButtonStars').disabled=true; showStatusStars('Проверка хэша...','loading'); setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
+        function generateStarsScheme(mines){ const totalSafe = 25 - mines; const showCount = Math.floor(Math.random() * 11) + 5; const safePositions = []; while(safePositions.length < totalSafe){ const pos = Math.floor(Math.random() * 25); if(!safePositions.includes(pos)) safePositions.push(pos); } return safePositions.slice(0, showCount); }
+        function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
+        function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
+
+        // === LUCKY JET ===
+        function resetLJ() { const d = document.getElementById('coefDisplayLJ'); d.textContent = 'x1.00'; d.classList.remove('show'); }
+        function startLJGame() { playSound(); startVerificationLJ(showFinalLJ); }
+        function showFinalLJ() { const d = document.getElementById('coefDisplayLJ'); d.textContent = `x${targetCoefLJ.toFixed(2)}`; d.classList.add('show'); playSound(); showStatusLJ(`СИГНАЛ: ВЫВОДИ НА x${targetCoefLJ.toFixed(2)}!`, 'success'); document.getElementById('playButtonLJ').classList.add('hidden'); document.getElementById('navButtonsLJ').classList.remove('hidden'); document.getElementById('nextButtonLJ').disabled = false; }
+        function showStatusLJ(text, type = '') { const s = document.getElementById('statusLJ'); s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text; s.className = `status ${type}`; }
+        function startVerificationLJ(cb) { document.getElementById('playButtonLJ').disabled = true; showStatusLJ('Проверка хэша...', 'loading'); setTimeout(() => { showStatusLJ('Хэш подтверждён!', 'success'); setTimeout(cb, 300); }, 1500); }
+        function nextLJSignal() { playSound(); resetLJ(); document.getElementById('statusLJ').innerHTML = ''; document.getElementById('navButtonsLJ').classList.add('hidden'); document.getElementById('playButtonLJ').classList.remove('hidden'); document.getElementById('playButtonLJ').disabled = false; }
+
+        // === ASTRONAUT ===
+        function resetAstro() { const d = document.getElementById('coefDisplayAstro'); d.textContent = 'x1.00'; d.classList.remove('show'); document.getElementById('rocketAstro').classList.remove('flying'); document.getElementById('fireAstro').style.opacity = '0'; }
+        function startAstroGame() { playSound(); startVerificationAstro(showFinalAstro); }
+        function showFinalAstro() { const r = document.getElementById('rocketAstro'); const f = document.getElementById('fireAstro'); const d = document.getElementById('coefDisplayAstro'); f.style.opacity = '1'; r.classList.add('flying'); d.textContent = `x${targetCoefAstro.toFixed(2)}`; d.classList.add('show'); playSound(); showStatusAstro(`СИГНАЛ: ВЫВОДИ НА x${targetCoefAstro.toFixed(2)}!`, 'success'); document.getElementById('playButtonAstro').classList.add('hidden'); document.getElementById('navButtonsAstro').classList.remove('hidden'); document.getElementById('nextButtonAstro').disabled = false; }
+        function showStatusAstro(text, type = '') { const s = document.getElementById('statusAstro'); s.innerHTML = type === 'loading' ? `<span class="spinner"></span>${text}` : text; s.className = `status ${type}`; }
+        function startVerificationAstro(cb) { document.getElementById('playButtonAstro').disabled = true; showStatusAstro('Проверка хэша...', 'loading'); setTimeout(() => { showStatusAstro('Хэш подтверждён!', 'success'); setTimeout(cb, 300); }, 1500); }
+        function nextAstroSignal() { playSound(); resetAstro(); document.getElementById('statusAstro').innerHTML = ''; document.getElementById('navButtonsAstro').classList.add('hidden'); document.getElementById('playButtonAstro').classList.remove('hidden'); document.getElementById('playButtonAstro').disabled = false; }
 
         // === КНОПКИ ===
+        document.getElementById('playButton').addEventListener('click', startGame);
+        document.getElementById('backButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); document.getElementById('playButton').classList.remove('hidden'); document.getElementById('playButton').disabled=false; document.getElementById('navButtons').classList.add('hidden'); document.getElementById('status').innerHTML=''; });
+        document.getElementById('nextButton').addEventListener('click', () => { playSound(); document.getElementById('scheme').classList.add('hidden'); startVerification(showScheme); });
         document.getElementById('playButtonStars').addEventListener('click', startGameStars);
+        document.getElementById('backButtonStars').addEventListener('click', () => { playSound(); document.getElementById('schemeStars').classList.add('hidden'); document.getElementById('playButtonStars').classList.remove('hidden'); document.getElementById('playButtonStars').disabled=false; document.getElementById('navButtonsStars').classList.add('hidden'); document.getElementById('statusStars').innerHTML=''; });
+        document.getElementById('nextButtonStars').addEventListener('click', () => { playSound(); document.getElementById('schemeStars').classList.add('hidden'); startVerificationStars(showStarsScheme); });
+        document.getElementById('playButtonLJ').addEventListener('click', startLJGame);
+        document.getElementById('backButtonLJ').addEventListener('click', nextLJSignal);
+        document.getElementById('nextButtonLJ').addEventListener('click', () => { nextLJSignal(); setTimeout(startLJGame, 600); });
+        document.getElementById('playButtonAstro').addEventListener('click', startAstroGame);
+        document.getElementById('backButtonAstro').addEventListener('click', nextAstroSignal);
+        document.getElementById('nextButtonAstro').addEventListener('click', () => { nextAstroSignal(); setTimeout(startAstroGame, 600); });
 
-        document.getElementById('backButtonStars').addEventListener('click', () => {
-            playSound();
-            document.getElementById('schemeStars').classList.add('hidden');
-            document.getElementById('playButtonStars').classList.remove('hidden');
-            document.getElementById('playButtonStars').disabled = false;
-            document.getElementById('navButtonsStars').classList.add('hidden');
-            document.getElementById('statusStars').innerHTML = '';
-        });
-
-        document.getElementById('nextButtonStars').addEventListener('click', () => {
-            playSound();
-            document.getElementById('schemeStars').classList.add('hidden');
-            startVerificationStars(showStarsScheme);
-        });
-
-        // === Модалка и ссылки ===
-        function closeModal() {
-            document.getElementById('registerModal').style.display = 'none';
-            playSound();
-        }
-
-        function open1win() {
-            tg.openLink('https://lknt.cc/85c9');
-            playSound();
-        }
-
-        function goTo1win() {
-            closeModal();
-            open1win();
-        }
-
+        function closeModal(){ document.getElementById('registerModal').style.display='none'; playSound(); }
+        function open1win(){ tg.openLink('https://lknt.cc/85c9'); playSound(); }
+        function goTo1win(){ closeModal(); open1win(); }
         function copyPromo() {
             playSound();
             const promo = 'GEKTOR2';
@@ -517,9 +579,10 @@
             });
         }
 
-        // === ИНИЦИАЛИЗАЦИЯ ===
         window.addEventListener('load', async () => {
             await loadCellDesigns();
+            resetLJ();
+            resetAstro();
         });
     </script>
 </body>
