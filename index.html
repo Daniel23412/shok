@@ -153,7 +153,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* === НОВЫЙ MINES === */
+        /* === MINES CLASSIC === */
         #classicGame .grid {
             display: grid;
             grid-template-columns: repeat(5, 1fr);
@@ -245,18 +245,64 @@
             50% { transform: translate(-50%, -50%) scale(1.2); }
         }
 
-        /* === STARS, LUCKY JET, ASTRONAUT (без изменений) === */
-        .grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 16px 0; padding: 14px; background: #0a0a1a; border-radius: 20px; border: 2px solid #1a1a3a; box-shadow: inset 0 0 20px rgba(0,0,0,0.6), 0 0 20px rgba(0,208,255,0.15); }
-        #starsGame .cell, #classicGame .cell { width: 100%; padding-bottom: 100%; background: #111; border-radius: 12px; position: relative; box-shadow: inset 0 2px 6px rgba(255,255,255,0.1), 0 2px 6px rgba(0,0,0,0.5); overflow: hidden; }
-        .star-blue { background: radial-gradient(ellipse at 30% 30%, #4da6ff 0%, #1a8cff 50%, #0066cc 100%); box-shadow: 0 0 12px rgba(77, 166, 255, 0.6), inset 0 2px 4px rgba(255, 255, 255, 0.4); }
-        .star-blue::after { content: '★'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; color: #fff; text-shadow: 0 0 8px #4da6ff, 0 1px 2px #000; font-weight: bold; z-index: 2; }
-        .bomb { background: #111; box-shadow: inset 0 0 10px #000; }
-        .bomb::after { content: 'X'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 32px; color: rgba(100, 180, 255, 0.9); font-weight: bold; text-shadow: 0 0 12px rgba(100, 180, 255, 0.7), 0 0 6px #000; z-index: 2; filter: drop-shadow(0 0 4px rgba(100, 180, 255, 0.6)); }
-        #starsGame .cell::before { content: '1W'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; font-weight: bold; color: #ffffff; text-shadow: 0 0 6px rgba(0,0,0,0.8); z-index: 1; pointer-events: none; }
-        #starsGame .cell.safe::after { content: '★'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 28px; color: #4da6ff; text-shadow: 0 0 12px #4da6ff, 0 0 6px #000; font-weight: bold; z-index: 2; animation: pulse 1.5s infinite; }
-        #starsGame .cell.safe::before { content: none; }
-        @keyframes pulse { 0%, 100% { transform: translate(-50%, -50%) scale(1); } 50% { transform: translate(-50%, -50%) scale(1.15); } }
+        /* === STARS — НОВЫЙ ДИЗАЙН === */
+        #starsGame .grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 8px;
+            margin: 16px 0;
+            padding: 14px;
+            background: #0a0a1a;
+            border-radius: 20px;
+            border: 2px solid #1a1a3a;
+            box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.6), 0 0 20px rgba(0, 208, 255, 0.15);
+        }
 
+        #starsGame .cell {
+            position: relative;
+            background: #0a0a1a;
+            border-radius: 14px;
+            overflow: hidden;
+            box-shadow: 
+                inset 0 0 15px rgba(0, 0, 0, 0.8),
+                0 0 20px rgba(0, 208, 255, 0.2);
+            animation: cellAppear 0.6s ease-out forwards;
+            opacity: 0;
+            transform: scale(0.8);
+        }
+
+        #starsGame .cell::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('assets/cellsFrame.png') center/cover no-repeat;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #starsGame .cell.safe {
+            background: radial-gradient(circle at 30% 30%, #1a1a3a, #0a0a1a);
+        }
+
+        #starsGame .cell.safe::after {
+            content: '★';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #4da6ff;
+            text-shadow: 0 0 12px #4da6ff, 0 0 6px #000;
+            font-weight: bold;
+            z-index: 2;
+            animation: starPulse 1.5s infinite;
+        }
+
+        @keyframes starPulse {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); }
+        }
+
+        /* === LUCKY JET, ASTRONAUT === */
         .luckyjet-container, .crash-container {
             position: relative; width: 100%; height: 300px; background: #000; border-radius: 20px; overflow: hidden; margin: 16px 0; box-shadow: 0 0 30px rgba(138, 43, 226, 0.4); border: 2px solid #8a2be2;
         }
@@ -362,7 +408,7 @@
             </div>
         </div>
 
-        <!-- === MINES CLASSIC (НОВЫЙ ДИЗАЙН) === -->
+        <!-- === MINES CLASSIC === -->
         <div id="classicGame">
             <div class="mines-label">Выберите количество мин</div>
             <div class="controls">
@@ -459,7 +505,6 @@
         let currentGame = 'classic';
         let cellDesigns = [];
 
-        // === ЗАГРУЗКА SVG ===
         async function loadCellDesigns() {
             const files = [
                 'image_102217.svg','image_108373.svg','image_115081.svg','image_11641.svg',
@@ -530,8 +575,33 @@
         function setMinesStars(cnt){ currentMinesStars=cnt; document.querySelectorAll('#starsGame .mine-btn').forEach(b=>b.classList.remove('active')); event.target.classList.add('active'); playSound(); }
         function showStatusStars(text,type=''){ const s=document.getElementById('statusStars'); s.innerHTML = type==='loading'?`<span class="spinner"></span>${text}`:text; s.className=`status ${type}`; }
         function startVerificationStars(cb){ document.getElementById('playButtonStars').disabled=true; showStatusStars('Проверка хэша...','loading'); setTimeout(()=>{ showStatusStars('Хэш подтверждён!','success'); setTimeout(cb,800); },1500); }
-        function generateStarsScheme(mines){ const totalSafe = 25 - mines; const showCount = Math.floor(Math.random() * 11) + 5; const safePositions = []; while(safePositions.length < totalSafe){ const pos = Math.floor(Math.random() * 25); if(!safePositions.includes(pos)) safePositions.push(pos); } return safePositions.slice(0, showCount); }
-        function showStarsScheme(){ const shown = generateStarsScheme(currentMinesStars); const grid = document.getElementById('schemeStars'); grid.classList.remove('hidden'); grid.innerHTML = ''; for(let i = 0; i < 25; i++){ const c = document.createElement('div'); c.className = 'cell'; if(shown.includes(i)) c.classList.add('safe'); grid.appendChild(c); } document.getElementById('playButtonStars').classList.add('hidden'); document.getElementById('navButtonsStars').classList.remove('hidden'); document.getElementById('nextButtonStars').disabled = false; }
+
+        function showStarsScheme() {
+            const showCount = Math.floor(Math.random() * 3) + 7; // 7–9 звёзд
+            const shown = [];
+            while (shown.length < showCount) {
+                const pos = Math.floor(Math.random() * 25);
+                if (!shown.includes(pos)) shown.push(pos);
+            }
+
+            const grid = document.getElementById('schemeStars');
+            grid.classList.remove('hidden');
+            grid.innerHTML = '';
+
+            for (let i = 0; i < 25; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'cell';
+                if (shown.includes(i)) {
+                    cell.classList.add('safe');
+                }
+                grid.appendChild(cell);
+            }
+
+            document.getElementById('playButtonStars').classList.add('hidden');
+            document.getElementById('navButtonsStars').classList.remove('hidden');
+            document.getElementById('nextButtonStars').disabled = false;
+        }
+
         function startGameStars(){ playSound(); startVerificationStars(showStarsScheme); }
 
         // === LUCKY JET ===
