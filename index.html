@@ -25,7 +25,7 @@
             padding: 16px;
             box-shadow: 0 0 30px rgba(0, 200, 255, 0.3);
         }
-        h1 { text-align: center; color: #00ff88; text-shadow: 0 0 8px #00ff88; }
+        h1 { text-align: center; color: #00ff88; text-shadow: 0 0 8px #00ff88; margin-bottom: 16px; }
         .controls {
             display: flex;
             justify-content: center;
@@ -59,6 +59,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 13px;
         }
         .spinner {
             width: 14px; height: 14px; border: 2px solid #00d0ff; border-top: 2px solid transparent;
@@ -89,7 +90,7 @@
         }
         @keyframes cellAppear { to { opacity: 1; transform: scale(1); } }
 
-        /* РАМКА — БЕЗ ОШИБОК */
+        /* РАМКА */
         .cell::before {
             content: '';
             position: absolute;
@@ -159,9 +160,9 @@
     <div class="container">
         <h1>1WIN MINES</h1>
         <div class="controls">
-            <button class="mine-btn active" onclick="setMines(1)">1</button>
-            <button class="mine-btn" onclick="setMines(2)">2</button>
-            <button class="mine-btn" onclick="setMines(3)">3</button>
+            <button class="mine-btn active" data-mines="1">1</button>
+            <button class="mine-btn" data-mines="2">2</button>
+            <button class="mine-btn" data-mines="3">3</button>
         </div>
         <div id="status" class="status"></div>
         <div id="scheme" class="grid hidden"></div>
@@ -173,13 +174,19 @@
     </div>
 
     <script>
+        // Защита от ошибок
+        window.addEventListener('error', (e) => console.error('JS Error:', e.error));
+
         let currentMines = 1;
 
-        function setMines(n) {
-            currentMines = n;
-            document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
-            event.target.classList.add('active');
-        }
+        // Кнопки мин
+        document.querySelectorAll('.mine-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                currentMines = parseInt(btn.dataset.mines);
+                document.querySelectorAll('.mine-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
 
         function showStatus(text, type = '') {
             const s = document.getElementById('status');
@@ -188,16 +195,20 @@
         }
 
         function startVerification(cb) {
-            document.getElementById('playButton').disabled = true;
+            const btn = document.getElementById('playButton');
+            btn.disabled = true;
             showStatus('Проверка хэша...', 'loading');
             setTimeout(() => {
                 showStatus('Хэш подтверждён!', 'success');
-                setTimeout(cb, 800);
+                setTimeout(() => {
+                    cb();
+                    btn.disabled = false;
+                }, 800);
             }, 1500);
         }
 
         function generateSafeCells() {
-            const count = Math.floor(Math.random() * 3) + 7;
+            const count = Math.floor(Math.random() * 3) + 7; // 7-9
             const safe = [];
             while (safe.length < count) {
                 const pos = Math.floor(Math.random() * 25);
@@ -233,22 +244,22 @@
             document.getElementById('navButtons').classList.remove('hidden');
         }
 
-        function startGame() {
+        // КНОПКИ
+        document.getElementById('playButton').addEventListener('click', () => {
             startVerification(showScheme);
-        }
+        });
 
-        document.getElementById('playButton').onclick = startGame;
-        document.getElementById('backButton').onclick = () => {
+        document.getElementById('backButton').addEventListener('click', () => {
             document.getElementById('scheme').classList.add('hidden');
             document.getElementById('playButton').classList.remove('hidden');
-            document.getElementById('playButton').disabled = false;
             document.getElementById('navButtons').classList.add('hidden');
             document.getElementById('status').innerHTML = '';
-        };
-        document.getElementById('nextButton').onclick = () => {
+        });
+
+        document.getElementById('nextButton').addEventListener('click', () => {
             document.getElementById('scheme').classList.add('hidden');
             startVerification(showScheme);
-        };
+        });
     </script>
 </body>
 </html>
